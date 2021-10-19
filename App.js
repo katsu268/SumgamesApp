@@ -3,6 +3,7 @@ import React ,{ Component }from 'react';
 import { StyleSheet, Text, View ,Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from './login';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ class App extends Component {
             component={HomeScreen}
             options={{ title: 'Welcome' }}
           />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Login" component={Login} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -28,13 +29,10 @@ const HomeScreen = ({ navigation }) => {
     <Button
       title="Go to Jane's profile"
       onPress={() =>
-        navigation.navigate('Profile', { name: 'Jane' })
+        navigation.navigate('Login')
       }
     />
   );
-};
-const ProfileScreen = ({ navigation, route }) => {
-  return <Text>This is {route.params.name}'s profile</Text>;
 };
 
 export default App;
