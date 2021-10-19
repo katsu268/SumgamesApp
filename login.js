@@ -1,20 +1,48 @@
-import { ThemeProvider, Button } from 'react-native-elements';
+import { ThemeProvider, Button, Input, Icon } from 'react-native-elements';
 import React ,{ Component }from 'react';
+import { View } from 'react-native';
 
-
-const theme = {
-  Button: {
-    raised: true,
-  },
-};
 
 // Your App
 const Login = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Button title="My Button" />
-      <Button title="My 2nd Button" />
-    </ThemeProvider>
+    <View>
+        <Input
+        containerStyle={{}}
+        disabledInputStyle={{ background: "#ddd" }}
+        inputContainerStyle={{}}
+        errorMessage="Oops! that's not correct."
+        errorStyle={{}}
+        errorProps={{}}
+        inputStyle={{}}
+        label="User Form"
+        labelStyle={{}}
+        labelProps={{}}
+        leftIcon={<Icon name="person" size={20} />}
+        leftIconContainerStyle={{}}
+        rightIcon={<Icon name="close" size={20} />}
+        rightIconContainerStyle={{}}
+        placeholder="Enter Name"
+        />
+        <Input
+        containerStyle={{}}
+        disabledInputStyle={{ background: "#ddd" }}
+        inputContainerStyle={{}}
+        errorMessage="Oops! that's not correct."
+        errorStyle={{}}
+        errorProps={{}}
+        inputStyle={{}}
+        label="Password Form"
+        labelStyle={{}}
+        labelProps={{}}
+        leftIcon={<Icon name="build_circle" size={20} />}
+        leftIconContainerStyle={{}}
+        rightIcon={<Icon name="close" size={20} />}
+        rightIconContainerStyle={{}}
+        placeholder="Enter Password"
+        />
+    </View>
+
   );
 };
 
