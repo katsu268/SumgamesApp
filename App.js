@@ -4,6 +4,7 @@ import { StyleSheet, Text, View ,Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './login';
+import TopPage from './top__page';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ class App extends Component {
             options={{ title: 'Welcome' }}
           />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Top" component={TopPage} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -26,12 +28,20 @@ class App extends Component {
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <Button
-      title="Go to Jane's profile"
-      onPress={() =>
-        navigation.navigate('Login')
-      }
-    />
+    <View>
+      <Button
+        title="Login"
+        onPress={() =>
+          navigation.navigate('Login')
+        }
+      />
+      <Button
+        title="Top"
+        onPress={() =>
+          navigation.navigate('Top')
+        }
+      />
+    </View>
   );
 };
 
