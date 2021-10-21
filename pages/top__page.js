@@ -12,7 +12,7 @@ const TopPage = () => {
         style: { color: "#fff" }
       }}
       centerContainerStyle={{}}
-      containerStyle={{ width: 350 }}
+      containerStyle={{ width: '100%' }}
       leftContainerStyle={{}}
       linearGradientProps={{}}
       placement="left"

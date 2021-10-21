@@ -3,8 +3,8 @@ import React ,{ Component }from 'react';
 import { StyleSheet, Text, View ,Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './login';
-import TopPage from './top__page';
+import Login from './pages/login';
+import TopPage from './pages/top__page';
 
 const Stack = createNativeStackNavigator();
 
