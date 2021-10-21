@@ -1,6 +1,7 @@
-import * as React from "react";
+import React from "react";
 import { View } from "react-native";
 import { Input, Button, Icon } from "react-native-elements/dist/input/Input";
+
 
 const HostForm = () =>{
     return (
@@ -36,3 +37,5 @@ const HostForm = () =>{
         </View>
     );
 };
+
+export default HostForm;
