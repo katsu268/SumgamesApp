@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Input, Button, Icon, Header } from "react-native-elements";
+import games from './top__page'
 
 
 const HostForm = () =>{
@@ -33,6 +34,19 @@ const HostForm = () =>{
             leftIcon={<Icon name="person" size={20} />}
             leftIconContainerStyle={{}}
             placeholder="Game Title"
+            />
+
+            <Input
+            containerStyle={{}}
+            disabledInputStyle={{ background: "#ddd" }}
+            inputContainerStyle={{}}
+            inputStyle={{}}
+            label="Counts"
+            labelStyle={{}}
+            labelProps={{}}
+            leftIcon={<Icon name="person" size={20} />}
+            leftIconContainerStyle={{}}
+            placeholder="Counts"
             />
         </View>
     );
