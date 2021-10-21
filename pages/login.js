@@ -35,7 +35,7 @@ const Login = () => {
         label="Password Form"
         labelStyle={{}}
         labelProps={{}}
-        leftIcon={<Icon name="build_circle" size={20} />}
+        leftIcon={<Icon name="build" size={20} />}
         leftIconContainerStyle={{}}
         rightIcon={<Icon name="close" size={20} />}
         rightIconContainerStyle={{}}
