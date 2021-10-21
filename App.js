@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import TopPage from './pages/top__page';
 
 function Feed() {
   return (
@@ -39,12 +40,12 @@ function MyTabs() {
       style={{ backgroundColor: 'tomato' }}
     >
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="Toppage"
+        component={TopPage}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Toppage',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="Toppage" color={color} size={26} />
           ),
         }}
       />
