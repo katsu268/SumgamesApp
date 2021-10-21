@@ -8,6 +8,7 @@ import TopPage from './pages/top__page';
 
 const Stack = createNativeStackNavigator();
 
+
 class App extends Component {
   render(){
     return (
