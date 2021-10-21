@@ -35,9 +35,9 @@ function MyTabs() {
         name="Top"
         component={TopPage}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Top',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="Top" color={color} size={26} />
           ),
         }}
       />
