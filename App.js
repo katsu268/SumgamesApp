@@ -3,14 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed!</Text>
-    </View>
-  );
-}
+import TopPage from './pages/top__page';
 
 function Profile() {
   return (
@@ -33,14 +26,14 @@ const Tab = createMaterialBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="Top"
       activeColor="#e91e63"
       labelStyle={{ fontSize: 12 }}
       style={{ backgroundColor: 'tomato' }}
     >
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="Top"
+        component={TopPage}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
