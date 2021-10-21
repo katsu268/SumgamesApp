@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './pages/login';
 import TopPage from './pages/top__page';
+import HostForm from './pages/hostform';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ class App extends Component {
           />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Top" component={TopPage} />
+          <Stack.Screen name="Host" component={HostForm} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -40,6 +42,12 @@ const HomeScreen = ({ navigation }) => {
         title="Top"
         onPress={() =>
           navigation.navigate('Top')
+        }
+      />
+      <Button
+        title="Host"
+        onPress={() =>
+          navigation.navigate('Host')
         }
       />
     </View>
