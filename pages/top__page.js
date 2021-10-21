@@ -70,9 +70,9 @@ const TopPage = () => {
           </Text>
         </View>
         <ScrollView horizontal={true}>
-          {games.map((u)=>{
+          {games.map((u,i)=>{
             return (
-              <Card containerStyle={{width:220}}>
+              <Card key={i} containerStyle={{width:220}}>
                 <Card.Title>{u.name}</Card.Title>
                 <Card.Divider/>
                 <Card.Image source={{ uri: u.img_uri }}>
