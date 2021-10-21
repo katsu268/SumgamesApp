@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Input, Button, Icon } from "react-native-elements/dist/input/Input";
+import { Input, Button, Icon } from "react-native-elements";
 
 
 const HostForm = () =>{
