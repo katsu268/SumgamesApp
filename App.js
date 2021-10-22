@@ -6,22 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TopPage from './pages/top__page';
 import Login from './pages/login';
 import Signup from './pages/signup';
-
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed!</Text>
-    </View>
-  );
-}
-
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
+import PasswordReset from './pages/password_reset';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -64,6 +49,17 @@ function MyTabs() {
           ),
         }}
       />
+      <Tab.Screen
+        name="Password Reset"
+        component={PasswordReset}
+        options={{
+          tabBarLabel: 'PasswordReset',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+
     </Tab.Navigator>
   );
 }
