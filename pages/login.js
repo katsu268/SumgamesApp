@@ -84,7 +84,7 @@ const Login = () => {
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("パスワード変更用メールを送信しました。")}
+          onPress={() => alert("パスワード変更用ページに遷移します。")}
           title="Forgot Password"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
