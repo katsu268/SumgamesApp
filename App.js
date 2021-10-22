@@ -30,7 +30,7 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Feed"
-      activeColor="#e91e63"
+      activeColor="#1ee9ac"
       labelStyle={{ fontSize: 12 }}
       style={{ backgroundColor: 'tomato' }}
     >
