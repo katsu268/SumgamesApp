@@ -7,6 +7,7 @@ import TopPage from './pages/top__page';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import PasswordReset from './pages/password_reset';
+import Hostmatching from './pages/host_matching_conditions';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -53,7 +54,17 @@ function MyTabs() {
         name="Password Reset"
         component={PasswordReset}
         options={{
-          tabBarLabel: 'PasswordReset',
+          tabBarLabel: 'Password Reset',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Host Matching "
+        component={Hostmatching}
+        options={{
+          tabBarLabel: 'Host Matching ',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
