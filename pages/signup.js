@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 // Your App
-const Login = () => {
+const Signup = () => {
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -38,6 +38,25 @@ const Login = () => {
           rightIconContainerStyle={{}}
           placeholder="Enter Name"
         />
+
+        <Input
+          containerStyle={{}}
+          disabledInputStyle={{ background: "#ddd" }}
+          inputContainerStyle={{}}
+          errorMessage="Oops! that's not correct."
+          errorStyle={{}}
+          errorProps={{}}
+          inputStyle={{}}
+          label="MaliAddress Form"
+          labelStyle={{}}
+          labelProps={{}}
+          leftIcon={<Icon name="build" size={20} />}
+          leftIconContainerStyle={{}}
+          rightIcon={<Icon name="close" size={20} />}
+          rightIconContainerStyle={{}}
+          placeholder="Enter MaliAddress"
+        />
+
         <Input
           containerStyle={{}}
           disabledInputStyle={{ background: "#ddd" }}
@@ -55,6 +74,25 @@ const Login = () => {
           rightIconContainerStyle={{}}
           placeholder="Enter Password"
         />
+
+        <Input
+          containerStyle={{}}
+          disabledInputStyle={{ background: "#ddd" }}
+          inputContainerStyle={{}}
+          errorMessage="Oops! that's not correct."
+          errorStyle={{}}
+          errorProps={{}}
+          inputStyle={{}}
+          label="Confirmation Password Form"
+          labelStyle={{}}
+          labelProps={{}}
+          leftIcon={<Icon name="build" size={20} />}
+          leftIconContainerStyle={{}}
+          rightIcon={<Icon name="close" size={20} />}
+          rightIconContainerStyle={{}}
+          placeholder="Enter Confirmation Password"
+        />
+
         <Button
           buttonStyle={{ width: 150 }}
           containerStyle={{ margin: 5 }}
@@ -67,32 +105,14 @@ const Login = () => {
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("ログインが成功しました。")}
-          title="Login"
+          onPress={() => alert("サインアップが成功しました。")}
+          title="SignUp"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />
-        <Button
-          buttonStyle={{ width: 250 }}
-          containerStyle={{ margin: 5 }}
-          disabledStyle={{
-            borderWidth: 2,
-            borderColor: "#00F"
-          }}
-          disabledTitleStyle={{ color: "#00F" }}
-          icon={<Icon name="build" size={15} color="#0FF" />}
-          iconContainerStyle={{ background: "#000" }}
-          loadingProps={{ animating: true }}
-          loadingStyle={{}}
-          onPress={() => alert("パスワード変更用メールを送信しました。")}
-          title="Forgot Password"
-          titleProps={{}}
-          titleStyle={{ marginHorizontal: 5 }}
-        />
-
       </ScrollView>
     </SafeAreaProvider>
   );
 };
 
-export default Login;
+export default Signup;

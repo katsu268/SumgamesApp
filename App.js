@@ -5,6 +5,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TopPage from './pages/top__page';
 import Login from './pages/login';
+import Signup from './pages/signup';
 
 function Feed() {
   return (
@@ -54,10 +55,10 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="SignUp"
+        component={Signup}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'SignUp',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
