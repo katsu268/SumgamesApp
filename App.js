@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TopPage from './pages/top__page';
+import Login from './pages/login';
 
 function Feed() {
   return (
@@ -21,13 +22,6 @@ function Profile() {
   );
 }
 
-function Login() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>ログイン実装ページ</Text>
-    </View>
-  );
-}
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -45,7 +39,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Toppage',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="Toppage" color={color} size={26} />
+            <MaterialCommunityIcons name="google-controller" color={color} size={26} />
           ),
         }}
       />
