@@ -62,7 +62,7 @@ const TopPage = () => {
           }}
           featured
           caption="FOR ALL GAMERS"
-          height={200}
+          height={300}
         />
         <View>
           <Text style={{fontSize:24,paddingTop:10,paddingLeft:10,fontWeight:'600'}}>

@@ -15,16 +15,16 @@ const Tab = createMaterialBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
-      activeColor="#1ee9ac"
+      initialRouteName="Top"
+      activeColor="#e91e63"
       labelStyle={{ fontSize: 12 }}
       style={{ backgroundColor: 'tomato' }}
     >
       <Tab.Screen
-        name="Toppage"
+        name="Top"
         component={TopPage}
         options={{
-          tabBarLabel: 'Toppage',
+          tabBarLabel: 'Top',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="google-controller" color={color} size={26} />
           ),
