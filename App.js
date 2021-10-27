@@ -8,7 +8,21 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import PasswordReset from './pages/password_reset';
 import Hostmatching from './pages/host_matching_conditions';
+import { createStackNavigator } from '@react-navigation/stack';
 
+const Stack = createStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Top" component={TopPage}  options={{headerShown:false}}/>
+      <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+      <Stack.Screen name="signup" component={Signup} options={{headerShown:false}}/>
+      <Stack.Screen name="PasswordReset" component={PasswordReset} options={{headerShown:false}}/>
+      <Stack.Screen name="Hostmatching" component={Hostmatching} options={{headerShown:false}}/>
+    </Stack.Navigator>
+  );
+}
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -19,10 +33,11 @@ function MyTabs() {
       activeColor="#e91e63"
       labelStyle={{ fontSize: 12 }}
       style={{ backgroundColor: 'tomato' }}
+      component={MyStack}
     >
       <Tab.Screen
         name="Top"
-        component={TopPage}
+        component={MyStack}
         options={{
           tabBarLabel: 'Top',
           tabBarIcon: ({ color }) => (
@@ -30,7 +45,7 @@ function MyTabs() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Login"
         component={Login}
         options={{
@@ -59,7 +74,7 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Host Matching "
         component={Hostmatching}
@@ -74,6 +89,7 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+
 
 export default function App() {
   return (

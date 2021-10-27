@@ -49,7 +49,7 @@ const games = [
  ]
  
 
-const TopPage = () => {
+const TopPage = ({navigation}) => {
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -63,6 +63,7 @@ const TopPage = () => {
           featured
           caption="FOR ALL GAMERS"
           height={300}
+          onPress={() => navigation.navigate('Login')}
         />
         <View>
           <Text style={{fontSize:24,paddingTop:10,paddingLeft:10,fontWeight:'600'}}>
