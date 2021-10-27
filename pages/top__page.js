@@ -5,7 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const BASE_URL = 'http://127.0.0.1:8000/'
 
-const TopPage = () => {
+const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
   const getRanking = async () => {
@@ -33,6 +33,7 @@ const TopPage = () => {
           featured
           caption="FOR ALL GAMERS"
           height={300}
+          onPress={() => navigation.navigate('Login')}
         />
         <View>
           <Text style={{fontSize:24,paddingTop:10,paddingLeft:10,fontWeight:'600'}}>
