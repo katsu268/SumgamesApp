@@ -2,10 +2,19 @@ import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements'
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as AuthSession from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 
+//WebBrowser.maybeCompleteAuthSession();
 
+//const request = new AuthRequest({ },{ });
+//const result = await request.promptAsync(discovery, { useProxy: true });
+//const config = {};
+//const discovery = useAutoDiscovery('http://localhost:8000');
+//AuthSession.makeRedirectUri({ useProxy: true })
 // Your App
 const Login = () => {
+  //const [request, response, promptAsync] = useAuthRequest({}, {});
   return (
     <SafeAreaProvider>
       <ScrollView>

@@ -3,53 +3,23 @@ import { Tile,Icon, Card, ListItem } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const games = [
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
-  {
-    name: 'ApexLegends',
-    img_uri: 'https://media.contentapi.ea.com/content/dam/apex-legends/images/2019/01/apex-featured-image-16x9.jpg.adapt.crop191x100.1200w.jpg',
-    genre:'FPS',
-    detail:'test',
-    platform:'PC',
-  },
- ]
- 
+const BASE_URL = 'http://127.0.0.1:8000/'
 
 const TopPage = () => {
+  const [isLoading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState([]);
+  const getRanking = async () => {
+    try {
+      const response = await fetch(BASE_URL+'game/ranking/',{ method: 'POST' });
+      const json = await response.json();
+      setData(json.datas);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  getRanking()
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -70,7 +40,7 @@ const TopPage = () => {
           </Text>
         </View>
         <ScrollView horizontal={true}>
-          {games.map((u,i)=>{
+          {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>
                 <Card.Title>{u.name}</Card.Title>
