@@ -1,28 +1,20 @@
 import React from "react";
-import { View } from "react-native";
-import { Input, Button, Icon, Header } from "react-native-elements";
-import games from './top__page'
-
+import { View,  } from "react-native";
+import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 
 const HostForm = () =>{
+
+    const [
+        selectedIndex,
+        setSelectedIndex
+      ] = React.useState(1);
+      const [
+        selectedIndexes,
+        setSelectedIndexes
+      ] = React.useState([]);
+
     return (
         <View>
-            <Header
-            backgroundImageStyle={{}}
-            barStyle="default"
-            centerComponent={{
-            text: "SUMGAMES",
-            style: { color: "#fff" }
-            }}
-            centerContainerStyle={{}}
-            containerStyle={{ width: '100%' }}
-            leftContainerStyle={{}}
-            linearGradientProps={{}}
-            placement="left"
-            rightContainerStyle={{}}
-            statusBarProps={{}}
-            />
-
             <Input
             containerStyle={{}}
             disabledInputStyle={{ background: "#ddd" }}
@@ -48,8 +40,29 @@ const HostForm = () =>{
             leftIconContainerStyle={{}}
             placeholder="Counts"
             />
+
+            <ButtonGroup
+                buttonStyle={{ width: 420 }}
+                buttonContainerStyle={{}}
+                buttons={["male", "female", "Non-binary"]}
+                containerStyle={{}}
+                disabledStyle={{}}
+                disabledTextStyle={{}}
+                disabledSelectedStyle={{}}
+                disabledSelectedTextStyle={{}}
+                innerBorderStyle={{}}
+                onPress={selectedIdx =>
+                    setSelectedIndex(selectedIdx)
+                }
+                selectedButtonStyle={{}}
+                selectedIndex={selectedIndex}
+                selectedIndexes={selectedIndexes}
+                selectedTextStyle={{}}
+                textStyle={{}}
+                />
+
         </View>
-    );
-};
+    )
+}
 
 export default HostForm;

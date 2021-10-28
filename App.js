@@ -7,8 +7,8 @@ import TopPage from './pages/top__page';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import PasswordReset from './pages/password_reset';
-import Hostmatching from './pages/host_matching_conditions';
 import { createStackNavigator } from '@react-navigation/stack';
+import HostForm from './pages/hostform';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +19,7 @@ function MyStack() {
       <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
       <Stack.Screen name="signup" component={Signup} options={{headerShown:false}}/>
       <Stack.Screen name="PasswordReset" component={PasswordReset} options={{headerShown:false}}/>
-      <Stack.Screen name="Hostmatching" component={Hostmatching} options={{headerShown:false}}/>
+      <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
@@ -76,16 +76,15 @@ function MyTabs() {
         }}
       /> */}
       <Tab.Screen
-        name="Host Matching "
-        component={Hostmatching}
+        name="Host Form "
+        component={HostForm}
         options={{
-          tabBarLabel: 'Host Matching ',
+          tabBarLabel: 'Host Form ',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
       />
-
     </Tab.Navigator>
   );
 }
