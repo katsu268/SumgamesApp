@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tile,Icon, Card, ListItem, Header } from "react-native-elements";
+import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -19,6 +19,11 @@ const TopPage = ({navigation}) => {
       setLoading(false);
     }
   }
+
+  //検索バーで使用
+  const [value, setValue] = React.useState("");
+  
+  
   getRanking()
   return (
     <SafeAreaProvider>
@@ -63,6 +68,27 @@ const TopPage = ({navigation}) => {
             )
           })}
         </ScrollView>
+          <View>
+            <SearchBar
+              platform="ios"
+              containerStyle={{
+                
+              }}
+              inputContainerStyle={{}}
+              inputStyle={{}}
+              leftIconContainerStyle={{}}
+              rightIconContainerStyle={{}}
+              loadingProps={{}}
+              onChangeText={newVal => setValue(newVal)}
+              onClearText={() => console.log(onClearText())}
+              placeholder="Game Title here..."
+              placeholderTextColor="#888"
+              cancelButtonTitle="Cancel"
+              cancelButtonProps={{}}
+              onCancel={() => console.log(onCancel())}
+              value={value}
+            />
+          </View>
       </ScrollView>
     </SafeAreaProvider>
   );

@@ -1,6 +1,6 @@
 import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
@@ -63,13 +63,16 @@ const Login = ({ navigation }) => {
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
           placeholder="Enter Password"
+          secureTextEntry={true}
         />
         <Button
-          buttonStyle={{ width: 150 }}
+          buttonStyle={{ 
+            width: 150,
+          }}
           containerStyle={{ margin: 5 }}
           disabledStyle={{
             borderWidth: 2,
-            borderColor: "#00F"
+            borderColor: "#00F",
           }}
           disabledTitleStyle={{ color: "#00F" }}
           icon={<Icon name="build" size={15} color="#0FF" />}
@@ -99,9 +102,46 @@ const Login = ({ navigation }) => {
           titleStyle={{ marginHorizontal: 5 }}
         />
 
+        <View style={styles.container}>
+
+        <TouchableOpacity
+            onPress={() => alert('Hello, world!')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Pick a photo</Text>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity
+            onPress={() => alert('Hello, world!')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Pick a photo</Text>
+          </TouchableOpacity>
+        </View>
+
       </ScrollView>
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: '#fff',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: "#157DEC",
+    padding: 20,
+    borderRadius: 5,
+    marginBottom: 30,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#fff',
+  }, 
+});
 
 export default Login;

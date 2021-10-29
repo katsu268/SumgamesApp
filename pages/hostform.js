@@ -1,20 +1,24 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
+import { View, Button, TextInput, StyleSheet, Alert } from "react-native";
+import { Input, Icon, Header, ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+
+
+
 
 const HostForm = () =>{
 
     const [
         selectedIndex,
         setSelectedIndex
-      ] = React.useState(1);
-      const [
+        ] = React.useState(1);
+        const [
         selectedIndexes,
         setSelectedIndexes
-      ] = React.useState([]);
-
+        ] = React.useState([]);
+    
+    
     return (
       <SafeAreaProvider>
         <ScrollView>
@@ -46,7 +50,7 @@ const HostForm = () =>{
 
             <ButtonGroup
                 buttonContainerStyle={{}}
-                buttons={["male", "female", "Non-binary"]}
+                buttons={["AL", "MA", "FE", "EX"]}
                 containerStyle={{}}
                 disabledStyle={{}}
                 disabledTextStyle={{}}
@@ -76,6 +80,13 @@ const HostForm = () =>{
                 placeholder="募集条件"
             />
 
+            <View style={styles.fixToText}>
+                <Button
+                    title="募集"
+                    onPress={() => Alert.alert('Left button pressed')}
+                />
+            </View>
+
         </ScrollView>
       </SafeAreaProvider>
     )
@@ -84,8 +95,19 @@ const HostForm = () =>{
 const styles = StyleSheet.create({
     textArea: {
       height: 150,
+      borderWidth: 1,
       justifyContent: "flex-start"
-    }
-  })
+    },
+    fixToText: {
+        // flex: 1,
+        // justifyContent: 'center',
+        // marginHorizontal: 16,
+        flex: 1,
+        marginHorizontal: 16,
+        //ボタンの範囲のみタッチ可能にできる！！
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+})
 
 export default HostForm;
