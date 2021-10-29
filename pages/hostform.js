@@ -1,5 +1,5 @@
 import React from "react";
-import { View,  } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 
 const HostForm = () =>{
@@ -59,10 +59,31 @@ const HostForm = () =>{
                 selectedIndexes={selectedIndexes}
                 selectedTextStyle={{}}
                 textStyle={{}}
-                />
+            />
+
+            <Input
+                style={styles.textArea}
+                underlineColorAndroid="transparent"
+                placeholder="Type something"
+                placeholderTextColor="grey"
+                numberOfLines={10}
+                multiline={true}
+                label="募集条件"
+                labelStyle={{}}
+                labelProps={{}}
+                placeholder="募集条件"
+            />
+
 
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    textArea: {
+      height: 150,
+      justifyContent: "flex-start"
+    }
+  })
 
 export default HostForm;
