@@ -68,7 +68,6 @@ const HostForm = () =>{
             />
 
             <Input
-                style={styles.textArea}
                 underlineColorAndroid="transparent"
                 placeholder="Type something"
                 placeholderTextColor="grey"
@@ -78,6 +77,8 @@ const HostForm = () =>{
                 labelStyle={{}}
                 labelProps={{}}
                 placeholder="募集条件"
+                height={150}
+                justifyContent="flex-start"
             />
 
             <View style={styles.fixToText}>
