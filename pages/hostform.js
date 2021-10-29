@@ -1,6 +1,8 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import { View,  } from "react-native";
 import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const HostForm = () =>{
 
@@ -14,31 +16,32 @@ const HostForm = () =>{
       ] = React.useState([]);
 
     return (
-        <View>
+      <SafeAreaProvider>
+        <ScrollView>
             <Input
-            containerStyle={{}}
-            disabledInputStyle={{ background: "#ddd" }}
-            inputContainerStyle={{}}
-            inputStyle={{}}
-            label="Game Title"
-            labelStyle={{}}
-            labelProps={{}}
-            leftIcon={<Icon name="person" size={20} />}
-            leftIconContainerStyle={{}}
-            placeholder="Game Title"
+                containerStyle={{}}
+                disabledInputStyle={{ background: "#ddd" }}
+                inputContainerStyle={{}}
+                inputStyle={{}}
+                label="Game Title"
+                labelStyle={{}}
+                labelProps={{}}
+                leftIcon={<Icon name="person" size={20} />}
+                leftIconContainerStyle={{}}
+                placeholder="Game Title"
             />
 
             <Input
-            containerStyle={{}}
-            disabledInputStyle={{ background: "#ddd" }}
-            inputContainerStyle={{}}
-            inputStyle={{}}
-            label="Counts"
-            labelStyle={{}}
-            labelProps={{}}
-            leftIcon={<Icon name="person" size={20} />}
-            leftIconContainerStyle={{}}
-            placeholder="Counts"
+                containerStyle={{}}
+                disabledInputStyle={{ background: "#ddd" }}
+                inputContainerStyle={{}}
+                inputStyle={{}}
+                label="Counts"
+                labelStyle={{}}
+                labelProps={{}}
+                leftIcon={<Icon name="person" size={20} />}
+                leftIconContainerStyle={{}}
+                placeholder="Counts"
             />
 
             <ButtonGroup
@@ -60,22 +63,8 @@ const HostForm = () =>{
                 selectedTextStyle={{}}
                 textStyle={{}}
             />
-
-            <Input
-                style={styles.textArea}
-                underlineColorAndroid="transparent"
-                placeholder="Type something"
-                placeholderTextColor="grey"
-                numberOfLines={10}
-                multiline={true}
-                label="募集条件"
-                labelStyle={{}}
-                labelProps={{}}
-                placeholder="募集条件"
-            />
-
-
-        </View>
+        </ScrollView>
+      </SafeAreaProvider>
     )
 }
 
