@@ -63,6 +63,20 @@ const HostForm = () =>{
                 selectedTextStyle={{}}
                 textStyle={{}}
             />
+
+            <Input
+                style={styles.textArea}
+                underlineColorAndroid="transparent"
+                placeholder="Type something"
+                placeholderTextColor="grey"
+                numberOfLines={10}
+                multiline={true}
+                label="募集条件"
+                labelStyle={{}}
+                labelProps={{}}
+                placeholder="募集条件"
+            />
+
         </ScrollView>
       </SafeAreaProvider>
     )
