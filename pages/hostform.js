@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View,  } from "react-native";
 import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 
@@ -16,29 +16,29 @@ const HostForm = () =>{
     return (
         <View>
             <Input
-            containerStyle={{}}
-            disabledInputStyle={{ background: "#ddd" }}
-            inputContainerStyle={{}}
-            inputStyle={{}}
-            label="Game Title"
-            labelStyle={{}}
-            labelProps={{}}
-            leftIcon={<Icon name="person" size={20} />}
-            leftIconContainerStyle={{}}
-            placeholder="Game Title"
+                containerStyle={{}}
+                disabledInputStyle={{ background: "#ddd" }}
+                inputContainerStyle={{}}
+                inputStyle={{}}
+                label="Game Title"
+                labelStyle={{}}
+                labelProps={{}}
+                leftIcon={<Icon name="person" size={20} />}
+                leftIconContainerStyle={{}}
+                placeholder="Game Title"
             />
 
             <Input
-            containerStyle={{}}
-            disabledInputStyle={{ background: "#ddd" }}
-            inputContainerStyle={{}}
-            inputStyle={{}}
-            label="Counts"
-            labelStyle={{}}
-            labelProps={{}}
-            leftIcon={<Icon name="person" size={20} />}
-            leftIconContainerStyle={{}}
-            placeholder="Counts"
+                containerStyle={{}}
+                disabledInputStyle={{ background: "#ddd" }}
+                inputContainerStyle={{}}
+                inputStyle={{}}
+                label="Counts"
+                labelStyle={{}}
+                labelProps={{}}
+                leftIcon={<Icon name="person" size={20} />}
+                leftIconContainerStyle={{}}
+                placeholder="Counts"
             />
 
             <ButtonGroup
@@ -59,7 +59,7 @@ const HostForm = () =>{
                 selectedIndexes={selectedIndexes}
                 selectedTextStyle={{}}
                 textStyle={{}}
-                />
+            />
 
         </View>
     )
