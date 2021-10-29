@@ -1,6 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
+import { Input, Icon, ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
