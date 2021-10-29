@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View,  } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -63,9 +63,29 @@ const HostForm = () =>{
                 textStyle={{}}
             />
 
+            <Input
+                style={styles.textArea}
+                underlineColorAndroid="transparent"
+                placeholder="Type something"
+                placeholderTextColor="grey"
+                numberOfLines={10}
+                multiline={true}
+                label="募集条件"
+                labelStyle={{}}
+                labelProps={{}}
+                placeholder="募集条件"
+            />
+
         </ScrollView>
       </SafeAreaProvider>
     )
 }
+
+const styles = StyleSheet.create({
+    textArea: {
+      height: 150,
+      justifyContent: "flex-start"
+    }
+  })
 
 export default HostForm;
