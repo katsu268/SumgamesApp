@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import * as React from "react";
 import { View,  } from "react-native";
 import { Input, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
@@ -45,7 +45,6 @@ const HostForm = () =>{
             />
 
             <ButtonGroup
-                buttonStyle={{ width: 420 }}
                 buttonContainerStyle={{}}
                 buttons={["male", "female", "Non-binary"]}
                 containerStyle={{}}
@@ -63,6 +62,7 @@ const HostForm = () =>{
                 selectedTextStyle={{}}
                 textStyle={{}}
             />
+
         </ScrollView>
       </SafeAreaProvider>
     )
