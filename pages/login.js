@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
           placeholder="Enter Password"
           secureTextEntry={true}
         />
-        <Button
+        {/* <Button
           buttonStyle={{ 
             width: 150,
           }}
@@ -100,7 +100,7 @@ const Login = ({ navigation }) => {
           title="Forgot Password"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
-        />
+        /> */}
 
         <View style={styles.container}>
 
@@ -134,9 +134,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#157DEC",
-    padding: 20,
+    // padding: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
     borderRadius: 5,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 15,
   },
   buttonText: {
     fontSize: 20,
