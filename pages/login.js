@@ -98,6 +98,23 @@ const Login = ({ navigation }) => {
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />
+        <Button
+          buttonStyle={{ width: 150 }}
+          containerStyle={{ margin: 5 }}
+          disabledStyle={{
+            borderWidth: 2,
+            borderColor: "#00F"
+          }}
+          disabledTitleStyle={{ color: "#00F" }}
+          icon={<Icon name="build" size={15} color="#0FF" />}
+          iconContainerStyle={{ background: "#000" }}
+          loadingProps={{ animating: true }}
+          loadingStyle={{}}
+          onPress={() => navigation.navigate('Signup')}
+          title="SignUp"
+          titleProps={{}}
+          titleStyle={{ marginHorizontal: 5 }}
+        />
 
       </ScrollView>
     </SafeAreaProvider>
