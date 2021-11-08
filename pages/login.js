@@ -1,6 +1,6 @@
 import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
@@ -13,7 +13,7 @@ import * as WebBrowser from 'expo-web-browser';
 //const discovery = useAutoDiscovery('http://localhost:8000');
 //AuthSession.makeRedirectUri({ useProxy: true })
 // Your App
-const Login = () => {
+const Login = ({ navigation }) => {
   //const [request, response, promptAsync] = useAuthRequest({}, {});
   return (
     <SafeAreaProvider>
@@ -63,20 +63,23 @@ const Login = () => {
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
           placeholder="Enter Password"
+          secureTextEntry={true}
         />
         <Button
-          buttonStyle={{ width: 150 }}
+          buttonStyle={{ 
+            width: 150,
+          }}
           containerStyle={{ margin: 5 }}
           disabledStyle={{
             borderWidth: 2,
-            borderColor: "#00F"
+            borderColor: "#00F",
           }}
           disabledTitleStyle={{ color: "#00F" }}
           icon={<Icon name="build" size={15} color="#0FF" />}
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("ログインが成功しました。")}
+          onPress={() => navigation.navigate('Top')}
           title="Login"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
@@ -93,15 +96,69 @@ const Login = () => {
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("パスワード変更用ページに遷移します。")}
+          onPress={() => navigation.navigate('PasswordReset')}
           title="Forgot Password"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />
+        <Button
+          buttonStyle={{ width: 150 }}
+          containerStyle={{ margin: 5 }}
+          disabledStyle={{
+            borderWidth: 2,
+            borderColor: "#00F"
+          }}
+          disabledTitleStyle={{ color: "#00F" }}
+          icon={<Icon name="build" size={15} color="#0FF" />}
+          iconContainerStyle={{ background: "#000" }}
+          loadingProps={{ animating: true }}
+          loadingStyle={{}}
+          onPress={() => navigation.navigate('Signup')}
+          title="SignUp"
+          titleProps={{}}
+          titleStyle={{ marginHorizontal: 5 }}
+        />
+
+        <View style={styles.container}>
+
+        <TouchableOpacity
+            onPress={() => alert('Hello, world!')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Pick a photo</Text>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity
+            onPress={() => alert('Hello, world!')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Pick a photo</Text>
+          </TouchableOpacity>
+        </View>
 
       </ScrollView>
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: '#fff',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: "#157DEC",
+    padding: 20,
+    borderRadius: 5,
+    marginBottom: 30,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#fff',
+  }, 
+});
 
 export default Login;

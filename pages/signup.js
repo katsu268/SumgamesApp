@@ -1,4 +1,4 @@
-import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements';
+import { Tile, Button, ThemeProvider, Input, Icon, Image } from 'react-native-elements';
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ const Signup = () => {
   return (
     <SafeAreaProvider>
       <ScrollView>
+
       <Tile
           imageSrc={require('../assets/images/gamer.jpg')}
           title="SUMGAMES"
