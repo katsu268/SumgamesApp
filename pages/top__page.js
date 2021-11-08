@@ -3,14 +3,18 @@ import { Tile,Icon, Card, ListItem } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const BASE_URL = 'http://127.0.0.1:8000/'
+const BASE_URL = 'http://10.250.1.240:8000/'
+let url = 'https://api.bitflyer.com/v1/ticker'
 
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
   const getRanking = async () => {
     try {
-      const response = await fetch(BASE_URL+'game/ranking/',{ method: 'POST' });
+      const response = await fetch(url, {
+        mode: 'cors',
+        credentials: 'include'
+      });
       const json = await response.json();
       setData(json.datas);
     } catch (error) {
@@ -19,7 +23,10 @@ const TopPage = ({navigation}) => {
       setLoading(false);
     }
   }
-  getRanking()
+  React.useEffect(()=>{
+    getRanking();
+    console.log(data)
+  });
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -44,6 +51,25 @@ const TopPage = ({navigation}) => {
           {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>
+                <Card.Title>{u.product_code}</Card.Title>
+                <Card.Divider/>
+                <View>
+                  <Text>
+                      {u.tick_id} {u.ltp}
+                  </Text>
+                  <Text style={{marginBottom: 10}}>
+                    {u.timestamp}
+                  </Text>
+                  <Button
+                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                    title='Matching' />
+                </View>
+              </Card>
+            )
+          })}
+          {/* {data.map((u,i)=>{
+            return (
+              <Card key={i} containerStyle={{width:220}}>
                 <Card.Title>{u.name}</Card.Title>
                 <Card.Divider/>
                 <Card.Image source={{ uri: u.img_uri }}>
@@ -61,7 +87,7 @@ const TopPage = ({navigation}) => {
                 </View>
               </Card>
             )
-          })}
+          })} */}
         </ScrollView>
       </ScrollView>
     </SafeAreaProvider>
