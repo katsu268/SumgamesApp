@@ -1,6 +1,7 @@
-import { Button } from "react-native-elements/dist/buttons/Button"
-import { ScrollView } from "react-native-gesture-handler"
-import { SafeAreaProvider } from "react-native-safe-area-context"
+import * as React from "react";
+import { Button, Image, Text } from "react-native-elements/dist/buttons/Button";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
 const guest_matching = () =>{
@@ -25,3 +26,5 @@ const guest_matching = () =>{
         </ScrollView>
     </SafeAreaProvider>
 }
+
+export default guest_matching;
