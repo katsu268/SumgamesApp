@@ -66,3 +66,5 @@ const guest_matching = () =>{
 }
 
 export default guest_matching;
+
+// Inputは本来はすべてText

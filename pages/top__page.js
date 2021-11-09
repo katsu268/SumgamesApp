@@ -53,8 +53,6 @@ const TopPage = ({navigation}) => {
             ランキング
           </Text>
         </View>
-
-
         {/* <ScrollView horizontal={true}>
           {data.map((u,i)=>{
             return (
@@ -75,8 +73,6 @@ const TopPage = ({navigation}) => {
               </Card>
             )
           })} */}
-
-
           {/* {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>

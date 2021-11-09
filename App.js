@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
+import mypage from './pages/mypage';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ function MyStack() {
       <Stack.Screen name="PasswordReset" component={PasswordReset} options={{headerShown:false}}/>
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
+      <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
@@ -71,6 +73,16 @@ function MyTabs() {
         }}
       />
 
+      <Tab.Screen
+        name="mypage"
+        component={mypage}
+        options={{
+          tabBarLabel: 'mypage',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
