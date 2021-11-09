@@ -103,21 +103,28 @@ const Login = ({ navigation }) => {
         /> */}
 
         <View style={styles.container}>
-
-        <TouchableOpacity
-            onPress={() => alert('Hello, world!')}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Pick a photo</Text>
+          <TouchableOpacity
+              onPress={() => navigation.navigate('Top')}
+              style={styles.button}
+              
+            >
+              <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-
 
           <TouchableOpacity
-            onPress={() => alert('Hello, world!')}
+            onPress={() => navigation.navigate('SignUp')}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Pick a photo</Text>
+            <Text style={styles.buttonText}>SignUp</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PasswordReset')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>PasswordReset</Text>
+          </TouchableOpacity>
+
         </View>
 
       </ScrollView>
