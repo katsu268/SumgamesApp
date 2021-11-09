@@ -53,7 +53,9 @@ const TopPage = ({navigation}) => {
             ランキング
           </Text>
         </View>
-        <ScrollView horizontal={true}>
+
+
+        {/* <ScrollView horizontal={true}>
           {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>
@@ -72,7 +74,9 @@ const TopPage = ({navigation}) => {
                 </View>
               </Card>
             )
-          })}
+          })} */}
+
+
           {/* {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>
@@ -94,7 +98,10 @@ const TopPage = ({navigation}) => {
               </Card>
             )
           })} */}
-        </ScrollView>
+
+
+        {/* </ScrollView> */}
+
           <View>
             <SearchBar
               platform="ios"
