@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Image, Tile, Input } from "react-native-elements";
-import { View, Text, StyleSheet, ScrollView, Button, } from 'react-native';
+import { Image, Tile, Input, Button } from "react-native-elements";
+import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
@@ -58,11 +58,7 @@ const guest_matching = () =>{
                 />
                 <View style={{ flexDirection: "row" }}>
                     <Button title="参加"/>
-                    <Button title="不参加"
-                            disabledInputStyle={{
-                                backgroundColor: "red"
-                            }}
-                    />
+                    <Button title="不参加"/>
                 </View>
             </ScrollView>
         </SafeAreaProvider>
