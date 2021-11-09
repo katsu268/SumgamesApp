@@ -142,11 +142,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#157DEC",
     // padding: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 5,
     marginTop: 5,
-    marginBottom: 15,
+    marginBottom: 5,
+    marginLeft: 10,
   },
   buttonText: {
     fontSize: 20,
