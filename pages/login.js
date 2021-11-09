@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
           placeholder="Enter Password"
           secureTextEntry={true}
         />
-        <Button
+        {/* <Button
           buttonStyle={{ 
             width: 150,
           }}
@@ -100,41 +100,31 @@ const Login = ({ navigation }) => {
           title="Forgot Password"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
-        />
-        <Button
-          buttonStyle={{ width: 150 }}
-          containerStyle={{ margin: 5 }}
-          disabledStyle={{
-            borderWidth: 2,
-            borderColor: "#00F"
-          }}
-          disabledTitleStyle={{ color: "#00F" }}
-          icon={<Icon name="build" size={15} color="#0FF" />}
-          iconContainerStyle={{ background: "#000" }}
-          loadingProps={{ animating: true }}
-          loadingStyle={{}}
-          onPress={() => navigation.navigate('Signup')}
-          title="SignUp"
-          titleProps={{}}
-          titleStyle={{ marginHorizontal: 5 }}
-        />
+        /> */}
 
         <View style={styles.container}>
-
-        <TouchableOpacity
-            onPress={() => alert('Hello, world!')}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Pick a photo</Text>
+          <TouchableOpacity
+              onPress={() => navigation.navigate('Top')}
+              style={styles.button}
+              
+            >
+              <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-
 
           <TouchableOpacity
-            onPress={() => alert('Hello, world!')}
+            onPress={() => navigation.navigate('SignUp')}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Pick a photo</Text>
+            <Text style={styles.buttonText}>SignUp</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PasswordReset')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>PasswordReset</Text>
+          </TouchableOpacity>
+
         </View>
 
       </ScrollView>
@@ -151,9 +141,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#157DEC",
-    padding: 20,
+    // padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 5,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 5,
+    marginLeft: 10,
   },
   buttonText: {
     fontSize: 20,

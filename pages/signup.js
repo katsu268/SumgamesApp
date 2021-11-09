@@ -94,8 +94,11 @@ const Signup = () => {
           placeholder="Enter Confirmation Password"
         />
 
+        <View style={{ flexDirection: 'row' }}>
         <Button
-          buttonStyle={{ width: 150 }}
+          buttonStyle={{ 
+            width: 150,
+           }}
           containerStyle={{ margin: 5 }}
           disabledStyle={{
             borderWidth: 2,
@@ -111,6 +114,7 @@ const Signup = () => {
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />
+        </View>
       </ScrollView>
     </SafeAreaProvider>
   );
