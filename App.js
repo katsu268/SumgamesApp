@@ -18,7 +18,7 @@ function MyStack() {
     <Stack.Navigator>
       <Stack.Screen name="Top" component={TopPage}  options={{headerShown:false}}/>
       <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-      <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}}/>
+      <Stack.Screen name="SignUp" component={Signup} options={{headerShown:false}}/>
       <Stack.Screen name="PasswordReset" component={PasswordReset} options={{headerShown:false}}/>
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
