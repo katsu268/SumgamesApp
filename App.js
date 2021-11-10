@@ -10,6 +10,7 @@ import PasswordReset from './pages/password_reset';
 import { createStackNavigator } from '@react-navigation/stack';
 import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
+import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
 
 const Stack = createStackNavigator();
@@ -49,46 +50,7 @@ function MyTabs() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Login"
-        component={Login}
-        options={{
-          tabBarLabel: 'Login',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="SignUp"
-        component={Signup}
-        options={{
-          tabBarLabel: 'SignUp',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Password Reset"
-        component={PasswordReset}
-        options={{
-          tabBarLabel: 'Password Reset',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      /> */
-      /* <Tab.Screen
-        name="Host Form "
-        component={HostForm}
-        options={{
-          tabBarLabel: 'Host Form ',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      /> */}
+
       <Tab.Screen
         name="GuestMatching"
         component={GuestMatching}
@@ -99,6 +61,18 @@ function MyTabs() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="Inquiry"
+        component={Inquiry}
+        options={{
+          tabBarLabel: 'Inquiry',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name="mypage"
         component={mypage}
