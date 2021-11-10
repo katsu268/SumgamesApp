@@ -12,6 +12,7 @@ import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
+import change_profile from './pages/change_profile';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ function MyStack() {
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
       <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
+      <Stack.Screen name="change_profile" component={change_profile} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
