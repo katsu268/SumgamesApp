@@ -7,13 +7,16 @@ const mypage =()=> {
     return(
         <SafeAreaProvider>
             <ScrollView>
-                <Text style={{fontSize:30}}>
+                <Text style={{
+                    fontSize:30,
+                    marginTop: 50}}>
                     マイページ
                 </Text>
                 <Button
                 title="編集"
                 style={{
-                    width:"30%",
+                    width: "15%",
+                    marginLeft: "80%",
                     alignItems: 'flex-end'}}/>
                 <Input
                 containerStyle={{}}

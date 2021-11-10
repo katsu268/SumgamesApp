@@ -10,7 +10,9 @@ const guest_matching = () =>{
             <ScrollView>
                 <Tile
                     imageSrc={require('../assets/images/apex-image.jpg')}
-                    containerStyle={{height:220}}
+                    containerStyle={{
+                        marginTop: 50,
+                        height:220}}
                 />
                 <Text
                     style={{fontSize:25}}
@@ -56,9 +58,21 @@ const guest_matching = () =>{
                 labelProps={{}}
                 placeholder="募集人数"
                 />
-                <View style={{ flexDirection: "row" }}>
-                    <Button title="参加"/>
-                    <Button title="不参加"/>
+                <View style={{
+                    flexDirection: "row",
+                    marginLeft: "20%"}}>
+                <Button title="参加"
+                        style={{
+                            justifyContent: "flex-start",
+                            marginRight: 35
+                            // width: "25%",
+                            }}/>
+                <Button title="不参加"
+                        style={{
+                            justifyContent: "flex-end",
+                            marginLeft: 65,
+                            // width: "25%",
+                            }}/>
                 </View>
             </ScrollView>
         </SafeAreaProvider>
