@@ -95,7 +95,8 @@ const Inquiry = () =>{
                 />
               </View>
                 <Input
-                    underlineColorAndroid="transparent"
+                    style={styles.Input}
+                    // underlineColorAndroid="transparent"
                     placeholder="Type something"
                     placeholderTextColor="grey"
                     numberOfLines={10}
@@ -104,16 +105,16 @@ const Inquiry = () =>{
                     labelStyle={{}}
                     labelProps={{}}
                     placeholder="要件内容"
-                    height={150}
+                    height={250}
                     justifyContent="flex-start"
                 />
-              <View style={styles.container}>
-                <TouchableOpacity
-                    onPress={() => alert("送信が完了しました。")}
-                    style={styles.button}
-                    >
-                    <Text style={styles.buttonText}>送信</Text>
-                </TouchableOpacity>
+              <View style={styles.button}>
+                <Button title="送信"
+                    style={{
+                        justifyContent: "flex-start",
+                        // marginRight: 35
+                        // width: "25%",
+                    }}/>
               </View>
 
             </ScrollView>
@@ -128,20 +129,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     button: {
-      backgroundColor: "#157DEC",
-      // padding: 10,
-      paddingVertical: 5,
-      paddingHorizontal: 12,
-      borderRadius: 5,
-      marginTop: 1,
-      marginBottom: 5,
-      marginLeft: 600,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10,
     },
-    buttonText: {
-      fontSize: 20,
-      color: '#fff',
-    }, 
-  });
+    Input: {
+        borderWidth: 1,
+    }
+});
   
 
 
