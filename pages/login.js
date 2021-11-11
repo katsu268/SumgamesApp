@@ -18,17 +18,16 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <ScrollView>
-      <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
-          titleStyle={{
-            fontSize:40,
-            fontWeight:'700',
-          }}
-          featured
-          caption="FOR ALL GAMERS"
-          height={200}
-        />
+
+      <Text style={{
+        fontSize:30,
+        marginTop: 50,
+        marginLeft: 10,
+        marginBottom: 10,
+        }}>
+        ログイン
+      </Text>
+
 
         <Input
           containerStyle={{}}
@@ -65,93 +64,51 @@ const Login = ({ navigation }) => {
           placeholder="Enter Password"
           secureTextEntry={true}
         />
-        {/* <Button
-          buttonStyle={{ 
-            width: 150,
-          }}
-          containerStyle={{ margin: 5 }}
-          disabledStyle={{
-            borderWidth: 2,
-            borderColor: "#00F",
-          }}
-          disabledTitleStyle={{ color: "#00F" }}
-          icon={<Icon name="build" size={15} color="#0FF" />}
-          iconContainerStyle={{ background: "#000" }}
-          loadingProps={{ animating: true }}
-          loadingStyle={{}}
-          onPress={() => navigation.navigate('Top')}
-          title="Login"
-          titleProps={{}}
-          titleStyle={{ marginHorizontal: 5 }}
-        />
-        <Button
-          buttonStyle={{ width: 250 }}
-          containerStyle={{ margin: 5 }}
-          disabledStyle={{
-            borderWidth: 2,
-            borderColor: "#00F"
-          }}
-          disabledTitleStyle={{ color: "#00F" }}
-          icon={<Icon name="build" size={15} color="#0FF" />}
-          iconContainerStyle={{ background: "#000" }}
-          loadingProps={{ animating: true }}
-          loadingStyle={{}}
-          onPress={() => navigation.navigate('PasswordReset')}
-          title="Forgot Password"
-          titleProps={{}}
-          titleStyle={{ marginHorizontal: 5 }}
-        /> */}
 
-        <View style={styles.container}>
-          <TouchableOpacity
-              onPress={() => navigation.navigate('Top')}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+          <View style={{
+            flexDirection: "row",
+            }}>
+              <Button title="ログイン"
+                buttonStyle={{ width:100 }}
+                containerStyle={{ margin:5 }}
+                style={{
+                    justifyContent: "flex-start",
+                }}
+                onPress={() => navigation.navigate('Top')}
+                />
+          </View>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignUp')}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>SignUp</Text>
-          </TouchableOpacity>
+          <View style={{
+            flexDirection: "row",
+            }}>
+              <Button title="サインアップ"
+                buttonStyle={{ width:120 }}
+                containerStyle={{ margin:5 }}
+                style={{
+                    justifyContent: "center",
+                }}
+                type="clear"
+                onPress={() => navigation.navigate('SignUp')}
+                />
+          </View>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('PasswordReset')}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>PasswordReset</Text>
-          </TouchableOpacity>
-
-        </View>
+          <View style={{
+            flexDirection: "row",
+            }}>
+              <Button title="パスワードリセット"
+                buttonStyle={{ width:168 }}
+                containerStyle={{ margin:5 }}
+                style={{
+                    justifyContent: "center",
+                }}
+                type="clear"
+                onPress={() => navigation.navigate('PasswordReset')}
+                />
+          </View>
 
       </ScrollView>
     </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: "#157DEC",
-    // padding: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 10,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#fff',
-  }, 
-});
 
 export default Login;

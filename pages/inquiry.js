@@ -10,9 +10,10 @@ const Inquiry = () =>{
     return (
         <SafeAreaProvider>
             <ScrollView>
-                <Text 
-                  h1
-                >
+                <Text style={{
+                    fontSize:30,
+                    marginTop: 50,
+                    marginLeft: 10}}>
                     お問い合わせ
                 </Text>
                 <Input
@@ -37,7 +38,7 @@ const Inquiry = () =>{
                     left
                     checked={checked}
                     checkedColor="#0F0"
-                    checkedTitle="Great!"
+                    // checkedTitle="Great!"
                     checkedIcon='dot-circle-o'
                     uncheckedIcon='circle-o'
                     containerStyle={{ width: "50%" }}
@@ -57,7 +58,7 @@ const Inquiry = () =>{
                     left
                     checked={checked}
                     checkedColor="#0F0"
-                    checkedTitle="Great!"
+                    // checkedTitle="Great!"
                     checkedIcon='dot-circle-o'
                     uncheckedIcon='circle-o'
                     containerStyle={{ width: "50%" }}
@@ -77,7 +78,7 @@ const Inquiry = () =>{
                     left
                     checked={checked}
                     checkedColor="#0F0"
-                    checkedTitle="Great!"
+                    // checkedTitle="Great!"
                     checkedIcon='dot-circle-o'
                     uncheckedIcon='circle-o'
                     containerStyle={{ width: "50%" }}
