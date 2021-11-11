@@ -22,6 +22,7 @@ const mypage =()=> {
                     marginLeft: "80%",
                     alignItems: 'flex-end',
                     marginTop: 10}}
+                // onPress={() => navigation.navigate('change_profile')}
                 />
                 <View style={{marginLeft: "18%"}}>
                     <View style={{

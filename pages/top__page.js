@@ -2,37 +2,19 @@ import * as React from "react";
 import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import sumgames_api from "../components/sumgames_api"
 
-const BASE_URL = 'http://10.250.1.240:8000/'
-let url = 'https://api.bitflyer.com/v1/ticker'
 
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
-  const getRanking = async () => {
-    try {
-      const response = await fetch(url, {
-        mode: 'cors',
-        credentials: 'include'
-      });
-      const json = await response.json();
-      setData(json.datas);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  React.useEffect(()=>{
-    getRanking();
-    console.log(data)
-  });
-
+  React.useEffect(() => {
+    sumgames_api("http://127.0.0.1:8000/api/gameitem/")
+    .then((game_data) => setData(game_data));
+  }, []);
+  
   //検索バーで使用
   const [value, setValue] = React.useState("");
-  
-  
-  getRanking()
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -53,72 +35,45 @@ const TopPage = ({navigation}) => {
             ランキング
           </Text>
         </View>
-        {/* <ScrollView horizontal={true}>
+        <ScrollView horizontal={true}>
           {data.map((u,i)=>{
             return (
               <Card key={i} containerStyle={{width:220}}>
-                <Card.Title>{u.product_code}</Card.Title>
+                <Card.Title>{u.game_name}</Card.Title>
                 <Card.Divider/>
-                <View>
-                  <Text>
-                      {u.tick_id} {u.ltp}
-                  </Text>
-                  <Text style={{marginBottom: 10}}>
-                    {u.timestamp}
-                  </Text>
-                  <Button
-                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='Matching' />
-                </View>
-              </Card>
-            )
-          })} */}
-          {/* {data.map((u,i)=>{
-            return (
-              <Card key={i} containerStyle={{width:220}}>
-                <Card.Title>{u.name}</Card.Title>
-                <Card.Divider/>
-                <Card.Image source={{ uri: u.img_uri }}>
+                <Card.Image source={{ uri: u.image }}>
                 </Card.Image>
                 <View>
-                  <Text>
-                      {u.genre} {u.platform}
-                  </Text>
-                  <Text style={{marginBottom: 10}}>
-                    {u.detail}
-                  </Text>
                   <Button
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='Matching' />
                 </View>
               </Card>
             )
-          })} */}
+          })}
+        </ScrollView>
 
-
-        {/* </ScrollView> */}
-
-          <View>
-            <SearchBar
-              platform="ios"
-              containerStyle={{
-                
-              }}
-              inputContainerStyle={{}}
-              inputStyle={{}}
-              leftIconContainerStyle={{}}
-              rightIconContainerStyle={{}}
-              loadingProps={{}}
-              onChangeText={newVal => setValue(newVal)}
-              onClearText={() => console.log(onClearText())}
-              placeholder="Game Title here..."
-              placeholderTextColor="#888"
-              cancelButtonTitle="Cancel"
-              cancelButtonProps={{}}
-              onCancel={() => console.log(onCancel())}
-              value={value}
-            />
-          </View>
+        <View>
+          <SearchBar
+            platform="ios"
+            containerStyle={{
+              
+            }}
+            inputContainerStyle={{}}
+            inputStyle={{}}
+            leftIconContainerStyle={{}}
+            rightIconContainerStyle={{}}
+            loadingProps={{}}
+            onChangeText={(newVal) => setValue(newVal)}
+            onClearText={() => console.log(onClearText())}
+            placeholder="Game Title here..."
+            placeholderTextColor="#888"
+            cancelButtonTitle="Cancel"
+            cancelButtonProps={{}}
+            onCancel={() => console.log(onCancel())}
+            value={value}
+          />
+        </View>
       </ScrollView>
     </SafeAreaProvider>
   );

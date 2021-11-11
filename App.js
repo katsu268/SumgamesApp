@@ -12,23 +12,7 @@ import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-
-// const Drawer = createDrawerNavigator
-
-// function MyDrawer() {
-//   return (
-//     <Drawer.Navigator>
-//       <Drawer.Screen name="Top" component={TopPage} />
-//       <Drawer.Screen name="Login" component={Login} />
-//       <Drawer.Screen name="SignUp" component={Signup} />
-//       <Drawer.Screen name="PasswordReset" component={PasswordReset} />
-//       <Drawer.Screen name="HostForm" component={HostForm} />
-//       <Drawer.Screen name="GuestMatching" component={GuestMatching} />
-//       <Drawer.Screen name="mypage" component={mypage} />
-//     </Drawer.Navigator>
-//   )
-// }
+import change_profile from './pages/change_profile';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +26,7 @@ function MyStack() {
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
       <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
+      <Stack.Screen name="change_profile" component={change_profile} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
