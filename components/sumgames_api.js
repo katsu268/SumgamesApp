@@ -8,7 +8,7 @@ const sumgames_api = async (url,method="GET",data=null) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'WWW-Authenticate': `Token ${user_token}`
+          'Authorization': `Token ${user_token}`
         }
       });
       const json = await response.json();
@@ -20,7 +20,7 @@ const sumgames_api = async (url,method="GET",data=null) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'WWW-Authenticate': `Token ${user_token}`
+          'Authorization': `Token ${user_token}`
         },
         body: JSON.stringify(data)
       })
