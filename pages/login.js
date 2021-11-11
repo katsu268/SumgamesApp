@@ -37,14 +37,14 @@ const Login = ({ navigation }) => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="User Form"
+          label="ユーザー名"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="person" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Name"
+          placeholder="ユーザー名を入力"
         />
         <Input
           containerStyle={{}}
@@ -54,14 +54,14 @@ const Login = ({ navigation }) => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="Password Form"
+          label="パスワード"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Password"
+          placeholder="パスワードを入力"
           secureTextEntry={true}
         />
 

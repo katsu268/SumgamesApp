@@ -13,7 +13,9 @@ const Inquiry = () =>{
                 <Text style={{
                     fontSize:30,
                     marginTop: 50,
-                    marginLeft: 10}}>
+                    marginLeft: 10,
+                    marginBottom: 10,
+                    }}>
                     お問い合わせ
                 </Text>
                 <Input
@@ -103,7 +105,9 @@ const Inquiry = () =>{
                     numberOfLines={10}
                     multiline={true}
                     label="要件内容"
-                    labelStyle={{}}
+                    labelStyle={{
+                        marginTop: 10,
+                    }}
                     labelProps={{}}
                     placeholder="要件内容"
                     height={250}
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     Input: {
+        marginTop: 5,
         borderWidth: 1,
     }
 });
