@@ -46,7 +46,7 @@ const TopPage = ({navigation}) => {
                 <View>
                   <Button
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='Matching' />
+                    title='マッチング' />
                 </View>
               </Card>
             )
@@ -66,7 +66,7 @@ const TopPage = ({navigation}) => {
             loadingProps={{}}
             onChangeText={(newVal) => setValue(newVal)}
             onClearText={() => console.log(onClearText())}
-            placeholder="Game Title here..."
+            placeholder="ゲームタイトルを入力"
             placeholderTextColor="#888"
             cancelButtonTitle="Cancel"
             cancelButtonProps={{}}

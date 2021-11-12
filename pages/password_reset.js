@@ -1,6 +1,6 @@
 import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
@@ -9,17 +9,16 @@ const PasswordReset = () => {
   return (
     <SafeAreaProvider>
       <ScrollView>
-      <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
-          titleStyle={{
-            fontSize:40,
-            fontWeight:'700',
-          }}
-          featured
-          caption="FOR ALL GAMERS"
-          height={200}
-        />
+
+        <Text style={{
+          fontSize:30,
+          marginTop: 50,
+          marginLeft: 10,
+          marginBottom: 10,
+          }}>
+          パスワードリセット
+        </Text>
+
 
         <Input
           containerStyle={{}}
@@ -29,14 +28,14 @@ const PasswordReset = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="User MailAddress"
+          label="メールアドレス"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="person" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter MailAddress"
+          placeholder="メールアドレスを入力"
         />
         <Input
           containerStyle={{}}
@@ -46,14 +45,15 @@ const PasswordReset = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="Password after change Form"
+          label="新しいパスワード"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Password after change"
+          placeholder="新しいパスワードを入力"
+          secureTextEntry={true}
         />
         <Input
           containerStyle={{}}
@@ -63,14 +63,15 @@ const PasswordReset = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="Changed password for confirmation Form"
+          label="新しいパスワード(確認)"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter　Changed password for confirmation"
+          placeholder="新しいパスワード(確認)を入力"
+          secureTextEntry={true}
         />
         <Button
           buttonStyle={{ width: 150 }}
@@ -85,7 +86,7 @@ const PasswordReset = () => {
           loadingProps={{ animating: true }}
           loadingStyle={{}}
           onPress={() => alert("パスワード変更用メールを送信しました。")}
-          title="Reset"
+          title="変更"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />

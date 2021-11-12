@@ -1,4 +1,4 @@
-import { Tile, Button, ThemeProvider, Input, Icon, Image } from 'react-native-elements';
+import { Tile, Button, Text, ThemeProvider, Input, Icon, Image } from 'react-native-elements';
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -10,17 +10,14 @@ const Signup = () => {
     <SafeAreaProvider>
       <ScrollView>
 
-      <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
-          titleStyle={{
-            fontSize:40,
-            fontWeight:'700',
-          }}
-          featured
-          caption="FOR ALL GAMERS"
-          height={200}
-        />
+        <Text style={{
+          fontSize:30,
+          marginTop: 50,
+          marginLeft: 10,
+          marginBottom: 10,
+          }}>
+          サインアップ
+        </Text>
 
         <Input
           containerStyle={{}}
@@ -30,14 +27,14 @@ const Signup = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="User Form"
+          label="ユーザー名"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="person" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Name"
+          placeholder="ユーザー名を入力"
         />
 
         <Input
@@ -48,14 +45,14 @@ const Signup = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="MaliAddress Form"
+          label="メールアドレス"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter MaliAddress"
+          placeholder="メールアドレスを入力"
         />
 
         <Input
@@ -66,14 +63,15 @@ const Signup = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="Password Form"
+          label="パスワード"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Password"
+          placeholder="パスワードを入力"
+          secureTextEntry={true}
         />
 
         <Input
@@ -84,14 +82,15 @@ const Signup = () => {
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
-          label="Confirmation Password Form"
+          label="パスワード(確認)"
           labelStyle={{}}
           labelProps={{}}
           leftIcon={<Icon name="build" size={20} />}
           leftIconContainerStyle={{}}
           rightIcon={<Icon name="close" size={20} />}
           rightIconContainerStyle={{}}
-          placeholder="Enter Confirmation Password"
+          placeholder="パスワード(確認)を入力"
+          secureTextEntry={true}
         />
 
         <View style={{ flexDirection: 'row' }}>
@@ -110,7 +109,7 @@ const Signup = () => {
           loadingProps={{ animating: true }}
           loadingStyle={{}}
           onPress={() => alert("サインアップが成功しました。")}
-          title="SignUp"
+          title="サインアップ"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
         />
