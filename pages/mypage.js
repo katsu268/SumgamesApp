@@ -54,10 +54,10 @@ const mypage =()=> {
                         マイページ編集
                     </Text>
                     <Button
-                    title="保存"
+                    title="キャンセル"
                     style={{
-                        width: "15%",
-                        marginLeft: "80%",
+                        width: "30%",
+                        marginLeft: "65%",
                         alignItems: 'flex-end',
                         marginTop: 10}}
                     onPress={() => setModalVisible(!modalVisible)}
@@ -65,7 +65,7 @@ const mypage =()=> {
                     <View style={{marginLeft: "10%"}}>
                         <View style={{
                                 flexDirection: "row",
-                                marginTop:80
+                                marginTop:45
                             }}>
                                 <Text style={{
                                     fontSize:20,
@@ -94,11 +94,6 @@ const mypage =()=> {
                                 }}>
                                     性別
                                 </Text>
-                                {/* <Text style={{
-                                    fontSize:20,
-                                }}>
-                                    無回答
-                                </Text> */}
                                 <ButtonGroup
                                     buttonContainerStyle={{}}
                                     buttons={["男性", "女性", "無回答"]}
@@ -157,6 +152,15 @@ const mypage =()=> {
                                     キルムーブ
                                 </Input>
                         </View>
+                        <Button
+                        title="保存"
+                        style={{
+                            width: "15%",
+                            marginLeft: "35%",
+                            marginTop: 15
+                        }}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        />
                     </View>
                 </ScrollView>
             </Modal>
