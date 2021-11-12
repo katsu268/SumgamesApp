@@ -1,12 +1,19 @@
 import React, { Component, useState } from "react";
 import { ScrollView, Text, View, Modal, Alert} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, colors, Input } from "react-native-elements";
-// import { background } from "native-base/lib/typescript/theme/styled-system";
-// import { Modal } from "react-native-paper";
+import { Button, colors, Input, ButtonGroup } from "react-native-elements";
 
 const mypage =()=> {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [
+        selectedIndex,
+        setSelectedIndex
+        ] = React.useState(1);
+        const [
+        selectedIndexes,
+        setSelectedIndexes
+        ] = React.useState([]);
 
     return(
         <SafeAreaProvider>
@@ -55,7 +62,7 @@ const mypage =()=> {
                         marginTop: 10}}
                     onPress={() => setModalVisible(!modalVisible)}
                     />
-                    <View style={{marginLeft: "5%"}}>
+                    <View style={{marginLeft: "10%"}}>
                         <View style={{
                                 flexDirection: "row",
                                 marginTop:80
@@ -68,9 +75,10 @@ const mypage =()=> {
                                     ユーザー名
                                 </Text>
                                 <Input 
-                                    containerStyle={{}}
+                                    containerStyle={{width:200}}
                                     style={{
                                     fontSize:20,
+                                    width: 200
                                 }}>
                                     sample_1234
                                 </Input>
@@ -81,16 +89,34 @@ const mypage =()=> {
                             }}>
                                 <Text style={{
                                     fontSize:20,
-                                    marginRight:58,
+                                    marginRight:60,
                                     marginLeft: 41
                                 }}>
                                     性別
                                 </Text>
-                                <Text style={{
+                                {/* <Text style={{
                                     fontSize:20,
                                 }}>
                                     無回答
-                                </Text>
+                                </Text> */}
+                                <ButtonGroup
+                                    buttonContainerStyle={{}}
+                                    buttons={["男性", "女性", "無回答"]}
+                                    containerStyle={{width:180}}
+                                    disabledStyle={{}}
+                                    disabledTextStyle={{}}w
+                                    disabledSelectedStyle={{}}
+                                    disabledSelectedTextStyle={{}}
+                                    innerBorderStyle={{}}
+                                    onPress={selectedIdx =>
+                                        setSelectedIndex(selectedIdx)
+                                    }
+                                    selectedButtonStyle={{}}
+                                    selectedIndex={selectedIndex}
+                                    selectedIndexes={selectedIndexes}
+                                    selectedTextStyle={{}}
+                                    textStyle={{}}
+                                />
                         </View>
                         <View style={{
                                 flexDirection: "row",
@@ -102,8 +128,11 @@ const mypage =()=> {
                                 }}>
                                     好きなタイトル
                                 </Text>
-                                <Input style={{
+                                <Input 
+                                    containerStyle={{width:200}}
+                                    style={{
                                     fontSize:20,
+                                    width:200
                                 }}>
                                     BattleField
                                 </Input>
@@ -118,8 +147,12 @@ const mypage =()=> {
                                 }}>
                                     プレイスタイル
                                 </Text>
-                                <Input style={{
+                                <Input 
+                                    multiline={true}
+                                    containerStyle={{width: 200}}
+                                    style={{
                                     fontSize:20,
+                                    width: 200,
                                 }}>
                                     キルムーブ
                                 </Input>

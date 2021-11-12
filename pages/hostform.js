@@ -21,7 +21,7 @@ const HostForm = () =>{
     
     return (
       <SafeAreaProvider>
-        <ScrollView>
+        <ScrollView style={{marginTop:50}}>
             <Input
                 containerStyle={{}}
                 disabledInputStyle={{ background: "#ddd" }}

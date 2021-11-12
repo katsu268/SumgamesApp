@@ -99,6 +99,17 @@ function MyTabs() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="HostForm"
+        component={HostForm}
+        options={{
+          tabBarLabel: 'HostForm',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
