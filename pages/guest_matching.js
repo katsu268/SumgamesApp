@@ -126,17 +126,17 @@ const guest_matching = () =>{
                 {/* 参加不参加ボタン */}
                 <View style={{
                     flexDirection: "row",
+                    justifyContent: "center",
                     marginTop:20,
-                    marginLeft: "26%"}}>
+                    marginLeft: 15}}>
                     <Button title="参加"
                             style={{
-                                justifyContent: "flex-start",
-                                marginRight: 35
+                                width: 80
                                 }}/>
                     <Button title="不参加"
                             style={{
-                                justifyContent: "flex-end",
                                 marginLeft: 65,
+                                width: 80
                                 }}/>
                 </View>
             </ScrollView>

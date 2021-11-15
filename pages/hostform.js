@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View, Button, TextInput, StyleSheet, Alert } from "react-native";
-import { Input, Icon, Header, ButtonGroup } from "react-native-elements";
+import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
+import { Input, Icon, Header, ButtonGroup, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,17 +22,22 @@ const HostForm = () =>{
     return (
       <SafeAreaProvider>
         <ScrollView style={{marginTop:50}}>
+            <Text style={{
+                fontSize: 25,
+                marginLeft: 10,
+                marginBottom: 15
+            }}>募集条件入力</Text>
             <Input
                 containerStyle={{}}
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-                label="Game Title"
+                label="ゲーム名"
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-                placeholder="Game Title"
+                placeholder="ゲーム名"
             />
 
             <Input
@@ -40,18 +45,24 @@ const HostForm = () =>{
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-                label="Counts"
+                label="人数"
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-                placeholder="Counts"
+                placeholder="人数"
             />
 
+            <Text style={{
+                marginLeft: 10,
+                fontSize: 16
+            }}>性別</Text>
             <ButtonGroup
                 buttonContainerStyle={{}}
-                buttons={["AL", "MA", "FE", "EX"]}
-                containerStyle={{}}
+                buttons={["男性", "女性", "無回答"]}
+                containerStyle={{
+                    marginBottom: 25
+                }}
                 disabledStyle={{}}
                 disabledTextStyle={{}}
                 disabledSelectedStyle={{}}
@@ -85,6 +96,19 @@ const HostForm = () =>{
                 <Button
                     title="募集"
                     onPress={() => Alert.alert('Left button pressed')}
+                    style={{
+                        width: 70,
+                        marginLeft: 20
+                    }}
+                />
+
+                <Button
+                    title="キャンセル"
+                    onPress={() => Alert.alert('Right button pressed')}
+                    style={{
+                        width: 95,
+                        marginLeft: 90
+                    }}
                 />
             </View>
 
