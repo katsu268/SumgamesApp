@@ -12,7 +12,6 @@ import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
-import change_profile from './pages/change_profile';
 import game_detail from './pages/game_detail';
 
 const Stack = createStackNavigator();
@@ -27,7 +26,6 @@ function MyStack() {
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
       <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
-      <Stack.Screen name="change_profile" component={change_profile} options={{headerShown:false}}/>
       <Stack.Screen name="game_detail" component={game_detail} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
@@ -50,7 +48,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Top',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="google-controller" color={color} size={26} />
+            <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
       />
@@ -84,7 +82,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Inquiry',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons name="mail" color={color} size={26} />
           ),
         }}
       />
