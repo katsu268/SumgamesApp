@@ -46,7 +46,9 @@ const TopPage = ({navigation}) => {
                 <View>
                   <Button
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='マッチング' />
+                    title='マッチング' 
+                    onPress={() => navigation.navigate('game_detail')}
+                    />
                 </View>
               </Card>
             )
