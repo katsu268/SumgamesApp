@@ -65,7 +65,7 @@ function MyTabs() {
       />
 
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="GuestMatching"
         component={GuestMatching}
         options={{
@@ -74,7 +74,7 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Inquiry"
@@ -98,7 +98,7 @@ function MyTabs() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="HostForm"
         component={HostForm}
         options={{
@@ -107,7 +107,7 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
