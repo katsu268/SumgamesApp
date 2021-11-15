@@ -95,7 +95,10 @@ const HostForm = () =>{
                 justifyContent="flex-start"
             />
 
-            <View style={styles.fixToText}>
+            <View style={{
+                flexDirection: "row",
+                justifyContent: "center"
+            }}>
                 <Button
                     title="募集"
                     onPress={() => Alert.alert('Left button pressed')}
