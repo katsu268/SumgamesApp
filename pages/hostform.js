@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View, Button, TextInput, StyleSheet, Alert } from "react-native";
-import { Input, Icon, Header, ButtonGroup } from "react-native-elements";
+import { View, TextInput, StyleSheet, Alert } from "react-native";
+import { Input, Text, Button, Icon, Header, ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -21,18 +21,29 @@ const HostForm = () =>{
     
     return (
       <SafeAreaProvider>
-        <ScrollView style={{marginTop:50}}>
+        <ScrollView>
+
+            <Text style={{
+                    fontSize:30,
+                    marginTop: 50,
+                    marginLeft: 10,
+                    marginBottom: 10,
+                    }}>
+                    ホストマッチング条件
+                </Text>
+
+
             <Input
                 containerStyle={{}}
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-                label="Game Title"
+                label="ゲームタイトル"
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-                placeholder="Game Title"
+                placeholder="ゲームタイトル"
             />
 
             <Input
@@ -40,12 +51,12 @@ const HostForm = () =>{
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-                label="Counts"
+                label="人数"
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-                placeholder="Counts"
+                placeholder="人数"
             />
 
             <ButtonGroup
@@ -68,24 +79,30 @@ const HostForm = () =>{
             />
 
             <Input
-                underlineColorAndroid="transparent"
+                style={styles.Input}
+                // underlineColorAndroid="transparent"
                 placeholder="Type something"
                 placeholderTextColor="grey"
                 numberOfLines={10}
                 multiline={true}
-                label="募集条件"
-                labelStyle={{}}
+                label="募集内容"
+                labelStyle={{
+                    marginTop: 10,
+                }}
                 labelProps={{}}
-                placeholder="募集条件"
-                height={150}
+                placeholder="募集内容"
+                height={250}
                 justifyContent="flex-start"
             />
 
-            <View style={styles.fixToText}>
-                <Button
-                    title="募集"
-                    onPress={() => Alert.alert('Left button pressed')}
-                />
+
+            <View style={styles.button}>
+                <Button title="送信"
+                    style={{
+                    justifyContent: "flex-start",
+                    // marginRight: 35
+                    // width: "25%",
+                }}/>
             </View>
 
         </ScrollView>
@@ -94,21 +111,16 @@ const HostForm = () =>{
 }
 
 const styles = StyleSheet.create({
-    textArea: {
-      height: 150,
-      borderWidth: 1,
-      justifyContent: "flex-start"
-    },
-    fixToText: {
-        // flex: 1,
-        // justifyContent: 'center',
-        // marginHorizontal: 16,
-        flex: 1,
-        marginHorizontal: 16,
-        //ボタンの範囲のみタッチ可能にできる！！
-        flexDirection: 'row',
+    button: {
+        alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 10,
+        marginBottom: 10,
     },
+    Input: {
+        marginTop: 5,
+        borderWidth: 1,
+    }
 })
 
 export default HostForm;
