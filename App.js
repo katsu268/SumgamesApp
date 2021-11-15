@@ -13,6 +13,8 @@ import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
+import dropdown from './pages/dropdown';
+import talk from './pages/talk';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,9 @@ function MyStack() {
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
       <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
       <Stack.Screen name="game_detail" component={game_detail} options={{headerShown:false}}/>
+      <Stack.Screen name="Inquiry" component={Inquiry} options={{headerShown:false}}/>
+      <Stack.Screen name="dropdown" component={dropdown} options={{headerShown:false}}/>
+      <Stack.Screen name="talk" component={talk} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
@@ -54,6 +59,18 @@ function MyTabs() {
       />
 
       <Tab.Screen
+        name="talk"
+        component={talk}
+        options={{
+          tabBarLabel: 'talk',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="message-processing-outline" color={color} size={26} />
+          )
+        }}
+      />
+      
+
+      {/* <Tab.Screen
         name="game_detail"
         component={game_detail}
         options={{
@@ -62,7 +79,7 @@ function MyTabs() {
             <MaterialCommunityIcons name="google-controller" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
 
 
       {/* <Tab.Screen
@@ -76,13 +93,13 @@ function MyTabs() {
         }}
       /> */}
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Inquiry"
         component={Inquiry}
         options={{
           tabBarLabel: 'Inquiry',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="mail" color={color} size={26} />
+            <MaterialCommunityIcons name="phone" color={color} size={26} />
           ),
         }}
       />
@@ -96,7 +113,7 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
 
       {/* <Tab.Screen
         name="HostForm"
@@ -108,6 +125,17 @@ function MyTabs() {
           ),
         }}
       /> */}
+
+      <Tab.Screen
+        name="dropdown"
+        component={dropdown}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="dots-horizontal" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
