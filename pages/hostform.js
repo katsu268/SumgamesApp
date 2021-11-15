@@ -1,11 +1,6 @@
 import * as React from "react";
-<<<<<<< HEAD
 import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
 import { Input, Icon, Header, ButtonGroup, Button } from "react-native-elements";
-=======
-import { View, TextInput, StyleSheet, Alert } from "react-native";
-import { Input, Text, Button, Icon, Header, ButtonGroup } from "react-native-elements";
->>>>>>> fe2143292f6e4e7c88ac0fdf7733820df97bfa36
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -26,46 +21,23 @@ const HostForm = () =>{
     
     return (
       <SafeAreaProvider>
-<<<<<<< HEAD
         <ScrollView style={{marginTop:50}}>
             <Text style={{
                 fontSize: 25,
                 marginLeft: 10,
                 marginBottom: 15
             }}>募集条件入力</Text>
-=======
-        <ScrollView>
-
-            <Text style={{
-                    fontSize:30,
-                    marginTop: 50,
-                    marginLeft: 10,
-                    marginBottom: 10,
-                    }}>
-                    ホストマッチング条件
-                </Text>
-
-
->>>>>>> fe2143292f6e4e7c88ac0fdf7733820df97bfa36
             <Input
                 containerStyle={{}}
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-<<<<<<< HEAD
                 label="ゲーム名"
-=======
-                label="ゲームタイトル"
->>>>>>> fe2143292f6e4e7c88ac0fdf7733820df97bfa36
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-<<<<<<< HEAD
                 placeholder="ゲーム名"
-=======
-                placeholder="ゲームタイトル"
->>>>>>> fe2143292f6e4e7c88ac0fdf7733820df97bfa36
             />
 
             <Input
@@ -123,7 +95,6 @@ const HostForm = () =>{
                 justifyContent="flex-start"
             />
 
-<<<<<<< HEAD
             <View style={styles.fixToText}>
                 <Button
                     title="募集"
@@ -142,16 +113,6 @@ const HostForm = () =>{
                         marginLeft: 90
                     }}
                 />
-=======
-
-            <View style={styles.button}>
-                <Button title="送信"
-                    style={{
-                    justifyContent: "flex-start",
-                    // marginRight: 35
-                    // width: "25%",
-                }}/>
->>>>>>> fe2143292f6e4e7c88ac0fdf7733820df97bfa36
             </View>
 
         </ScrollView>
