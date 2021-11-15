@@ -1,6 +1,6 @@
 const sumgames_api = async (url,method="GET",data=null) => {
   try {
-    let user_token = "752140b56e7522e457d7600af269c9517f3658df";
+    let user_token = "316d69a061b543f8bb823a89797299995496fc5a";
     if (method === "GET") {
       const response = await fetch(url, {
         credentials: 'include',
