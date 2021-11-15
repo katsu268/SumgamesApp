@@ -112,7 +112,8 @@ const HostForm = () =>{
                     title="キャンセル"
                     onPress={() => Alert.alert('Right button pressed')}
                     style={{
-                        width: 95,
+                        // 101以上でタイトルの改行を防げる
+                        width: 101,
                         marginLeft: 90
                     }}
                 />
