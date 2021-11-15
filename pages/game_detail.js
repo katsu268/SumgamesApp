@@ -1,47 +1,118 @@
-import { Tile, Button, ThemeProvider, Input, Icon,} from 'react-native-elements';
+import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import sumgames_api from '../components/sumgames_api';
 
 
 const game_detail = () =>{
     return(
         <SafeAreaProvider>
             <ScrollView>
+
+                <Text style={{
+                    fontSize:30,
+                    marginTop: 50,
+                    marginLeft: 10,
+                    marginBottom: 5,
+                    }}>
+                    ゲーム詳細
+                </Text>
+
                 <View style={{
                     flexDirection: 'row',
-                    marginTop: 50, 
+                    marginTop: 40,
 
                 }}>
-                    <View styles={StyleSheet.Image}>
+                    <View>
                         <Image
                             transitionDuration={1000}
                             source={require('../assets/images/monst.jpg')}
                             style={{ 
                                 alignItems: 'flex-start',
-                                width: 150, 
-                                height: 150,
-                                marginTop: 100
+                                width: 100, 
+                                height: 100,
+                                marginTop: 5,
+                                marginLeft: 30
                             }}
                         />
                     </View>
-                    <View styles={StyleSheet.Tile}>
+                    <View>
                         <Tile
-                            title="ゲームの基本情報"
-                        　　featured
-                            style={{
-                                alignItems: 'flex-end',
-                                width: 100,
+                            containerStyle={{
+                                marginLeft: 30,
+                                marginBottom: 5,
                             }}
+                            title="ゲームの基本情報"
+                            featured
+                            width={200}
+                            height={200}
                         />
                     </View>
                 </View>
+
+                <View style={StyleSheet.Text}>
+                    <Text 
+                        style={{
+                            fontSize: 20,
+                            marginTop: 5,
+                            marginLeft: 180,
+                            // marginBottom: 5,
+                        }}
+                        >
+                        割合
+                    </Text>
+                </View>
+
+                <Slider
+                    animationType="timing"
+                    disabled
+                    maximumTrackTintColor="#ccc"
+                    maximumValue={100}
+                    minimumTrackTintColor="#222"
+                    minimumValue={0}
+                    onSlidingComplete={() =>
+                        console.log("onSlidingComplete()")
+                    }
+                    onSlidingStart={() =>
+                        console.log("onSlidingStart()")
+                    }
+                    onValueChange={value =>
+                        console.log("onValueChange()", value)
+                    }
+                    orientation="horizontal"
+                    step={1}
+                    style={{ 
+                        width: "80%", 
+                        height: 80, 
+                        marginLeft: 35,
+                    }}
+                    thumbStyle={{ height: 20, width: 20 }}
+                    thumbProps={{
+                        children: (
+                        <Icon
+                            name="heartbeat"
+                            type="font-awesome"
+                            size={20}
+                            reverse
+                            containerStyle={{ 
+                                bottom: 20, 
+                                right: 20,
+                             }}
+                            color="#f50"
+                        />
+                        )
+                    }}
+                    thumbTintColor="#0c0"
+                    thumbTouchSize={{ width: 40, height: 40 }}
+                    trackStyle={{ height: 10, borderRadius: 20 }}
+                    value={50}
+                />
 
             </ScrollView>
         </SafeAreaProvider>
     )
 }
-
 
 
 export default game_detail
