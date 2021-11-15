@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View, TextInput, StyleSheet, Alert } from "react-native";
-import { Input, Text, Button, Icon, Header, ButtonGroup } from "react-native-elements";
+import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
+import { Input, Icon, Header, ButtonGroup, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -21,29 +21,23 @@ const HostForm = () =>{
     
     return (
       <SafeAreaProvider>
-        <ScrollView>
-
+        <ScrollView style={{marginTop:50}}>
             <Text style={{
-                    fontSize:30,
-                    marginTop: 50,
-                    marginLeft: 10,
-                    marginBottom: 10,
-                    }}>
-                    ホストマッチング条件
-                </Text>
-
-
+                fontSize: 25,
+                marginLeft: 10,
+                marginBottom: 15
+            }}>募集条件入力</Text>
             <Input
                 containerStyle={{}}
                 disabledInputStyle={{ background: "#ddd" }}
                 inputContainerStyle={{}}
                 inputStyle={{}}
-                label="ゲームタイトル"
+                label="ゲーム名"
                 labelStyle={{}}
                 labelProps={{}}
                 leftIcon={<Icon name="person" size={20} />}
                 leftIconContainerStyle={{}}
-                placeholder="ゲームタイトル"
+                placeholder="ゲーム名"
             />
 
             <Input
@@ -59,10 +53,16 @@ const HostForm = () =>{
                 placeholder="人数"
             />
 
+            <Text style={{
+                marginLeft: 10,
+                fontSize: 16
+            }}>性別</Text>
             <ButtonGroup
                 buttonContainerStyle={{}}
-                buttons={["AL", "MA", "FE", "EX"]}
-                containerStyle={{}}
+                buttons={["男性", "女性", "無回答"]}
+                containerStyle={{
+                    marginBottom: 25
+                }}
                 disabledStyle={{}}
                 disabledTextStyle={{}}
                 disabledSelectedStyle={{}}
@@ -95,14 +95,27 @@ const HostForm = () =>{
                 justifyContent="flex-start"
             />
 
-
-            <View style={styles.button}>
-                <Button title="送信"
+            <View style={{
+                flexDirection: "row",
+                justifyContent: "center"
+            }}>
+                <Button
+                    title="募集"
+                    onPress={() => Alert.alert('Left button pressed')}
                     style={{
-                    justifyContent: "flex-start",
-                    // marginRight: 35
-                    // width: "25%",
-                }}/>
+                        width: 70,
+                        marginLeft: 20
+                    }}
+                />
+
+                <Button
+                    title="キャンセル"
+                    onPress={() => Alert.alert('Right button pressed')}
+                    style={{
+                        width: 95,
+                        marginLeft: 90
+                    }}
+                />
             </View>
 
         </ScrollView>

@@ -28,9 +28,10 @@ const mypage =()=> {
                 </Text>
                 <Button
                 title="編集"
+                buttonStyle={{width:80}}
                 style={{
-                    width: "15%",
-                    marginLeft: "80%",
+                    width: 120,
+                    marginLeft: "65%",
                     alignItems: 'flex-end',
                     marginTop: 10}}
                 onPress={() => setModalVisible(true)}
@@ -55,9 +56,10 @@ const mypage =()=> {
                     </Text>
                     <Button
                     title="キャンセル"
+                    buttonStyle={{width:100}}
                     style={{
-                        width: "30%",
-                        marginLeft: "65%",
+                        width: 100,
+                        marginLeft: "70%",
                         alignItems: 'flex-end',
                         marginTop: 10}}
                     onPress={() => setModalVisible(!modalVisible)}
@@ -155,7 +157,7 @@ const mypage =()=> {
                         <Button
                         title="保存"
                         style={{
-                            width: "15%",
+                            width: 80,
                             marginLeft: "35%",
                             marginTop: 15
                         }}
