@@ -24,7 +24,7 @@ const PasswordReset = () => {
           containerStyle={{}}
           disabledInputStyle={{ background: "#ddd" }}
           inputContainerStyle={{}}
-          errorMessage="Oops! that's not correct."
+          errorMessage="メールアドレスを入力してください"
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
@@ -41,7 +41,7 @@ const PasswordReset = () => {
           containerStyle={{}}
           disabledInputStyle={{ background: "#ddd" }}
           inputContainerStyle={{}}
-          errorMessage="Oops! that's not correct."
+          errorMessage="新しいパスワードを入力してください"
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}
@@ -59,7 +59,7 @@ const PasswordReset = () => {
           containerStyle={{}}
           disabledInputStyle={{ background: "#ddd" }}
           inputContainerStyle={{}}
-          errorMessage="Oops! that's not correct."
+          errorMessage="確認のためもう一度パスワードを入力してください"
           errorStyle={{}}
           errorProps={{}}
           inputStyle={{}}

@@ -1,7 +1,7 @@
 import * as React from "react";
-//import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
+import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
-import { NativeBaseProvider, Text, Box } from 'native-base';
+//import { NativeBaseProvider, Text, Box } from 'native-base';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import sumgames_api from "../components/sumgames_api"
 
@@ -18,7 +18,7 @@ const TopPage = ({navigation}) => {
   const [value, setValue] = React.useState("");
   return (
     <SafeAreaProvider>
-      <NativeBaseProvider>
+      {/* <NativeBaseProvider> */}
         <ScrollView>
           <Tile
             imageSrc={require('../assets/images/gamer.jpg')}
@@ -77,7 +77,7 @@ const TopPage = ({navigation}) => {
             />
           </View>
         </ScrollView>
-      </NativeBaseProvider>
+      {/* </NativeBaseProvider> */}
     </SafeAreaProvider>
   );
 };
