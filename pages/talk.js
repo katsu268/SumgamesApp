@@ -1,10 +1,7 @@
-import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
+import { Tile, Button, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Text} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import React from "react";
-import { View, Text } from "react-native";
 
 const talk =()=> {
     return(
