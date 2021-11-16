@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
+//import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
+import { NativeBaseProvider, Text, Box } from 'native-base';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import sumgames_api from "../components/sumgames_api"
 
@@ -17,66 +18,66 @@ const TopPage = ({navigation}) => {
   const [value, setValue] = React.useState("");
   return (
     <SafeAreaProvider>
-      <ScrollView>
-        <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
-          titleStyle={{
-            fontSize:40,
-            fontWeight:'700',
-          }}
-          featured
-          caption="FOR ALL GAMERS"
-          height={300}
-          onPress={() => navigation.navigate('Login')}
-        />
-        <View>
-          <Text style={{fontSize:24,paddingTop:10,paddingLeft:10,fontWeight:'600'}}>
-            ランキング
-          </Text>
-        </View>
-        <ScrollView horizontal={true}>
-          {data.map((u,i)=>{
-            return (
-              <Card key={i} containerStyle={{width:220}}>
-                <Card.Title>{u.game_name}</Card.Title>
-                <Card.Divider/>
-                <Card.Image source={{ uri: u.image }}>
-                </Card.Image>
-                <View>
-                  <Button
-                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='マッチング' 
-                    onPress={() => navigation.navigate('game_detail')}
-                  />
-                </View>
-              </Card>
-            )
-          })}
-        </ScrollView>
-
-        <View>
-          <SearchBar
-            platform="ios"
-            containerStyle={{
-              
+      <NativeBaseProvider>
+        <ScrollView>
+          <Tile
+            imageSrc={require('../assets/images/gamer.jpg')}
+            title="SUMGAMES"
+            titleStyle={{
+              fontSize:40,
+              fontWeight:'700',
             }}
-            inputContainerStyle={{}}
-            inputStyle={{}}
-            leftIconContainerStyle={{}}
-            rightIconContainerStyle={{}}
-            loadingProps={{}}
-            onChangeText={(newVal) => setValue(newVal)}
-            onClearText={() => console.log(onClearText())}
-            placeholder="ゲームタイトルを入力"
-            placeholderTextColor="#888"
-            cancelButtonTitle="Cancel"
-            cancelButtonProps={{}}
-            onCancel={() => console.log(onCancel())}
-            value={value}
+            featured
+            caption="FOR ALL GAMERS"
+            height={300}
+            onPress={() => navigation.navigate('Login')}
           />
-        </View>
-      </ScrollView>
+          <View>
+            <Text style={{fontSize:24,paddingTop:10,paddingLeft:10,fontWeight:'600'}}>
+              ランキング
+            </Text>
+          </View>
+          <ScrollView horizontal={true}>
+            {data.map((u,i)=>{
+              return (
+                <Card key={i} containerStyle={{width:220}}>
+                  <Card.Title>{u.game_name}</Card.Title>
+                  <Card.Divider/>
+                  <Card.Image source={{ uri: u.image }}>
+                  </Card.Image>
+                  <View>
+                    <Button
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Matching' />
+                  </View>
+                </Card>
+              )
+            })}
+          </ScrollView>
+
+          <View>
+            <SearchBar
+              platform="ios"
+              containerStyle={{
+                
+              }}
+              inputContainerStyle={{}}
+              inputStyle={{}}
+              leftIconContainerStyle={{}}
+              rightIconContainerStyle={{}}
+              loadingProps={{}}
+              onChangeText={(newVal) => setValue(newVal)}
+              onClearText={() => console.log(onClearText())}
+              placeholder="Game Title here..."
+              placeholderTextColor="#888"
+              cancelButtonTitle="Cancel"
+              cancelButtonProps={{}}
+              onCancel={() => console.log(onCancel())}
+              value={value}
+            />
+          </View>
+        </ScrollView>
+      </NativeBaseProvider>
     </SafeAreaProvider>
   );
 };
