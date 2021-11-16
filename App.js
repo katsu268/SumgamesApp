@@ -94,28 +94,6 @@ function MyTabs() {
       /> */}
 
       {/* <Tab.Screen
-        name="Inquiry"
-        component={Inquiry}
-        options={{
-          tabBarLabel: 'Inquiry',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="phone" color={color} size={26} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="mypage"
-        component={mypage}
-        options={{
-          tabBarLabel: 'mypage',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      /> */}
-
-      {/* <Tab.Screen
         name="HostForm"
         component={HostForm}
         options={{
