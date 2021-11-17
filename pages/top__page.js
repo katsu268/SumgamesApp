@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
-// import { NativeBaseProvider, Box} from 'native-base';
+//import { NativeBaseProvider, Text, Box } from 'native-base';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import sumgames_api from "../components/sumgames_api"
 // import { Platform } from "react-native"
