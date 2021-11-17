@@ -110,7 +110,7 @@ const HostForm = ({ navigation }) => {
 
                 <Button
                     title="キャンセル"
-                    onPress={() => navigation.navigate('HostForm')}
+                    onPress={() => navigation.navigate('game_detail')}
                     style={{
                         // 101以上でタイトルの改行を防げる
                         width: 101,
