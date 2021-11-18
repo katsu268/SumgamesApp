@@ -7,7 +7,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 
 
-const HostForm = () =>{
+const HostForm = ({ navigation }) => {
 
     const [
         selectedIndex,
@@ -110,7 +110,7 @@ const HostForm = () =>{
 
                 <Button
                     title="キャンセル"
-                    onPress={() => Alert.alert('Right button pressed')}
+                    onPress={() => navigation.navigate('game_detail')}
                     style={{
                         // 101以上でタイトルの改行を防げる
                         width: 101,

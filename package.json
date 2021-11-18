@@ -32,14 +32,14 @@
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-svg": "12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-wheel-scroll-picker": "^0.2.4",
     "rmc-input-number": "^1.0.5",
     "styled-components": "^5.3.3",
-    "styled-system": "^5.1.5",
-    "react-native-svg": "12.1.1"
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

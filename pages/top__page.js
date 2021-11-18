@@ -1,9 +1,11 @@
 import * as React from "react";
-//import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
+import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, Text ,Button} from 'react-native';
-import { NativeBaseProvider, Text, Box } from 'native-base';
+//import { NativeBaseProvider, Text, Box } from 'native-base';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import sumgames_api from "../components/sumgames_api"
+// import { Platform } from "react-native"
+// import {KeyboardAvoidingView, useBreakpointValue, VStack, NativeBaseProvider} from "native-base"
 
 
 const TopPage = ({navigation}) => {
@@ -16,9 +18,17 @@ const TopPage = ({navigation}) => {
   
   //検索バーで使用
   const [value, setValue] = React.useState("");
+
+  // const isLargeScreen = useBreakpointValue({
+  //   base: false,
+  //   sm: false,
+  //   md: false,
+  //   lg: true,
+  // })
+
   return (
+    // <NativeBaseProvider>
     <SafeAreaProvider>
-      <NativeBaseProvider>
         <ScrollView>
           <Tile
             imageSrc={require('../assets/images/gamer.jpg')}
@@ -48,37 +58,38 @@ const TopPage = ({navigation}) => {
                   <View>
                     <Button
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                      title='Matching' />
+                      title='Matching' 
+                      onPress={() => navigation.navigate('game_detail')}
+                      />
                   </View>
                 </Card>
               )
             })}
           </ScrollView>
 
-          <View>
+          {/* <KeyboardAvoidingView
+            h={{
+              base: "400px",
+              lg: "auto",
+            }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <VStack p="6" flex="1" justifyContent="flex-end"> */}
             <SearchBar
               platform="ios"
-              containerStyle={{
-                
-              }}
-              inputContainerStyle={{}}
-              inputStyle={{}}
-              leftIconContainerStyle={{}}
-              rightIconContainerStyle={{}}
-              loadingProps={{}}
               onChangeText={(newVal) => setValue(newVal)}
               onClearText={() => console.log(onClearText())}
               placeholder="Game Title here..."
               placeholderTextColor="#888"
               cancelButtonTitle="Cancel"
-              cancelButtonProps={{}}
               onCancel={() => console.log(onCancel())}
               value={value}
             />
-          </View>
+            {/* </VStack>
+          </KeyboardAvoidingView> */}
         </ScrollView>
-      </NativeBaseProvider>
     </SafeAreaProvider>
+    // </NativeBaseProvider>
   );
 };
 
