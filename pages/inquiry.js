@@ -2,10 +2,13 @@ import * as React from "react";
 import { Tile, Input, Text, Icon, Button, Card, CheckBox , ListItem, Header, SearchBar } from "react-native-elements";
 import { ScrollView, View, StyleSheet, TouchableOpacity} from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RadioButton } from 'react-native-paper';
 
 const Inquiry = () =>{
 
     const [checked, setChecked] = React.useState(false);
+
+    const [value, setValue] = React.useState('first');
 
     return (
         <SafeAreaProvider>
@@ -35,68 +38,14 @@ const Inquiry = () =>{
                     rightIconContainerStyle={{}}
                     placeholder="ユーザー名"
                 />
-              <View style={styles.container}>
-                <CheckBox
-                    left
-                    checked={checked}
-                    checkedColor="#0F0"
-                    // checkedTitle="Great!"
-                    checkedIcon='dot-circle-o'
-                    uncheckedIcon='circle-o'
-                    containerStyle={{ width: "50%" }}
-                    onIconPress={() => setChecked(!checked)}
-                    onLongIconPress={() =>
-                        console.log("onLongIconPress()")
-                    }
-                    onLongPress={() => console.log("onLongPress()")}
-                    onPress={() => console.log("onPress()")}
-                    size={25}
-                    textStyle={{}}
-                    title="不具合報告"
-                    titleProps={{}}
-                    uncheckedColor="#0080ff"
-                />
-                <CheckBox
-                    left
-                    checked={checked}
-                    checkedColor="#0F0"
-                    // checkedTitle="Great!"
-                    checkedIcon='dot-circle-o'
-                    uncheckedIcon='circle-o'
-                    containerStyle={{ width: "50%" }}
-                    onIconPress={() => setChecked(!checked)}
-                    onLongIconPress={() =>
-                        console.log("onLongIconPress()")
-                    }
-                    onLongPress={() => console.log("onLongPress()")}
-                    onPress={() => console.log("onPress()")}
-                    size={25}
-                    textStyle={{}}
-                    title="ゲームの追加要望"
-                    titleProps={{}}
-                    uncheckedColor="#0080ff"
-                />
-                <CheckBox
-                    left
-                    checked={checked}
-                    checkedColor="#0F0"
-                    // checkedTitle="Great!"
-                    checkedIcon='dot-circle-o'
-                    uncheckedIcon='circle-o'
-                    containerStyle={{ width: "50%" }}
-                    onIconPress={() => setChecked(!checked)}
-                    onLongIconPress={() =>
-                        console.log("onLongIconPress()")
-                    }
-                    onLongPress={() => console.log("onLongPress()")}
-                    onPress={() => console.log("onPress()")}
-                    size={25}
-                    textStyle={{}}
-                    title="その他"
-                    titleProps={{}}
-                    uncheckedColor="#0080ff"
-                />
-              </View>
+                
+                <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                    <RadioButton.Item label="不具合報告" value="first" />
+                    <RadioButton.Item label="ゲームの追加要望" value="second" />
+                    <RadioButton.Item label="その他" value="third" />
+                </RadioButton.Group>
+
+
                 <Input
                     style={styles.Input}
                     // underlineColorAndroid="transparent"
