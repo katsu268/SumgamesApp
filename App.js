@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+// import { Button } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,13 +9,15 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import PasswordReset from './pages/password_reset';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HostForm from './pages/hostform';
 import GuestMatching from './pages/guest_matching';
 import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
-import dropdown from './pages/dropdown';
 import talk from './pages/talk';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Button, Menu, Box, useDisclose, Text } from 'native-base';
 
 const Stack = createStackNavigator();
 
@@ -27,10 +30,7 @@ function MyStack() {
       <Stack.Screen name="PasswordReset" component={PasswordReset} options={{headerShown:false}}/>
       <Stack.Screen name="HostForm" component={HostForm} options={{headerShown:false}}/>
       <Stack.Screen name="GuestMatching" component={GuestMatching} options={{headerShown:false}}/>
-      <Stack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
       <Stack.Screen name="game_detail" component={game_detail} options={{headerShown:false}}/>
-      <Stack.Screen name="Inquiry" component={Inquiry} options={{headerShown:false}}/>
-      <Stack.Screen name="dropdown" component={dropdown} options={{headerShown:false}}/>
       <Stack.Screen name="talk" component={talk} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
@@ -68,45 +68,10 @@ function MyTabs() {
           )
         }}
       />
-      
-
-      {/* <Tab.Screen
-        name="game_detail"
-        component={game_detail}
-        options={{
-          tabBarLabel: 'game_detail',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="google-controller" color={color} size={26} />
-          ),
-        }}
-      /> */}
-
-
-      {/* <Tab.Screen
-        name="GuestMatching"
-        component={GuestMatching}
-        options={{
-          tabBarLabel: 'GuestMatching',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      /> */}
-
-      {/* <Tab.Screen
-        name="HostForm"
-        component={HostForm}
-        options={{
-          tabBarLabel: 'HostForm',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      /> */}
 
       <Tab.Screen
-        name="dropdown"
-        component={dropdown}
+        name="Settings"
+        component={SettingsStackScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color }) => (
@@ -118,6 +83,71 @@ function MyTabs() {
   );
 }
 
+// import {
+//   Menu,
+//   HamburgerIcon,
+//   Box,
+//   Pressable,
+//   Center,
+//   NativeBaseProvider,
+// } from "native-base"
+// export function Example() {
+//   return (
+//     <Box h="80%" w="90%" alignItems="flex-start">
+//       <Menu
+//         w="190"
+//         trigger={(triggerProps) => {
+//           return (
+//             <Pressable accessibilityLabel="More options menu" {...triggerProps}>
+//               <HamburgerIcon />
+//             </Pressable>
+//           )
+//         }}
+//       >
+//         <Menu.Item>Arial</Menu.Item>
+//         <Menu.Item>Nunito Sans</Menu.Item>
+//         <Menu.Item>Roboto</Menu.Item>
+//         <Menu.Item>Poppins</Menu.Item>
+//         <Menu.Item>SF Pro</Menu.Item>
+//         <Menu.Item>Helvetica</Menu.Item>
+//         <Menu.Item isDisabled>Sofia</Menu.Item>
+//         <Menu.Item>Cookie</Menu.Item>
+//       </Menu>
+//     </Box>
+//   )
+// }
+
+const SettingsStack = createNativeStackNavigator();
+
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} options={{headerShown:false}}/>
+      <SettingsStack.Screen name="mypage" component={mypage} options={{headerShown:false}}/>
+      <SettingsStack.Screen name="Inquiry" component={Inquiry} options={{headerShown:false}}/>
+    </SettingsStack.Navigator>
+  )
+}
+
+function SettingsScreen({ navigation }){
+  return (
+    <SafeAreaProvider>
+      <View style={{
+          marginTop: 50
+      }}>
+          <Button 
+              title="マイページ"
+              onPress={() => navigation.navigate('mypage')}
+          />
+
+          <Button 
+              title="お問い合わせ"
+              onPress={() => navigation.navigate('Inquiry')}
+          />
+      </View>
+    </SafeAreaProvider>
+  );
+}
 
 export default function App() {
   return (
