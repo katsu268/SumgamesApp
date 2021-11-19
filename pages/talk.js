@@ -15,26 +15,6 @@ const talk =()=> {
                 avatar: 'https://placeimg.com/140/140/any',
             },
         },
-        {
-            _id: 2,
-            text: 'さぼるな',
-            createdAt: new Date(),
-            user: {
-                _id: 3,
-                name: '棟方',
-                avatar: 'https://placeimg.com/140/140/any',
-            },
-        },
-        {
-            _id: 3,
-            text: 'なかなか',
-            createdAt: new Date(),
-            user: {
-                _id: 1,
-                name: '長谷川',
-                avatar: 'https://placeimg.com/140/140/any',
-            },
-        },
         ])
     }, [])
 
