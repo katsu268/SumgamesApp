@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Tile,Icon, Card, ListItem, Header, SearchBar } from "react-native-elements";
-import { ScrollView, View, Text ,Button} from 'react-native';
+import { ScrollView, View, Text ,Button, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
 //import { NativeBaseProvider, Text, Box } from 'native-base';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import sumgames_api from "../components/sumgames_api"
@@ -27,8 +27,9 @@ const TopPage = ({navigation}) => {
   // })
 
   return (
-    // <NativeBaseProvider>
     <SafeAreaProvider>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
           <Tile
             imageSrc={require('../assets/images/gamer.jpg')}
@@ -67,14 +68,8 @@ const TopPage = ({navigation}) => {
             })}
           </ScrollView>
 
-          {/* <KeyboardAvoidingView
-            h={{
-              base: "400px",
-              lg: "auto",
-            }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            <VStack p="6" flex="1" justifyContent="flex-end"> */}
+          {/* <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+            {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
             <SearchBar
               platform="ios"
               onChangeText={(newVal) => setValue(newVal)}
@@ -85,12 +80,51 @@ const TopPage = ({navigation}) => {
               onCancel={() => console.log(onCancel())}
               value={value}
             />
-            {/* </VStack>
-          </KeyboardAvoidingView> */}
+            <TextInput 
+              placeholder="Username"
+              style={styles.textInput}
+            />
+
+          <ScrollView horizontal={true}>
+            {data.map((u,i)=>{
+              return (
+                <Card key={i} containerStyle={{width:220}}>
+                  <Card.Title>{u.game_name}</Card.Title>
+                  <Card.Divider/>
+                  <Card.Image source={{ uri: u.image }}>
+                  </Card.Image>
+                  <View>
+                    <Button
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Matching' 
+                      onPress={() => navigation.navigate('game_detail')}
+                      />
+                  </View>
+                </Card>
+              )
+            })}
+          </ScrollView>
+
+
+            {/* </TouchableWithoutFeedback> */}
+          {/* </KeyboardAvoidingView> */}
         </ScrollView>
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaProvider>
-    // </NativeBaseProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  textInput: {
+    height: 40,
+    borderColor: '#000000',
+    borderBottomWidth: 1,
+    marginBottom: 15,
+  },
+})
 
 export default TopPage;
