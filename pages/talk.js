@@ -1,18 +1,70 @@
-import { Tile, Button, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
-import React ,{ Component }from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import React, { useState, useCallback, useEffect } from 'react'
+import { GiftedChat,Send } from 'react-native-gifted-chat'
+import { Icon } from 'react-native-elements'
 
 const talk =()=> {
+    const [messages, setMessages] = useState([]);
+    useEffect(() => {
+        setMessages([{
+            _id: 1,
+            text: 'Hello developer',
+            createdAt: new Date(),
+            user: {
+                _id: 1,
+                name: 'React Native',
+                avatar: 'https://placeimg.com/140/140/any',
+            },
+        },
+        {
+            _id: 2,
+            text: 'さぼるな',
+            createdAt: new Date(),
+            user: {
+                _id: 3,
+                name: '棟方',
+                avatar: 'https://placeimg.com/140/140/any',
+            },
+        },
+        {
+            _id: 3,
+            text: 'なかなか',
+            createdAt: new Date(),
+            user: {
+                _id: 1,
+                name: '長谷川',
+                avatar: 'https://placeimg.com/140/140/any',
+            },
+        },
+        ])
+    }, [])
+
+    const onSend = useCallback((messages = []) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }, [])
+
     return(
-        <View style={{
-            marginTop: 50
-        }}>
-            <Text>
-                Hello, World!!
-            </Text>
-        </View>
+        <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+            _id: 1
+        }}
+        placeholder="メッセージを入力"
+        timeFormat='H:mm'
+        renderSend={(props) => {
+            return (
+                <Send {...props}>
+                    <Icon
+                        name='send'
+                        type='font-awesome'
+                        color='#93c'
+                        iconStyle={{paddingRight:14,paddingBottom:12}}
+                    />
+                </Send>
+            );
+        }}
+        renderUsernameOnMessage={true}
+        />
     )
 }
 
