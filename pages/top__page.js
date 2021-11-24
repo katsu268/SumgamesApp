@@ -81,7 +81,7 @@ const TopPage = ({navigation}) => {
               value={value}
             />
             <TextInput 
-              placeholder="Username"
+              placeholder="ゲームタイトル"
               style={styles.textInput}
             />
 

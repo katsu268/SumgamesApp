@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 // Your App
-const Signup = () => {
+const Signup = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -108,7 +108,7 @@ const Signup = () => {
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("サインアップが成功しました。")}
+          onPress={() => navigation.navigate('Login')}
           title="サインアップ"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
