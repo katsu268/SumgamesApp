@@ -27,6 +27,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "$(PRODUCT_NAME)が写真へのアクセスを求めています",
+          "cameraPermission": "$(PRODUCT_NAME)がカメラへのアクセスを求めています",
+          "microphonePermission": "$(PRODUCT_NAME)がマイクへのアクセスを求めています"
+        }
+      ]
+    ]
   }
 }
