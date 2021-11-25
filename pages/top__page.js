@@ -37,7 +37,7 @@ const TopPage = ({navigation}) => {
           onPress={() => navigation.navigate('Login')}
         />
         <Box>
-          <Input returnKeyType="search" value={value} onChange={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" onPress={searchGame}>検索</Button>}/>
+          <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" onPress={searchGame}>検索</Button>}/>
         </Box>
         <ScrollView horizontal={true}>
           {searchedData.map((u,i)=>{
@@ -124,7 +124,7 @@ const TopPage = ({navigation}) => {
           })}
         </ScrollView>
         <Box>
-          <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">{value}</Heading>
+          <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
         </Box>
         <Divider my="2" />
         <ScrollView horizontal={true}>
