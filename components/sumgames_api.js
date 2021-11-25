@@ -1,8 +1,9 @@
+const BASE_URL = "http://10.250.1.221:8000/"
 const sumgames_api = async (url,method="GET",data=null) => {
   try {
-    let user_token = "4531809e1ecaceb78313d48fccedfa0ccae3e1e8";
+    let user_token = "61061372e48a71e94efbf14f9a8d9e5feee951b7";
     if (method === "GET") {
-      const response = await fetch(url, {
+      const response = await fetch(BASE_URL+url, {
         credentials: 'include',
         method: 'GET',
         headers: {
@@ -14,7 +15,7 @@ const sumgames_api = async (url,method="GET",data=null) => {
       const json = await response.json();
       return json;
     } else {
-      const response = await fetch(url, {
+      const response = await fetch(BASE_URL+url, {
         credentials: 'include',
         method: 'POST',
         headers: {

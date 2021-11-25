@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { GiftedChat,Send } from 'react-native-gifted-chat'
+// import { GiftedChat,Send } from 'react-native-gifted-chat'
 import { Icon } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker';
 import { Platform,View } from 'react-native';
