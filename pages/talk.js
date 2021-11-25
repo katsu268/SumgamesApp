@@ -2,8 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat,Send } from 'react-native-gifted-chat'
 import { Icon } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker';
-import { Platform } from 'react-native';
-import { Stack,Center } from 'native-base';
+import { Platform,View } from 'react-native';
 
 const talk =()=> {
     const [messages, setMessages] = useState([]);
@@ -25,14 +24,23 @@ const talk =()=> {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     }, [])
 
-    const [image, setImage] = useState(null);
-
     useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
             if (status !== 'granted') {
             alert('写真へのアクセスを許可してください');
+            }
+        }
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+        if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if (status !== 'granted') {
+            alert('カメラへのアクセスを許可してください');
             }
         }
         })();
@@ -45,7 +53,6 @@ const talk =()=> {
             quality: 1
         });
         if (!result.cancelled) {
-            setImage(result.uri);
             let imageMessage = {
                 _id: 2,
                 createdAt: new Date(),
@@ -54,7 +61,29 @@ const talk =()=> {
                     name: 'React Native',
                     avatar: 'https://placeimg.com/140/140/any',
                 },
-                image:image
+                image:result.uri
+            };
+            setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage));
+        }
+    };
+
+    const pickCamera = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: false,
+            quality: 1,
+            // presentStyle:UIImagePickerPresentationStyle.FullScreen
+        });
+        if (!result.cancelled) {
+            let imageMessage = {
+                _id: 3,
+                createdAt: new Date(),
+                user: {
+                    _id: 1,
+                    name: 'React Native',
+                    avatar: 'https://placeimg.com/140/140/any',
+                },
+                image:result.uri
             }
             setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage))
         }
@@ -69,6 +98,7 @@ const talk =()=> {
         }}
         placeholder="メッセージを入力"
         timeFormat='H:mm'
+        dateFormat='M/D'
         renderSend={(props) => {
             return (
                 <Send {...props}>
@@ -84,26 +114,24 @@ const talk =()=> {
         renderUsernameOnMessage={true}
         renderActions={() => {
             return (
-                <Stack direction="row">
-                    <Center size="1">
-                        <Icon
-                            name='send'
-                            type='font-awesome'
-                            color='#93c'
-                            iconStyle={{paddingRight:14,paddingBottom:12}}
-                            onPress={pickImage}
-                        />
-                    </Center>
-                    <Center size="1">
-                        <Icon
-                            name='image'
-                            type='evilicon'
-                            color='#93c'
-                            iconStyle={{paddingRight:14,paddingBottom:12}}
-                            onPress={pickImage}
-                        />
-                    </Center>
-                </Stack>
+                <View style={{flexDirection:"row"}}>
+                    <Icon
+                        name='camera'
+                        type='evilicon'
+                        color='#93c'
+                        size={30}
+                        iconStyle={{paddingLeft:10,paddingBottom:12}}
+                        onPress={pickCamera}
+                    />
+                    <Icon
+                        name='image'
+                        type='evilicon'
+                        color='#93c'
+                        size={30}
+                        iconStyle={{paddingBottom:12}}
+                        onPress={pickImage}
+                    />
+                </View>
             )
         }}
         />
