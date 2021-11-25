@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 // Your App
-const PasswordReset = () => {
+const PasswordReset = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -85,7 +85,7 @@ const PasswordReset = () => {
           iconContainerStyle={{ background: "#000" }}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          onPress={() => alert("パスワード変更用メールを送信しました。")}
+          onPress={() => navigation.navigate('Login')}
           title="変更"
           titleProps={{}}
           titleStyle={{ marginHorizontal: 5 }}
