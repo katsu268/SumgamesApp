@@ -5,7 +5,35 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import sumgames_api from '../components/sumgames_api';
 
 
+const BASE_URL="http://10.250.2.106:8000"
 const game_detail = ({ navigation }) =>{
+    const detail = {
+        "id": "5451b171-1e0d-4c62-bcb9-08383b518b14",
+        "game_name": "The Plane Effect - サラリーマン -",
+        "detail": "",
+        "image": "/media/images/default.png",
+        "genre": [
+            {
+                "id": "213663d1-d974-47db-97f2-89bc3ae07acd",
+                "genrename": "パズル"
+            },
+            {
+                "id": "7daa8200-453c-427f-ab07-98ffdebbcd55",
+                "genrename": "アクション"
+            }
+        ],
+        "tags": [],
+        "platform": [
+            {
+                "id": "bef95416-890e-4f94-aed1-89cd3b7c9565",
+                "platform_name": "Switch"
+            },
+            {
+                "id": "ece965a1-9f52-47d0-a791-3499fcf7a586",
+                "platform_name": "PS5"
+            }
+        ]
+    }
     return(
         <SafeAreaProvider>
             <ScrollView>
@@ -22,12 +50,11 @@ const game_detail = ({ navigation }) =>{
                 <View style={{
                     flexDirection: 'row',
                     marginTop: 40,
-
                 }}>
                     <View>
                         <Image
                             transitionDuration={1000}
-                            source={require('../assets/images/monst.jpg')}
+                            source={{uri: BASE_URL+detail.image}}
                             style={{ 
                                 alignItems: 'flex-start',
                                 width: 100, 
@@ -43,11 +70,17 @@ const game_detail = ({ navigation }) =>{
                                 marginLeft: 30,
                                 marginBottom: 5,
                             }}
-                            title="ゲームの基本情報"
+                            title={detail.game_name}
                             featured
                             width={200}
                             height={200}
                         />
+
+                        {detail.platform.map((u,i)=>{
+                            return (
+                                <Text key={i}>{u.platform_name}</Text>
+                            )
+                        })}
                     </View>
                 </View>
 

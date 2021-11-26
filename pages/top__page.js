@@ -3,7 +3,7 @@ import { Tile } from 'react-native-elements';
 import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
 import sumgames_api from "../components/sumgames_api"
 
-const BASE_URL="http://10.250.1.221:8000"
+const BASE_URL="http://10.250.2.106:8000"
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
@@ -34,7 +34,7 @@ const TopPage = ({navigation}) => {
           featured
           caption="FOR ALL GAMERS"
           height={300}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('game_detail')}
         />
         <Box>
           <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" onPress={searchGame}>検索</Button>}/>
