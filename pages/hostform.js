@@ -101,20 +101,12 @@ const HostForm = ({ navigation }) => {
             }}>
                 <Button
                     title="募集"
-                    onPress={() => Alert.alert('Left button pressed')}
+                    onPress={()=>{
+                        navigation.navigate('talk');
+                    }}
                     style={{
                         width: 70,
                         marginLeft: 20
-                    }}
-                />
-
-                <Button
-                    title="キャンセル"
-                    onPress={() => navigation.navigate('game_detail')}
-                    style={{
-                        // 101以上でタイトルの改行を防げる
-                        width: 101,
-                        marginLeft: 90
                     }}
                 />
             </View>

@@ -4,8 +4,9 @@ import { View, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import sumgames_api from '../components/sumgames_api';
 
-
-const game_detail = ({ navigation }) =>{
+const BASE_URL="http://10.250.1.221:8000"
+const game_detail = ({ route,navigation }) =>{
+    const { detail } = route.params;
     return(
         <SafeAreaProvider>
             <ScrollView>
@@ -27,7 +28,9 @@ const game_detail = ({ navigation }) =>{
                     <View>
                         <Image
                             transitionDuration={1000}
-                            source={require('../assets/images/monst.jpg')}
+                            source={{
+                                uri: BASE_URL+detail.image,
+                              }}
                             style={{ 
                                 alignItems: 'flex-start',
                                 width: 100, 
@@ -43,11 +46,19 @@ const game_detail = ({ navigation }) =>{
                                 marginLeft: 30,
                                 marginBottom: 5,
                             }}
-                            title="ゲームの基本情報"
+                            title={detail.game_name}
+                            caption="FOR ALL GAMERS"
                             featured
                             width={200}
                             height={200}
                         />
+                    </View>
+                    <View>
+                        {detail.platform.map((u,i)=>{
+                            return(
+                            <Text>{u.platform_name}</Text>
+                            );
+                        })}
                     </View>
                 </View>
 
