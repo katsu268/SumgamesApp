@@ -25,16 +25,13 @@ const TopPage = ({navigation}) => {
     <NativeBaseProvider>
       <ScrollView>
         <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
+          imageSrc={require('../assets/images/gamer.png')}
           titleStyle={{
             fontSize:40,
             fontWeight:'700',
           }}
           featured
-          caption="FOR ALL GAMERS"
           height={300}
-          onPress={() => navigation.navigate('MyStack', { screen: 'game_detail' })}
         />
         <Box>
           <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" onPress={searchGame}>検索</Button>}/>

@@ -41,7 +41,8 @@
     "react-native-wheel-scroll-picker": "^0.2.4",
     "rmc-input-number": "^1.0.5",
     "styled-components": "^5.3.3",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "expo-linear-gradient": "~9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
