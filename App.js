@@ -63,7 +63,7 @@ function MyTabBar({ state, descriptors, navigation }) {
               return (
                 <Center>
                   {isFocused?(
-                    <HStack bg="primary.500" pr="6" pl="6" pt="2" pb="2" style={{borderRadius:"50%"}}>
+                    <HStack bg="primary.500" pr="6" pl="6" pt="2" pb="2" style={{borderRadius:50}}>
                       <Icon
                         as={Feather}
                         name={icons[index]}
@@ -101,7 +101,7 @@ function MyTabBar({ state, descriptors, navigation }) {
             <Pressable flex="1" {...triggerProps} >
               <Center>
                 {menuOpen?(
-                  <Box bg="primary.500" pr="6" pl="6" pt="2" pb="2" style={{borderRadius:"50%"}}>
+                  <Box bg="primary.500" pr="6" pl="6" pt="2" pb="2" style={{borderRadius:50}}>
                     <Icon
                       as={Feather}
                       name="menu"

@@ -6,18 +6,12 @@ const Loading = (props)=>{
   return (
     <View style={styles.container}>
       <Image
-          source={ require('./assets/gifs/loading_mario.gif')}
+          source={ require('../assets/gifs/loading_mario.gif')}
           style={{width: props.size, height: props.size,borderRadius:"50%"}}
           />
     </View>
   )
-}
-
-function Test (){
-  return (
-    <Loading size={50}/>
-  );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -27,4 +21,4 @@ const styles = StyleSheet.create({
   alignItems : 'center'
   },
 });
-export default Test
+export default Loading;
