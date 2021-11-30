@@ -1,11 +1,12 @@
-import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
+import { Tile, Button, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import sumgames_api from '../components/sumgames_api';
 
-
-const game_detail = ({ navigation }) =>{
+const BASE_URL="http://10.250.1.221:8000"
+const game_detail = ({ route,navigation }) =>{
+    const { detail } = route.params;
     return(
         <SafeAreaProvider>
             <ScrollView>
@@ -22,12 +23,13 @@ const game_detail = ({ navigation }) =>{
                 <View style={{
                     flexDirection: 'row',
                     marginTop: 40,
-
                 }}>
                     <View>
                         <Image
                             transitionDuration={1000}
-                            source={require('../assets/images/monst.jpg')}
+                            source={{
+                                uri: BASE_URL+detail.image,
+                              }}
                             style={{ 
                                 alignItems: 'flex-start',
                                 width: 100, 
@@ -43,11 +45,18 @@ const game_detail = ({ navigation }) =>{
                                 marginLeft: 30,
                                 marginBottom: 5,
                             }}
-                            title="ゲームの基本情報"
+                            title={detail.game_name}
+                            caption="FOR ALL GAMERS"
                             featured
                             width={200}
                             height={200}
                         />
+
+                        {detail.platform.map((u,i)=>{
+                            return (
+                                <Text key={i}>{u.platform_name}</Text>
+                            )
+                        })}
                     </View>
                 </View>
 
@@ -158,9 +167,6 @@ const game_detail = ({ navigation }) =>{
                         onPress={() => navigation.navigate('GuestMatching')}
                     />
                 </View>
-
-
-
             </ScrollView>
         </SafeAreaProvider>
     )

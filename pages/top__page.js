@@ -3,7 +3,7 @@ import { Tile } from 'react-native-elements';
 import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
 import sumgames_api from "../components/sumgames_api"
 
-const BASE_URL="http://10.250.1.221:8000"
+const BASE_URL="http://10.250.2.106:8000"
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
@@ -25,16 +25,13 @@ const TopPage = ({navigation}) => {
     <NativeBaseProvider>
       <ScrollView>
         <Tile
-          imageSrc={require('../assets/images/gamer.jpg')}
-          title="SUMGAMES"
+          imageSrc={require('../assets/images/gamer.png')}
           titleStyle={{
             fontSize:40,
             fontWeight:'700',
           }}
           featured
-          caption="FOR ALL GAMERS"
           height={300}
-          onPress={() => navigation.navigate('Login')}
         />
         <Box>
           <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" onPress={searchGame}>検索</Button>}/>
@@ -43,6 +40,7 @@ const TopPage = ({navigation}) => {
           {searchedData.map((u,i)=>{
             return (
               <Pressable 
+                key={i}
                 ml="5"
                 mt="1"
                 w="260"
@@ -62,7 +60,12 @@ const TopPage = ({navigation}) => {
                 _light={{
                   backgroundColor: "gray.50",
                 }}
-                onPress={()=>{console.log(`pressed gameID:${u.id}`)}}>
+                onPress={()=>{
+                  navigation.navigate('game_detail', {
+                    detail:u
+                  });
+                }}
+                >
                   <Box>
                     <AspectRatio w="100%" ratio={16 / 9}>
                       <Image
@@ -98,19 +101,19 @@ const TopPage = ({navigation}) => {
                       <HStack space={3} alignItems="center">
                         {u.genre.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
+                            <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
                           )
                         })}
                         {u.tags.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
+                            <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
                           )
                         })}
                       </HStack>
                       <HStack space={3} alignItems="center">
                         {u.platform.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
+                            <Center key={i} h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
                           )
                         })}
                       </HStack>
@@ -131,6 +134,7 @@ const TopPage = ({navigation}) => {
           {data.map((u,i)=>{
             return (
               <Pressable 
+                key={i}
                 ml="5"
                 mt="1"
                 w="260"
@@ -150,7 +154,11 @@ const TopPage = ({navigation}) => {
                 _light={{
                   backgroundColor: "gray.50",
                 }}
-                onPress={()=>{console.log(`pressed gameID:${u.id}`)}}>
+                onPress={()=>{
+                  navigation.navigate('game_detail', {
+                    detail:u
+                  });
+                }}>
                   <Box>
                     <AspectRatio w="100%" ratio={16 / 9}>
                       <Image
@@ -186,19 +194,19 @@ const TopPage = ({navigation}) => {
                       <HStack space={3} alignItems="center">
                         {u.genre.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
+                            <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
                           )
                         })}
                         {u.tags.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
+                            <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
                           )
                         })}
                       </HStack>
                       <HStack space={3} alignItems="center">
                         {u.platform.map((u,i)=>{
                           return (
-                            <Center h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
+                            <Center key={i} h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
                           )
                         })}
                       </HStack>
