@@ -1,114 +1,85 @@
-import { Tile, Button, ThemeProvider, Input, Icon } from 'react-native-elements';
-import React ,{ Component }from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as AuthSession from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
-
-//WebBrowser.maybeCompleteAuthSession();
-
-//const request = new AuthRequest({ },{ });
-//const result = await request.promptAsync(discovery, { useProxy: true });
-//const config = {};
-//const discovery = useAutoDiscovery('http://localhost:8000');
-//AuthSession.makeRedirectUri({ useProxy: true })
-// Your App
-const Login = ({ navigation }) => {
-  //const [request, response, promptAsync] = useAuthRequest({}, {});
+import * as React from "react"
+import {Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, NativeBaseProvider,} from "native-base"
+export const Example = () => {
   return (
-    <SafeAreaProvider>
-      <ScrollView>
+    <Box safeArea p="2" py="8" w="90%" maxW="290">
+      <Heading
+        size="lg"
+        fontWeight="600"
+        color="coolGray.800"
+        _dark={{
+          color: "warmGray.50",
+        }}
+      >
+        いらっしゃい　待ってたよ
+      </Heading>
+      <Heading
+        mt="1"
+        _dark={{
+          color: "warmGray.200",
+        }}
+        color="coolGray.600"
+        fontWeight="medium"
+        size="xs"
+      >
+        サインアップしなきゃダメだよぉ～💦
+      </Heading>
 
-      <Text style={{
-        fontSize:30,
-        marginTop: 50,
-        marginLeft: 10,
-        marginBottom: 10,
-        }}>
-        ログイン
-      </Text>
+      <VStack space={3} mt="5">
+        <FormControl>
+          <FormControl.Label>ユーザIDを教えてね</FormControl.Label>
+          <Input />
+        </FormControl>
+        <FormControl>
+          <FormControl.Label>パスワードだよぉ～</FormControl.Label>
+          <Input type="password" />
+          <Link
+            _text={{
+              fontSize: "xs",
+              fontWeight: "500",
+              color: "indigo.500",
+            }}
+            alignSelf="flex-end"
+            mt="1"
+          >
+            忘れちゃったの？？？
+          </Link>
+        </FormControl>
+        <Button mt="2" colorScheme="indigo">
+        おっけ～ならここ押してね
+        </Button>
+        <HStack mt="6" justifyContent="center">
+          <Text
+            fontSize="sm"
+            color="coolGray.600"
+            _dark={{
+              color: "warmGray.200",
+            }}
+          >
+            新しい人？.{" "}
+          </Text>
+          <Link
+            _text={{
+              color: "indigo.500",
+              fontWeight: "medium",
+              fontSize: "sm",
+            }}
+            href="#"
+          >
+            おっけ～ならここ押してね
+          </Link>
+        </HStack>
+      </VStack>
+    </Box>
+  )
+}
 
-
-        <Input
-          containerStyle={{}}
-          disabledInputStyle={{ background: "#ddd" }}
-          inputContainerStyle={{}}
-          errorMessage="Oops! that's not correct."
-          errorStyle={{}}
-          errorProps={{}}
-          inputStyle={{}}
-          label="ユーザー名"
-          labelStyle={{}}
-          labelProps={{}}
-          leftIcon={<Icon name="person" size={20} />}
-          leftIconContainerStyle={{}}
-          rightIcon={<Icon name="close" size={20} />}
-          rightIconContainerStyle={{}}
-          placeholder="ユーザー名を入力"
-        />
-        <Input
-          containerStyle={{}}
-          disabledInputStyle={{ background: "#ddd" }}
-          inputContainerStyle={{}}
-          errorMessage="Oops! that's not correct."
-          errorStyle={{}}
-          errorProps={{}}
-          inputStyle={{}}
-          label="パスワード"
-          labelStyle={{}}
-          labelProps={{}}
-          leftIcon={<Icon name="build" size={20} />}
-          leftIconContainerStyle={{}}
-          rightIcon={<Icon name="close" size={20} />}
-          rightIconContainerStyle={{}}
-          placeholder="パスワードを入力"
-          secureTextEntry={true}
-        />
-
-          <View style={{
-            flexDirection: "row",
-            }}>
-              <Button title="ログイン"
-                buttonStyle={{ width:100 }}
-                containerStyle={{ margin:5 }}
-                style={{
-                    justifyContent: "flex-start",
-                }}
-                onPress={() => navigation.navigate('Top')}
-                />
-          </View>
-
-          <View style={{
-            flexDirection: "row",
-            }}>
-              <Button title="サインアップ"
-                buttonStyle={{ width:120 }}
-                containerStyle={{ margin:5 }}
-                style={{
-                    justifyContent: "center",
-                }}
-                type="clear"
-                onPress={() => navigation.navigate('SignUp')}
-                />
-          </View>
-
-          <View style={{
-            flexDirection: "row",
-            }}>
-              <Button title="パスワードリセット"
-                buttonStyle={{ width:168 }}
-                containerStyle={{ margin:5 }}
-                style={{
-                    justifyContent: "center",
-                }}
-                type="clear"
-                onPress={() => navigation.navigate('PasswordReset')}
-                />
-          </View>
-
-      </ScrollView>
-    </SafeAreaProvider>
-  );
-};
-
-export default Login;
+export default () => {
+  return (
+    <NativeBaseProvider>
+      <Center flex={1} px="3">
+        <Example />
+      </Center>
+    </NativeBaseProvider>
+  )
+}
