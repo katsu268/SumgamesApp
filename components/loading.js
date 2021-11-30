@@ -1,5 +1,5 @@
 import { StyleSheet, View,Image} from 'react-native';
-import React from 'react'
+import React from 'react';
 
 
 const Loading = (props)=>{
@@ -7,7 +7,7 @@ const Loading = (props)=>{
     <View style={styles.container}>
       <Image
           source={ require('../assets/gifs/loading_mario.gif')}
-          style={{width: props.size, height: props.size,borderRadius:"50%"}}
+          style={{width: props.size, height: props.size,borderRadius:50}}
           />
     </View>
   )
