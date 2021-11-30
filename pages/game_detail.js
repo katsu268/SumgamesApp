@@ -51,6 +51,12 @@ const game_detail = ({ route,navigation }) =>{
                             width={200}
                             height={200}
                         />
+
+                        {detail.platform.map((u,i)=>{
+                            return (
+                                <Text key={i}>{u.platform_name}</Text>
+                            )
+                        })}
                     </View>
                 </View>
 

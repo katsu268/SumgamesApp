@@ -3,7 +3,7 @@ import { Tile } from 'react-native-elements';
 import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
 import sumgames_api from "../components/sumgames_api"
 
-const BASE_URL="http://10.250.1.221:8000"
+const BASE_URL="http://10.250.2.106:8000"
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
