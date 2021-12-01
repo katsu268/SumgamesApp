@@ -1,71 +1,87 @@
-import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider} from 'react-native-elements';
+import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import sumgames_api from '../components/sumgames_api';
 
-const BASE_URL="http://10.250.1.221:8000"
+const BASE_URL="http://10.250.2.106:8000"
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
     return(
         <SafeAreaProvider>
             <ScrollView>
+                <Tile
+                    ImageComponent={()=>{
+                        return(
+                            <ImageBackground
+                                source={{
+                                    uri:BASE_URL+detail.image,
+                                }}
+                                resizeMode="cover"
+                                style={{width:"100%",height:300}}
+                            >
+                                <Text style={{
+                                    color: "white",
+                                    fontSize: 26,
+                                    lineHeight: 44,
+                                    fontWeight: "normal",
+                                    textAlign: "center",
+                                    marginTop: 120,
+                                    backgroundColor: "#000000c0"
+                                }}>
+                                    {detail.game_name}
+                                </Text>
+                            </ImageBackground>
+                        );
+                    }}
+                    featured
+                    height={300}
+                />
 
-                <Text style={{
-                    fontSize:30,
-                    marginTop: 50,
-                    marginLeft: 10,
-                    marginBottom: 5,
-                    }}>
-                    ゲーム詳細
-                </Text>
 
-                <View style={{
+                {/* <View style={{
                     flexDirection: 'row',
                     marginTop: 40,
-                }}>
-                    <View>
-                        <Image
-                            transitionDuration={1000}
-                            source={{
-                                uri: BASE_URL+detail.image,
-                              }}
-                            style={{ 
-                                alignItems: 'flex-start',
-                                width: 100, 
-                                height: 100,
-                                marginTop: 5,
-                                marginLeft: 30
-                            }}
-                        />
-                    </View>
-                    <View>
-                        <Tile
-                            containerStyle={{
-                                marginLeft: 30,
-                                marginBottom: 5,
-                            }}
-                            title={detail.game_name}
-                            caption="FOR ALL GAMERS"
-                            featured
-                            width={200}
-                            height={200}
-                        />
+                }}> */}
 
+
+                    <View>
+                    <Card>
+                        <Card.Title>ジャンル</Card.Title>
+                        <Card.Divider/>
+                        <Card.Image source={require('../assets/images/gamer.jpg')}>
+                            <Text style={{
+                                marginTop: 40,
+                                color: "#FFF",
+                                }}
+                            >
+                            The idea with React Native Elements is more about component structure than actual design.
+                            </Text>
+                        </Card.Image>
+                    </Card>
+                    </View>
+
+
+                    <View>
+                        <Text>
+                            プラットフォーム
+                        </Text>
                         {detail.platform.map((u,i)=>{
                             return (
-                                <Text key={i}>{u.platform_name}</Text>
+                                <Text 
+                                    h4
+                                    key={i}
+                                    style={{
+                                        marginLeft: 30,
+                                        marginBottom: 5,
+                                    }}
+                                >
+                                    {u.platform_name}
+                                </Text>
                             )
                         })}
                     </View>
-                    <View>
-                        {detail.platform.map((u,i)=>{
-                            return(
-                            <Text>{u.platform_name}</Text>
-                            );
-                        })}
-                    </View>
-                </View>
+                {/* </View> */}
 
                 <Text 
                     style={{
