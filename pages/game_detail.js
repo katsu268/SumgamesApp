@@ -190,9 +190,6 @@ const game_detail = ({ route,navigation }) =>{
                         onPress={() => navigation.navigate('GuestMatching')}
                     />
                 </View>
-
-
-
             </ScrollView>
         </SafeAreaProvider>
     )
