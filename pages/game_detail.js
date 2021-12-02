@@ -48,7 +48,7 @@ const game_detail = ({ route,navigation }) =>{
                     <Card>
                         <Card.Title>ジャンル</Card.Title>
                         <Card.Divider/>
-                        <Card.Image source={require('../assets/images/gamer.jpg')}>
+                        <Card.Image source={require('../assets/images/gamer.png')}>
                             <Text style={{
                                 marginTop: 40,
                                 color: "#FFF",
