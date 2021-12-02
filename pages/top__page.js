@@ -13,19 +13,22 @@ const TopPage = ({navigation}) => {
   //検索バーで使用
   const [value, setValue] = React.useState("");
   const [searchedData, setSearchedData] = React.useState([]);
-  const searchGame = () => {
-    // setLoading(true);
-    // let url = `api/gameitem/?search=${value}`;
-    // get({url})
-    // .then((game_data) => setSearchedData(game_data))
-    // .finally(()=>{setLoading(false)});
-    // return;
+  const searchGame = async () => {
+    setLoading(true);
+    const url = `api/gameitem/?search=${value}`;
+    const searched_data = await get({url});
+    setSearchedData(searched_data);
+    setLoading(false);
+    return;
   }
 
-  React.useEffect(async () => {
-    const url = "api/gameitem/"
-    const my_data = await get({url});
-    setData(my_data);
+  React.useEffect(() => {
+    async function fetchData() {
+      const url = "api/gameitem/"
+      const my_data = await get({url});
+      setData(my_data);
+    }
+    fetchData();
   }, []);
 
   return (

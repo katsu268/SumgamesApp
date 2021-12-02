@@ -15,6 +15,8 @@ import talk from './pages/talk';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NativeBaseProvider,HStack,Icon,Center,Text,Pressable,Menu, Box } from 'native-base';
 import { Feather } from "@expo/vector-icons";
+import {SSRProvider} from '@react-aria/ssr';
+
 
 import * as SecureStore from 'expo-secure-store';
 
@@ -250,14 +252,35 @@ export default function App() {
           return;
         };
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signOut: async () => {
+        let userToken = await SecureStore.deleteItemAsync("token");
+        let userID = await SecureStore.deleteItemAsync('user_id');
+        dispatch({ type: 'SIGN_OUT' });
+      },
       signUp: async data => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `SecureStore`
         // In the example, we'll use a dummy token
-
-        dispatch({ type: 'SIGN_IN', user_token: 'dummy-auth-token' });
+        try {
+          const response = await fetch(state.BASE_URL+"accounts/user/", {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data.data)
+          });
+          const result = await response.json();
+          save("token", result.token);
+          save("user_id", result.user_id);
+          dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });
+          return;
+        } catch (error) {
+          console.error(error);
+          return;
+        };
       },
       BASE_URL:state.BASE_URL.slice(0,-1),
       get: async (data) => {
@@ -278,51 +301,74 @@ export default function App() {
           console.log(error);
         }
       },
-      // post: async data => {
-      //   fetch(state.BASE_URL+data.url, {
-      //     credentials: 'include',
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //       'Authorization': `Token ${state.user_token}`
-      //     },
-      //     body: JSON.stringify(data.data)
-      //   })
-      //   .then((result) => {
-      //     return result;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      // },
+      post: async (data) => {
+        try {
+          const user_token = await SecureStore.getItemAsync('token');
+          const response = await fetch(state.BASE_URL+data.url, {
+            credentials: 'include',
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+            body: JSON.stringify(data.data)
+          });
+          const result = await response.json();
+          return result;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      patch: async (data) => {
+        try {
+          const user_token = await SecureStore.getItemAsync('token');
+          const response = await fetch(state.BASE_URL+data.url, {
+            credentials: 'include',
+            method: 'PATCH',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+            body: JSON.stringify(data.data)
+          });
+          const result = await response.json();
+          return result;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
     }),
     []
   );
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <AuthContext.Provider value={authContext}>
-          <Stack.Navigator>
-            {state.user_token == null ? (
-              <Stack.Group>
-                <Stack.Screen name="Signup" component={Signup} />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="PasswordReset" component={PasswordReset} />
-              </Stack.Group>
-            ) : (
-              <Stack.Group>
-                <Stack.Screen name="Top" component={TopTab} options={{headerShown:false}}/>
-                <Stack.Screen name="game_detail" component={game_detail} />
-                <Stack.Screen name="HostForm" component={HostForm} />
-                <Stack.Screen name="GuestMatching" component={GuestMatching} />
-                <Stack.Screen name="talk" component={talk} />
-                <Stack.Screen name="Inquiry" component={Inquiry} />
-              </Stack.Group>
-            )}
-          </Stack.Navigator>
-        </AuthContext.Provider>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <SSRProvider>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <AuthContext.Provider value={authContext}>
+            <Stack.Navigator>
+              {state.user_token == null ? (
+                <Stack.Group>
+                  <Stack.Screen name="Signup" component={Signup} />
+                  <Stack.Screen name="Login" component={Login} />
+                  <Stack.Screen name="PasswordReset" component={PasswordReset} />
+                </Stack.Group>
+              ) : (
+                <Stack.Group>
+                  <Stack.Screen name="Top" component={TopTab} options={{headerShown:false}}/>
+                  <Stack.Screen name="game_detail" component={game_detail} />
+                  <Stack.Screen name="HostForm" component={HostForm} />
+                  <Stack.Screen name="GuestMatching" component={GuestMatching} />
+                  <Stack.Screen name="talk" component={talk} />
+                  <Stack.Screen name="Inquiry" component={Inquiry} />
+                </Stack.Group>
+              )}
+            </Stack.Navigator>
+          </AuthContext.Provider>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </SSRProvider>
   );
 }
