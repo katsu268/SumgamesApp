@@ -1,22 +1,11 @@
 import * as React from "react";
 import {Box, Heading, VStack, FormControl, Input, Button, Link, Center } from "native-base";
-import sumgames_api from "../components/sumgames_api";
-import save from "../components/sumgames_api";
-
-const login_request = (username,password) => {
-  sumgames_api(url="accounts/api-token-auth/",method="POST",data={"username":`${username}`,"password":`${password}`})
-  .then((data) => {
-    console.log(data);
-    save("token", data.token);
-    save("user_id", data.user_id);
-  });
-  //.finally(()=>{setLoading(false)});
-}
+import { AuthContext } from "../App";
 
 const Login = ({navigation}) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  const { signIn } = React.useContext(AuthContext);
   return (
     <Center flex={1} px="3">
       <Box safeArea p="2" py="8" w="90%" maxW="290">
@@ -63,7 +52,7 @@ const Login = ({navigation}) => {
               忘れちゃったの？？？
             </Link>
           </FormControl>
-          <Button mt="2" colorScheme="indigo" onPress={()=>login_request(username,password)}>
+          <Button mt="2" colorScheme="indigo" onPress={() => signIn({ username, password })}>
             おっけ～ならここ押してね
           </Button>
         </VStack>

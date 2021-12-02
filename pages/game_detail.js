@@ -2,9 +2,8 @@ import { Tile, Button, ThemeProvider, Input, Icon, Slider} from 'react-native-el
 import React ,{ Component }from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import sumgames_api from '../components/sumgames_api';
 
-const BASE_URL="http://172.20.10.2:8000"
+const BASE_URL="http://172.20.10.7:8000/"
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
     return(

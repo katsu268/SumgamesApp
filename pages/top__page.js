@@ -1,28 +1,32 @@
 import * as React from "react";
 import { Tile } from 'react-native-elements';
 import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
-import sumgames_api from "../components/sumgames_api";
 import Loading from "../components/loading";
+import { AuthContext } from "../App";
 
-const BASE_URL="http://172.20.10.2:8000"
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(false);
   const [data, setData] = React.useState([]);
-  React.useEffect(() => {
-    sumgames_api("api/gameitem/")
-    .then((game_data) => setData(game_data));
-  }, []);
+  const { get } = React.useContext(AuthContext);
+  const { BASE_URL } = React.useContext(AuthContext);
   
   //検索バーで使用
   const [value, setValue] = React.useState("");
   const [searchedData, setSearchedData] = React.useState([]);
   const searchGame = () => {
-    setLoading(true);
-    sumgames_api(`api/gameitem/?search=${value}`)
-    .then((game_data) => setSearchedData(game_data))
-    .finally(()=>{setLoading(false)});
-    return;
+    // setLoading(true);
+    // let url = `api/gameitem/?search=${value}`;
+    // get({url})
+    // .then((game_data) => setSearchedData(game_data))
+    // .finally(()=>{setLoading(false)});
+    // return;
   }
+
+  React.useEffect(async () => {
+    const url = "api/gameitem/"
+    const my_data = await get({url});
+    setData(my_data);
+  }, []);
 
   return (
     <NativeBaseProvider>
