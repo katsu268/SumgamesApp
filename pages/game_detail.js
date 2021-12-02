@@ -2,6 +2,7 @@ import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card } f
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { marginLeft } from 'styled-system';
 
 const BASE_URL="http://10.250.2.106:8000"
 const game_detail = ({ route,navigation }) =>{
@@ -34,7 +35,7 @@ const game_detail = ({ route,navigation }) =>{
                         );
                     }}
                     featured
-                    height={300}
+                    height={250}
                 />
 
 
@@ -45,42 +46,92 @@ const game_detail = ({ route,navigation }) =>{
 
 
                     <View>
-                    <Card>
-                        <Card.Title>ジャンル</Card.Title>
-                        <Card.Divider/>
-                        <Card.Image source={require('../assets/images/gamer.jpg')}>
-                            <Text style={{
-                                marginTop: 40,
-                                color: "#FFF",
-                                }}
-                            >
-                            The idea with React Native Elements is more about component structure than actual design.
-                            </Text>
-                        </Card.Image>
-                    </Card>
-                    </View>
+                        <Card containerStyle={{
+                            marginRight: 200
+                            }}
+                        >
+                            <Card.Title>プラットフォーム</Card.Title>
+                            <Card.Divider/>
+                            <Card.Image source={require('../assets/images/game01.png')}>
+                            {detail.platform.map((u,i)=>{
+                                return (
+                                    <Text
+                                        h4 
+                                        key = {i}
+                                        style={{
+                                        // marginLeft: 30,
+                                        color: "#FFF",
+                                        backgroundColor: "#000000c0"
+                                        }}
+                                    >
+                                        {u.platform_name}
+                                    </Text>
+                                )
+                            })}
+                            </Card.Image>
+                        </Card>
 
 
-                    <View>
-                        <Text>
-                            プラットフォーム
-                        </Text>
-                        {detail.platform.map((u,i)=>{
-                            return (
-                                <Text 
-                                    h4
-                                    key={i}
-                                    style={{
-                                        marginLeft: 30,
-                                        marginBottom: 5,
-                                    }}
-                                >
-                                    {u.platform_name}
-                                </Text>
-                            )
-                        })}
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image
+                                source={require('../assets/images/game01.png')}
+                                style={{ width: 200, height: 200 }}
+                            />
+                            <View>
+                            {detail.platform.map((u,i)=>{
+                                return (
+                                    <Text
+                                        h4 
+                                        key = {i}
+                                        style={{
+                                        // marginLeft: 30,
+                                        color: "#FFF",
+                                        backgroundColor: "#000000c0"
+                                        }}
+                                    >
+                                        {u.platform_name}
+                                    </Text>
+                                )
+                            })}
+                            </View>
+                        </View>
+
+
+
+
+
+                        <Tile
+                            imageSrc={require('../assets/images/game01.png')}
+                            title="プラットフォーム"
+                            titleStyle={{
+                                fontSize:18,
+                                color:"#000000"
+                            }}
+                            contentContainerStyle={{ height: 110 }}
+                            containerStyle={{
+                                backgroundColor:"#FFF"
+                            }}
+                        >
+                            {detail.platform.map((u,i)=>{
+                                return (
+                                    <Text
+                                        h4
+                                        key = {i}
+                                        style={{
+                                        color: "#000000",
+                                        backgroundColor: "#FFF"
+                                        }}
+                                    >
+                                        {u.platform_name}
+                                    </Text>
+                                )
+                            })}
+                        </Tile>
+
                     </View>
-                {/* </View> */}
+
+                    
+
 
                 <Text 
                     style={{

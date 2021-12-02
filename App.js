@@ -198,7 +198,7 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://10.250.1.221:8000/",
+      BASE_URL: "http://10.250.2.35:8000/",
     }
   );
 
