@@ -1,19 +1,34 @@
-import React, { Component, useState } from "react";
-import { ScrollView, Text, View, Modal, Alert} from "react-native";
+import React, { useState } from "react";
+import { ScrollView, Text, View, Modal, Alert, TextInput} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, colors, Input, ButtonGroup } from "react-native-elements";
+import { Button } from "react-native-elements";
+import sumgames_api from "../components/sumgames_api";
+import { Radio, NativeBaseProvider, Avatar } from "native-base";
+import { flex, flexDirection } from "styled-system";
 
 const mypage =()=> {
     const [modalVisible, setModalVisible] = useState(false);
+    const [isLoading, setLoading] = React.useState(true);
+    const [myData, setmyData] = React.useState([]);
+    React.useEffect(() => {
+      sumgames_api("accounts/user/")
+      .then((user_data) => setmyData(user_data));
+    }, []);
 
-    const [
-        selectedIndex,
-        setSelectedIndex
-        ] = React.useState(1);
-        const [
-        selectedIndexes,
-        setSelectedIndexes
-        ] = React.useState([]);
+    const gender_list = {
+        "MA":"男性",
+        "FE":"女性",
+        "EX":"その他"
+    }
+
+    const [username, setUsername] = React.useState(myData.username);
+    const [firstname, setFirstname] = React.useState(myData.firstname);
+    const [lastname, setLastname] = React.useState(myData.lastname);
+    const [gender, setGender] = React.useState(myData.gender);
+    const [email, setEmail] = React.useState(myData.email);
+    const [introduction, setIntroduction] = React.useState(myData.introduction);
+
+    const [Inputheigt, setInputheight] = React.useState(0);
 
     return(
         <SafeAreaProvider>
@@ -34,7 +49,16 @@ const mypage =()=> {
                     marginLeft: "65%",
                     alignItems: 'flex-end',
                     marginTop: 10}}
-                onPress={() => setModalVisible(true)}
+                onPress={() => {
+                        setModalVisible(true);
+                        setUsername(myData.username);
+                        setFirstname(myData.firstname);
+                        setLastname(myData.lastname);
+                        setGender(myData.gender);
+                        setEmail(myData.email);
+                        setIntroduction(myData.introduction);
+                    }
+                }
                 />
                 <Modal
                     animationType = "slide"
@@ -44,177 +68,286 @@ const mypage =()=> {
                         Alert.alert("Modal has been closed.");
                         setModalVisible(!modalVisible);
                       }}>
-                <ScrollView style={{
-                marginLeft:5,
-                backgroundColor:"white"
-                    }}>
-                    <Text style={{
-                        fontSize:30,
-                        marginTop: 50,
-                        marginLeft: 10}}>
-                        マイページ編集
-                    </Text>
-                    <Button
-                    title="キャンセル"
-                    buttonStyle={{width:100}}
-                    style={{
-                        width: 100,
-                        marginLeft: "70%",
-                        alignItems: 'flex-end',
-                        marginTop: 10}}
-                    onPress={() => setModalVisible(!modalVisible)}
-                    />
-                    <View style={{marginLeft: "10%"}}>
-                        <View style={{
-                                flexDirection: "row",
-                                marginTop:45
-                            }}>
-                                <Text style={{
-                                    fontSize:20,
-                                    marginRight:35,
-                                    marginLeft:15
+                    <ScrollView style={{
+                    marginLeft:5,
+                    backgroundColor:"white"
+                        }}>
+                        <Text style={{
+                            fontSize:30,
+                            marginTop: 50,
+                            marginLeft: 10}}>
+                            マイページ編集
+                        </Text>
+                        <Button
+                        title="キャンセル"
+                        buttonStyle={{width:100}}
+                        style={{
+                            width: 100,
+                            marginLeft: "70%",
+                            alignItems: 'flex-end',
+                            marginTop: 10}}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        />
+                        <View style={{marginLeft: "10%"}}>
+                            <View style={{
+                                    flexDirection: "row",
+                                    marginTop:45
                                 }}>
-                                    ユーザー名
-                                </Text>
-                                <Input 
-                                    containerStyle={{width:200}}
-                                    style={{
-                                    fontSize:20,
-                                    width: 200
-                                }}>
-                                    sample_1234
-                                </Input>
-                        </View>
-                        <View style={{
-                                flexDirection: "row",
-                                // marginTop:5
-                            }}>
-                                <Text style={{
-                                    fontSize:20,
-                                    marginRight:60,
-                                    marginLeft: 41
-                                }}>
-                                    性別
-                                </Text>
-                                <ButtonGroup
-                                    buttonContainerStyle={{}}
-                                    buttons={["男性", "女性", "無回答"]}
-                                    containerStyle={{width:180}}
-                                    disabledStyle={{}}
-                                    disabledTextStyle={{}}w
-                                    disabledSelectedStyle={{}}
-                                    disabledSelectedTextStyle={{}}
-                                    innerBorderStyle={{}}
-                                    onPress={selectedIdx =>
-                                        setSelectedIndex(selectedIdx)
-                                    }
-                                    selectedButtonStyle={{}}
-                                    selectedIndex={selectedIndex}
-                                    selectedIndexes={selectedIndexes}
-                                    selectedTextStyle={{}}
-                                    textStyle={{}}
-                                />
-                        </View>
-                        <View style={{
+                                    <Text style={{
+                                        fontSize:20,
+                                        marginRight:45,
+                                        marginLeft:15
+                                    }}>
+                                        ユーザー名
+                                    </Text>
+                                    <TextInput
+                                        value={username}
+                                        containerStyle={{width:200}}
+                                        style={{
+                                        fontSize:20,
+                                        width: 180,
+                                        borderBottomWidth: 1,
+                                        }}
+                                        onChangeText={(value) => {setUsername(()=>{return username===value})}}
+                                    />
+                            </View>
+                            <View style={{
                                 flexDirection: "row",
                                 marginTop:25
                             }}>
                                 <Text style={{
                                     fontSize:20,
-                                    marginRight:15
+                                    marginRight:50,
+                                    marginLeft: 15
                                 }}>
-                                    好きなタイトル
+                                    first name
                                 </Text>
-                                <Input 
-                                    containerStyle={{width:200}}
+                                <TextInput
+                                    value={firstname}
                                     style={{
                                     fontSize:20,
-                                    width:200
-                                }}>
-                                    BattleField
-                                </Input>
-                        </View>
-                        <View style={{
+                                    width: 180,
+                                    borderBottomWidth: 1,
+                                    }}
+                                    onChangeText={(value) => {setFirstname(()=>{return firstname===value})}}
+                                />
+                            </View>
+                            <View style={{
                                 flexDirection: "row",
-                                marginTop:5
+                                marginTop:25
                             }}>
                                 <Text style={{
                                     fontSize:20,
-                                    marginRight:15
+                                    marginRight:50,
+                                    marginLeft: 16
                                 }}>
-                                    プレイスタイル
+                                    last name
                                 </Text>
-                                <Input 
-                                    multiline={true}
-                                    containerStyle={{width: 200}}
+                                <TextInput
+                                    value={lastname}
+                                    style={{
+                                        fontSize:20,
+                                        width: 180,
+                                        borderBottomWidth:1,
+                                    }}
+                                    onChangeText={(value) => {setLastname(()=>{return lastname===value})}}
+                                />
+                            </View>
+                            <View style={{
+                                    flexDirection: "row",
+                                    marginTop:25
+                                }}>
+                                    <Text style={{
+                                        fontSize:20,
+                                        marginRight:60,
+                                        marginLeft: 41,
+                                        marginTop: 10
+                                    }}>
+                                        性別
+                                    </Text>
+                                    <NativeBaseProvider>
+                                        <Radio.Group
+                                            name="myRadioGroup"
+                                            accessibilityLabel="gender"
+                                            value={gender}
+                                            onChange={(value) => {
+                                                setGender(value)
+                                            }}
+                                            style={{flexDirection:"row"}}
+                                            >
+                                            <Radio value="MA" my={1} style={{marginRight:5}}>
+                                                男性
+                                            </Radio>
+                                            <Radio value="FE" my={1} style={{marginRight:5}}>
+                                                女性
+                                            </Radio>
+                                            <Radio value="EX" my={1}>
+                                                無回答
+                                            </Radio>
+                                        </Radio.Group>
+                                    </NativeBaseProvider>
+                            </View>
+                            <View style={{
+                                flexDirection: "row",
+                                marginTop:20
+                            }}>
+                                <Text style={{
+                                    fontSize:20,
+                                    marginRight:25
+                                }}>
+                                    メールアドレス
+                                </Text>
+                                <TextInput
+                                    value={email}
                                     style={{
                                     fontSize:20,
-                                    width: 200,
+                                    borderBottomWidth: 1,
+                                    width:180,
+                                    }}
+                                    onChangeText={(value) => {setEmail(()=>{return email===value})}}
+                                />
+                            </View>
+                            <View style={{
+                                flexDirection: "row",
+                                marginTop:25
+                            }}>
+                                <Text style={{
+                                    fontSize:20,
+                                    marginRight:50,
+                                    marginLeft: 25
                                 }}>
-                                    キルムーブ
-                                </Input>
+                                    自己紹介
+                                </Text>
+                                <TextInput
+                                    value={introduction}
+                                    multiline={true}
+                                    onContentSizeChange={(event) => {
+                                        if(event.nativeEvent.contentSize.height <= 300) {
+                                            setInputheight(event.nativeEvent.contentSize.height);
+                                        } else {
+                                            setInputheight(300);
+                                        }
+                                    }}
+                                    style={{
+                                        fontSize:20,
+                                        borderBottomWidth:1,
+                                        width:190
+                                        }}
+                                    onChangeText={(value) => {setIntroduction(()=>{return introduction===value})}}
+                                />
+                            </View>
+                            <Button
+                                title="保存"
+                                style={{
+                                    width: 80,
+                                    marginLeft: "35%",
+                                    marginTop: 35
+                                }}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+
+                                }}
+                            />
                         </View>
-                        <Button
-                        title="保存"
-                        style={{
-                            width: 80,
-                            marginLeft: "35%",
-                            marginTop: 15
-                        }}
-                        onPress={() => setModalVisible(!modalVisible)}
-                        />
-                    </View>
-                </ScrollView>
-            </Modal>
-                <View style={{marginLeft: "18%"}}>
+                    </ScrollView>
+                </Modal>
+                <NativeBaseProvider>
+                    <Avatar
+                        value={myData.image}
+                    />
+                </NativeBaseProvider>
+                <View style={{marginLeft: 15}}>
                     <View style={{
-                            flexDirection: "row",
                             marginTop:40
                         }}>
                             <Text style={{
                                 fontSize:20,
                                 marginRight:35,
-                                marginLeft:15
+                                fontSize:15
                             }}>
-                                ユーザー名
+                                user name
                             </Text>
                             <Text style={{
-                                fontSize:20,
+                                fontSize:25,
+                                borderWidth:1,
+                                paddingLeft:5,
+                                marginLeft:50,
+                                width: 200,
+                                borderRadius:5,
+                                borderColor:"lightgrey",
+                                overflow:"hidden",
+                                backgroundColor:"lightgrey"
                             }}>
-                                sample_1234
+                                {myData.username}
                             </Text>
                     </View>
+                    <View style={{marginTop:25,flexDirection:"row"}}>
+                        <View style={{
+                                flexDirection:"column"
+                            }}>
+                                <Text style={{
+                                    fontSize:15
+                                }}>
+                                    first name
+                                </Text>
+                                <Text style={{
+                                    marginLeft:50,
+                                    width:100,
+                                    fontSize:25,
+                                    borderRadius:5,
+                                    borderWidth:1,
+                                    borderColor:"lightgrey",
+                                    overflow:"hidden",
+                                    backgroundColor:"lightgrey",
+                                    paddingLeft:5,
+                                }}>
+                                    {myData.firstname}
+                                </Text>
+                        </View>
+                        <View style={{flexDirection:"column"}}>
+                            <Text style={{
+                                fontSize:15,
+                                marginLeft: 15
+                            }}>
+                                last name
+                            </Text>
+                            <Text style={{
+                                marginLeft:63,
+                                fontSize:25,
+                                width:100,
+                                borderRadius:5,
+                                borderWidth:1,
+                                borderColor:"lightgrey",
+                                overflow:"hidden",
+                                backgroundColor:"lightgrey",
+                                paddingLeft:5,
+                            }}>
+                                {myData.lastname}
+                            </Text>
+                        </View>
+                    </View>
                     <View style={{
-                            flexDirection: "row",
                             marginTop:25
                         }}>
                             <Text style={{
-                                fontSize:20,
+                                fontSize:15,
                                 marginRight:58,
-                                marginLeft: 41
+                                marginLeft:18
                             }}>
-                                性別
+                                gender
                             </Text>
                             <Text style={{
+                                marginLeft:50,
+                                width:80,
                                 fontSize:20,
+                                borderRadius:5,
+                                borderWidth:1,
+                                borderColor:"lightgrey",
+                                overflow:"hidden",
+                                backgroundColor:"lightgrey",
+                                paddingLeft:5,
                             }}>
-                                無回答
-                            </Text>
-                    </View>
-                    <View style={{
-                            flexDirection: "row",
-                            marginTop:25
-                        }}>
-                            <Text style={{
-                                fontSize:20,
-                                marginRight:15
-                            }}>
-                                好きなタイトル
-                            </Text>
-                            <Text style={{
-                                fontSize:20,
-                            }}>
-                                BattleField
+                                {gender_list[myData.gender]}
                             </Text>
                     </View>
                     <View style={{
@@ -225,17 +358,33 @@ const mypage =()=> {
                                 fontSize:20,
                                 marginRight:15
                             }}>
-                                プレイスタイル
+                                e-mail
                             </Text>
                             <Text style={{
                                 fontSize:20,
                             }}>
-                                キルムーブ
+                                {myData.email}
+                            </Text>
+                    </View>
+                    <View style={{
+                            flexDirection: "row",
+                            marginTop:25
+                        }}>
+                            <Text style={{
+                                fontSize:20,
+                                marginRight:43,
+                                marginLeft: 20
+                            }}>
+                                introduction
+                            </Text>
+                            <Text style={{
+                                fontSize:20,
+                            }}>
+                                {myData.introduction}
                             </Text>
                     </View>
                 </View>
             </ScrollView>
-         
         </SafeAreaProvider>
     )
 }
