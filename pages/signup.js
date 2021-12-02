@@ -1,6 +1,7 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack} from "native-base";
-import { AuthContext } from "../App";
+import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio} from "native-base";
+import AuthContext from '../components/my_context';
+
 
 const Signup = ({navigation}) => {
   const { signUp } = React.useContext(AuthContext);
@@ -23,25 +24,18 @@ const Signup = ({navigation}) => {
       setValidationResult(false);
     }else{
       setValidationResult(true);
+      if (password == password_again){
+        setValidationPassword(true);
+      }else{
+        setValidationPassword(false);
+      };
     };
-    if (password == password_again){
-      setValidationPassword(true);
-    }else{
-      setValidationPassword(false);
-    };
-    console.log(`validationResult : ${validationResult}`);
-    console.log(`validationPassword: ${validationPassword}`);
-    console.log(`${password}: ${password_again}`);
     if (validationResult && validationPassword){
       let data = {
         "username": `${username}`,
         "password": `${password}`,
-        "first_name": "",
-        "last_name": "",
         "email": `${email}`,
         "gender": `${gender}`,
-        "introduction": "",
-        "image": null
       }
       signUp({ data });
     };
@@ -80,6 +74,27 @@ const Signup = ({navigation}) => {
             </FormControl.HelperText>
           </FormControl>
           <FormControl>
+            <FormControl.Label>性別</FormControl.Label>
+            <Radio.Group
+              name="myRadioGroup"
+              accessibilityLabel="favorite number"
+              value={gender}
+              onChange={(nextValue) => {
+                setGender(nextValue)
+              }}
+            >
+              {
+                Object.keys(gender_list).map((u,i)=>{
+                  return (
+                    <Radio key={i} value={u} my={1}>
+                      {gender_list[u]}
+                    </Radio>
+                  )
+                })
+              }
+            </Radio.Group>
+          </FormControl>
+          <FormControl>
             <FormControl.Label>Email</FormControl.Label>
             <Input value={email} onChangeText={(value)=>setEmail(value)} placeholder="Email" />
           </FormControl>
@@ -88,7 +103,7 @@ const Signup = ({navigation}) => {
             <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード"/>
           </FormControl>
           <FormControl>
-            <FormControl.Label>Confirm Password</FormControl.Label>
+            <FormControl.Label>Password ＊確認</FormControl.Label>
             <Input type="password" value={password_again} onChangeText={(value)=>setPasswordAgain(value)} placeholder="もう一度入力してください" />
             {validationPassword?(
               <FormControl.HelperText _text={{fontSize: 'xs',color:"red.600"}}>

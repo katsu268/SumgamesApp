@@ -2,15 +2,17 @@ import { StyleSheet, View,Image} from 'react-native';
 import React from 'react';
 
 const Loading = (props)=>{
-  const gifList = [require('./assets/gifs/loading_mario.gif'),
-                    require('./assets/gifs/loading_pokemon.gif'),
-                    require('./assets/gifs/loading_genshin.gif'),
-                    require('./assets/gifs/loading_dora.gif'),
-                    require('./assets/gifs/loading.gif'),
-                    require('./assets/gifs/loading.gif'),
-                    require('./assets/gifs/loading_apex.gif'),
-                    require('./assets/gifs/loading_apex.gif'),
-                    require('./assets/gifs/loading_apex.gif'),];
+  const gifList = [
+    require('../assets/gifs/loading_mario.gif'),
+    require('../assets/gifs/loading_pokemon.gif'),
+    require('../assets/gifs/loading_genshin.gif'),
+    require('../assets/gifs/loading_dora.gif'),
+    require('../assets/gifs/loading.gif'),
+    require('../assets/gifs/loading.gif'),
+    require('../assets/gifs/loading_apex.gif'),
+    require('../assets/gifs/loading_apex.gif'),
+    require('../assets/gifs/loading_apex.gif'),
+  ];
   const loading_random = () => {
     return Math.floor(Math.random() * gifList.length);
   };
@@ -24,12 +26,6 @@ const Loading = (props)=>{
   )
 };
 
-function Test (){
-  return (
-    <Loading size={50}/>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
   flex:1, 
@@ -38,4 +34,4 @@ const styles = StyleSheet.create({
   alignItems : 'center'
   },
 });
-export default Test
+export default Loading;

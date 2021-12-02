@@ -2,7 +2,8 @@ import * as React from "react";
 import { Tile } from 'react-native-elements';
 import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
 import Loading from "../components/loading";
-import { AuthContext } from "../App";
+import AuthContext from '../components/my_context';
+
 
 const TopPage = ({navigation}) => {
   const [isLoading, setLoading] = React.useState(false);

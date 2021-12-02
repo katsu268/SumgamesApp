@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ScrollView, Text, View, Modal, Alert, TextInput} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button } from "react-native-elements";
-import sumgames_api from "../components/sumgames_api";
 import { Radio, NativeBaseProvider, Avatar } from "native-base";
 import { flex, flexDirection } from "styled-system";
 
@@ -10,10 +9,10 @@ const mypage =()=> {
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setLoading] = React.useState(true);
     const [myData, setmyData] = React.useState([]);
-    React.useEffect(() => {
-      sumgames_api("accounts/user/")
-      .then((user_data) => setmyData(user_data));
-    }, []);
+    // React.useEffect(() => {
+    //   sumgames_api("accounts/user/")
+    //   .then((user_data) => setmyData(user_data));
+    // }, []);
 
     const gender_list = {
         "MA":"男性",

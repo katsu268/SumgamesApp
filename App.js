@@ -16,6 +16,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NativeBaseProvider,HStack,Icon,Center,Text,Pressable,Menu, Box } from 'native-base';
 import { Feather } from "@expo/vector-icons";
 import {SSRProvider} from '@react-aria/ssr';
+import AuthContext from './components/my_context';
 
 
 import * as SecureStore from 'expo-secure-store';
@@ -24,7 +25,6 @@ const save = async (key, value) => {
   await SecureStore.setItemAsync(key, value);
 }
 
-export const AuthContext = React.createContext();
 
 const Tab = createBottomTabNavigator();
 
@@ -200,7 +200,7 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://10.250.1.221:8000/",
+      BASE_URL: "http://192.168.0.10:8000/",
     }
   );
 
@@ -335,6 +335,25 @@ export default function App() {
           });
           const result = await response.json();
           return result;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      delete: async (data) => {
+        try {
+          const user_token = await SecureStore.getItemAsync('token');
+          const response = await fetch(state.BASE_URL+data.url, {
+            credentials: 'include',
+            method: 'DELETE',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+          });
+          let userToken = await SecureStore.deleteItemAsync("token");
+          let userID = await SecureStore.deleteItemAsync('user_id');
+          dispatch({ type: 'SIGN_OUT' });
         } catch (error) {
           console.log(error);
         }

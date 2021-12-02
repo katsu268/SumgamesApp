@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Box, Heading, VStack, FormControl, Input, Button, Link, Center } from "native-base";
-import { AuthContext } from "../App";
+import AuthContext from '../components/my_context';
+
 
 const Login = ({navigation}) => {
   const [username, setUsername] = React.useState("");
