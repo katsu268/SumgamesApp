@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-// import { Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
 import talk from './pages/talk';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, Menu, Box, useDisclose, Text } from 'native-base';
+// import { Button, Menu, Box, useDisclose, Text } from 'native-base';
 
 const Stack = createStackNavigator();
 

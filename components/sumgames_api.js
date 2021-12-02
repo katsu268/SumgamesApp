@@ -1,7 +1,7 @@
-const BASE_URL = "http://10.250.1.221:8000/"
+const BASE_URL = "http://10.250.2.160:8000/"
 const sumgames_api = async (url,method="GET",data=null) => {
   try {
-    let user_token = "61061372e48a71e94efbf14f9a8d9e5feee951b7";
+    let user_token = "4c580293ddbb0e2edb15dd1c7bacf8ddddcd8f10";
     if (method === "GET") {
       const response = await fetch(BASE_URL+url, {
         credentials: 'include',
