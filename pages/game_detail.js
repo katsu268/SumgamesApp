@@ -1,8 +1,8 @@
-import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card } from 'react-native-elements';
+import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card, Divider } from 'react-native-elements';
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { marginLeft } from 'styled-system';
+import { fontSize, marginLeft } from 'styled-system';
 
 const BASE_URL="http://10.250.2.106:8000"
 const game_detail = ({ route,navigation }) =>{
@@ -35,7 +35,7 @@ const game_detail = ({ route,navigation }) =>{
                         );
                     }}
                     featured
-                    height={250}
+                    height={300}
                 />
 
 
@@ -47,90 +47,107 @@ const game_detail = ({ route,navigation }) =>{
 
                     <View>
                         <Card containerStyle={{
-                            marginRight: 200
-                            }}
-                        >
-                            <Card.Title>プラットフォーム</Card.Title>
-                            <Card.Divider/>
-                            <Card.Image source={require('../assets/images/game01.png')}>
-                            {detail.platform.map((u,i)=>{
-                                return (
-                                    <Text
-                                        h4 
-                                        key = {i}
-                                        style={{
-                                        // marginLeft: 30,
-                                        color: "#FFF",
-                                        backgroundColor: "#000000c0"
-                                        }}
-                                    >
-                                        {u.platform_name}
-                                    </Text>
-                                )
-                            })}
-                            </Card.Image>
-                        </Card>
-
-
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image
-                                source={require('../assets/images/game01.png')}
-                                style={{ width: 200, height: 200 }}
+                            backgroundColor: "#AAB7B8"
+                        }}>
+                            {/* <Card.Title>ジャンル</Card.Title> */}
+                            <Text
+                                style={{
+                                    fontSize: 15,
+                                    marginLeft: 140,
+                                    marginBottom: 10,
+                                    color:"#FFF",
+                                }}
+                            >
+                                ジャンル
+                            </Text>
+                            <Divider
+                                style={{ marginBottom: 15 }}
+                                color="#000000"
+                                orientation="horizontal"
                             />
-                            <View>
-                            {detail.platform.map((u,i)=>{
-                                return (
-                                    <Text
-                                        h4 
-                                        key = {i}
-                                        style={{
-                                        // marginLeft: 30,
-                                        color: "#FFF",
-                                        backgroundColor: "#000000c0"
-                                        }}
-                                    >
-                                        {u.platform_name}
-                                    </Text>
-                                )
-                            })}
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image
+                                    source={require('../assets/images/game01.png')}
+                                    style={{ width: 180, height: 200 }}
+                                />
+                                <Divider
+                                    style={{ margin: 10 }}
+                                    color="#000000"
+                                    orientation="vertical"
+                                />
+                                <View>
+                                {detail.genre.map((u,i)=>{
+                                    return (
+                                        <Text
+                                            key = {i}
+                                            style={{
+                                            // marginLeft: 30,
+                                            color: "#000000",
+                                            // backgroundColor: "#000000c0",
+                                            fontSize: 20,
+                                            }}
+                                        >
+                                            {u.genrename}
+                                        </Text>
+                                    )
+                                })}
+                                </View>
                             </View>
-                        </View>
-
-
-
-
-
-                        <Tile
-                            imageSrc={require('../assets/images/game01.png')}
-                            title="プラットフォーム"
-                            titleStyle={{
-                                fontSize:18,
-                                color:"#000000"
-                            }}
-                            contentContainerStyle={{ height: 110 }}
-                            containerStyle={{
-                                backgroundColor:"#FFF"
-                            }}
-                        >
-                            {detail.platform.map((u,i)=>{
-                                return (
-                                    <Text
-                                        h4
-                                        key = {i}
-                                        style={{
-                                        color: "#000000",
-                                        backgroundColor: "#FFF"
-                                        }}
-                                    >
-                                        {u.platform_name}
-                                    </Text>
-                                )
-                            })}
-                        </Tile>
-
+                        </Card>
                     </View>
 
-                    
+
+                    <View>
+                    <Card containerStyle={{
+                            backgroundColor: "#1A5276"
+                        }}>
+                            {/* <Card.Title>プラットフォーム</Card.Title> */}
+                            <Text
+                                style={{
+                                    fontSize: 15,
+                                    marginLeft: 110,
+                                    marginBottom: 10,
+                                    color:"#FFF",
+                                }}
+                            >
+                                プラットフォーム
+                            </Text>
+                            <Divider
+                                style={{ marginBottom: 15 }}
+                                color="#000000"
+                                orientation="horizontal"
+                            />
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image
+                                    source={require('../assets/images/game01.png')}
+                                    style={{ width: 180, height: 200 }}
+                                />
+                                <Divider
+                                    style={{ margin: 10 }}
+                                    color="#000000"
+                                    orientation="vertical"
+                                />
+                                <View>
+                                {detail.platform.map((u,i)=>{
+                                    return (
+                                        <Text
+                                            key = {i}
+                                            style={{
+                                            // marginLeft: 30,
+                                            color: "#000000",
+                                            // backgroundColor: "#000000c0",
+                                            fontSize: 20,
+                                            }}
+                                        >
+                                            {u.platform_name}
+                                        </Text>
+                                    )
+                                })}
+                                </View>
+                            </View>
+                        </Card>
+
+                    </View>
 
 
                 <Text 
