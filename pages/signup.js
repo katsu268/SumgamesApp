@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio} from "native-base";
+import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView} from "native-base";
 import AuthContext from '../components/my_context';
 
 
@@ -42,6 +42,7 @@ const Signup = ({navigation}) => {
   }
 
   return (
+  <ScrollView>
     <Center flex={1} px="3">
       <Box safeArea p="2" w="90%" maxW="290" py="8">
         <Heading
@@ -141,6 +142,7 @@ const Signup = ({navigation}) => {
         </HStack>
       </Box>
     </Center>
+  </ScrollView>
   )
 }
 
