@@ -115,19 +115,19 @@ const TopPage = ({navigation}) => {
                         <HStack space={3} alignItems="center">
                           {u.genre.map((u,i)=>{
                             return (
-                              <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
+                              <Center key={i} flex="1" h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
                             )
                           })}
                           {u.tags.map((u,i)=>{
                             return (
-                              <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
+                              <Center key={i} flex="1" h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
                             )
                           })}
                         </HStack>
                         <HStack space={3} alignItems="center">
                           {u.platform.map((u,i)=>{
                             return (
-                              <Center key={i} h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
+                              <Center key={i} flex="1" h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} >{u.platform_name}</Center>
                             )
                           })}
                         </HStack>

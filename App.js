@@ -30,7 +30,7 @@ const Tab = createBottomTabNavigator();
 
 function MyTabBar({ state, descriptors, navigation }) {
   const [menuOpen,menuOpenSet] = React.useState(false);
-  const { signOut } = React.useContext(AuthContext);
+  const { signOut,user_delete } = React.useContext(AuthContext);
   return (
     <HStack alignItems="center" safeAreaBottom="8" pt="1">
       {state.routes.map((route, index) => {
@@ -152,6 +152,13 @@ function MyTabBar({ state, descriptors, navigation }) {
         >
           ログアウト
         </Menu.Item>
+        <Menu.Item 
+          onPress={()=>{
+            user_delete();
+          }}
+        >
+          ユーザー削除
+        </Menu.Item>
       </Menu>
     </HStack>
   );
@@ -200,7 +207,7 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://192.168.0.10:8000/",
+      BASE_URL: "http://172.20.10.11:8000/",
     }
   );
 
@@ -339,12 +346,33 @@ export default function App() {
           console.log(error);
         }
       },
-      delete: async (data) => {
+      user_delete: async () => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
-          const response = await fetch(state.BASE_URL+data.url, {
+          const user_id = await SecureStore.getItemAsync('user_id');
+          const response = await fetch(state.BASE_URL+`accounts/user/${user_id}/`, {
             credentials: 'include',
             method: 'DELETE',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+          });
+          let userToken = await SecureStore.deleteItemAsync("token");
+          let userID = await SecureStore.deleteItemAsync('user_id');
+          dispatch({ type: 'SIGN_OUT' });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      password_reset: async (data) => {
+        try {
+          const user_token = await SecureStore.getItemAsync('token');
+          const user_id = await SecureStore.getItemAsync('user_id');
+          const response = await fetch(state.BASE_URL+`accounts/user/${user_id}/set_password/`, {
+            credentials: 'include',
+            method: 'POST',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
