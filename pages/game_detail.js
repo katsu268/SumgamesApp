@@ -2,11 +2,12 @@ import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card, Di
 import React ,{ Component }from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { fontSize, marginLeft } from 'styled-system';
+import AuthContext from '../components/my_context';
 
-const BASE_URL="http://10.250.2.106:8000"
+
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
+    const { BASE_URL } = React.useContext(AuthContext);
     return(
         <SafeAreaProvider>
             <ScrollView>
@@ -246,7 +247,9 @@ const game_detail = ({ route,navigation }) =>{
                             marginRight: 25,
                             marginLeft: "25%",
                             }}
-                        onPress={() => navigation.navigate('HostForm')}
+                        onPress={() => navigation.navigate('HostForm',{
+                            detail:detail
+                          })}
                     />
                     <Button title="ゲスト"
                         style={{

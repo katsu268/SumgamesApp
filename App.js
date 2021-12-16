@@ -13,8 +13,8 @@ import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
 import talk from './pages/talk';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { NativeBaseProvider,HStack,Icon,Center,Text,Pressable,Menu, Box } from 'native-base';
-import { Feather } from "@expo/vector-icons";
+import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box,Button,AlertDialog } from 'native-base';
+import { Feather,Ionicons } from "@expo/vector-icons";
 import {SSRProvider} from '@react-aria/ssr';
 import AuthContext from './components/my_context';
 
@@ -100,7 +100,7 @@ function MyTabBar({ state, descriptors, navigation }) {
         );
       })}
       <Menu
-        w="190"
+        w="160"
         isOpen={menuOpen}
         onOpen={()=>{menuOpenSet(true)}}
         onClose={()=>{menuOpenSet(false)}}
@@ -184,6 +184,7 @@ export default function App() {
             ...prevState,
             user_token: action.user_token,
             user_id: action.user_id,
+            talkroom_id: action.talkroom_id,
             isLoading: false,
           };
         case 'SIGN_IN':
@@ -199,6 +200,17 @@ export default function App() {
             isSignout: true,
             user_token: null,
             user_id: null,
+            talkroom_id: null,
+          };
+        case 'JOIN_TALKROOM':
+          return {
+            ...prevState,
+            talkroom_id: action.talkroom_id,
+          };
+        case 'EXIT_TALKROOM':
+          return {
+            ...prevState,
+            talkroom_id: null,
           };
       }
     },
@@ -207,7 +219,8 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://172.20.10.11:8000/",
+      talkroom_id: null,
+      BASE_URL: "http://172.20.10.7:8000/",
     }
   );
 
@@ -217,7 +230,8 @@ export default function App() {
       try {
         let userToken = await SecureStore.getItemAsync('token');
         let userID = await SecureStore.getItemAsync('user_id');
-        dispatch({ type: 'RESTORE_TOKEN', user_token: userToken, user_id: userID });
+        let talkroomID = await SecureStore.getItemAsync('talkroom_id');
+        dispatch({ type: 'RESTORE_TOKEN', user_token: userToken, user_id: userID, talkroom_id: talkroomID });
       } catch (e) {
         // Restoring token failed
         console.log(e);
@@ -262,6 +276,7 @@ export default function App() {
       signOut: async () => {
         let userToken = await SecureStore.deleteItemAsync("token");
         let userID = await SecureStore.deleteItemAsync('user_id');
+        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
         dispatch({ type: 'SIGN_OUT' });
       },
       signUp: async data => {
@@ -313,7 +328,7 @@ export default function App() {
           const user_token = await SecureStore.getItemAsync('token');
           const response = await fetch(state.BASE_URL+data.url, {
             credentials: 'include',
-            method: 'GET',
+            method: 'POST',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
@@ -361,6 +376,7 @@ export default function App() {
           });
           let userToken = await SecureStore.deleteItemAsync("token");
           let userID = await SecureStore.deleteItemAsync('user_id');
+          let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
           dispatch({ type: 'SIGN_OUT' });
         } catch (error) {
           console.log(error);
@@ -378,15 +394,24 @@ export default function App() {
               'Content-Type': 'application/json',
               'Authorization': `Token ${user_token}`
             },
+            body: JSON.stringify(data.data)
           });
-          let userToken = await SecureStore.deleteItemAsync("token");
-          let userID = await SecureStore.deleteItemAsync('user_id');
-          dispatch({ type: 'SIGN_OUT' });
+          const result = await response.json();
+          return result;
         } catch (error) {
           console.log(error);
         }
       },
-
+      join_talkroom: async (data) => {
+        try {
+          let talkroomID = data.talkroomID
+          save("talkroom_id", talkroomID);
+          dispatch({ type: 'JOIN_TALKROOM', talkroom_id: talkroomID });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      
     }),
     []
   );
@@ -403,14 +428,72 @@ export default function App() {
                   <Stack.Screen name="PasswordReset" component={PasswordReset} />
                 </Stack.Group>
               ) : (
-                <Stack.Group>
-                  <Stack.Screen name="Top" component={TopTab} options={{headerShown:false}}/>
-                  <Stack.Screen name="game_detail" component={game_detail} />
-                  <Stack.Screen name="HostForm" component={HostForm} />
-                  <Stack.Screen name="GuestMatching" component={GuestMatching} />
-                  <Stack.Screen name="talk" component={talk} />
-                  <Stack.Screen name="Inquiry" component={Inquiry} />
-                </Stack.Group>
+                state.talkroom_id == null ? (
+                  <Stack.Group>
+                    <Stack.Screen name="Top" component={TopTab} options={{headerShown:false,title:"ホーム"}} />
+                    <Stack.Screen name="game_detail" component={game_detail} options={{title:"ゲーム詳細"}} />
+                    <Stack.Screen name="HostForm" component={HostForm} options={{title:"募集内容"}}/>
+                    <Stack.Screen name="GuestMatching" component={GuestMatching} options={{title:"マッチング"}} />
+                    <Stack.Screen name="Inquiry" component={Inquiry} options={{title:"お問い合わせ"}}/>
+                  </Stack.Group>
+                ):(
+                  <Stack.Group>
+                    <Stack.Screen name="talk" component={talk} initialParams={{ talkroom_id: state.talkroom_id, user_id: state.user_id }} options={{ 
+                      title: 'トークルーム',
+                      headerTitleAlign:"center",
+                      headerRight: ()=>{
+                        const [isOpen, setIsOpen] = React.useState(false);
+                        const onClose = () => setIsOpen(false);
+                        const cancelRef = React.useRef(null);
+                        const { post } = React.useContext(AuthContext);
+                        return (
+                          <Box>
+                            <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
+                              退出
+                            </Button>
+                            <AlertDialog
+                              leastDestructiveRef={cancelRef}
+                              isOpen={isOpen}
+                              onClose={onClose}
+                            >
+                              <AlertDialog.Content>
+                                <AlertDialog.CloseButton />
+                                <AlertDialog.Header>このトークルームから退出します。</AlertDialog.Header>
+                                <AlertDialog.Body>
+                                  退出すると、同じトークルームルームには参加出来ません。
+                                  退出しますか？
+                                </AlertDialog.Body>
+                                <AlertDialog.Footer>
+                                  <Button.Group space={2}>
+                                    <Button
+                                      variant="unstyled"
+                                      colorScheme="coolGray"
+                                      onPress={onClose}
+                                      ref={cancelRef}
+                                    >
+                                      キャンセル
+                                    </Button>
+                                    <Button colorScheme="danger" onPress={async ()=>{
+                                      try {
+                                        let response = await post({url:`api/talkroom/${state.talkroom_id}/exit_talkroom/`,data:{}});
+                                        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
+                                        dispatch({ type: 'EXIT_TALKROOM' });
+                                      } catch (error) {
+                                        console.log(error);
+                                      }
+                                    }}>
+                                      退出
+                                    </Button>
+                                  </Button.Group>
+                                </AlertDialog.Footer>
+                              </AlertDialog.Content>
+                            </AlertDialog>
+                          </Box>
+                        );
+                      },
+                    }}/>
+                  </Stack.Group>
+                )
               )}
             </Stack.Navigator>
           </AuthContext.Provider>
