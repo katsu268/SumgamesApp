@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthContext from '../components/my_context';
 
 
+const BASE_URL="http://10.250.2.35:8000/"
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
     const { BASE_URL } = React.useContext(AuthContext);
@@ -16,7 +17,7 @@ const game_detail = ({ route,navigation }) =>{
                         return(
                             <ImageBackground
                                 source={{
-                                    uri:BASE_URL+detail.image,
+                                    uri:'BASE_URL + detail.image'
                                 }}
                                 resizeMode="cover"
                                 style={{width:"100%",height:300}}
@@ -240,6 +241,7 @@ const game_detail = ({ route,navigation }) =>{
                 <View style={{
                     flexDirection: "row",
                     marginTop: 30,
+                    marginBottom: 100,
                 }}>
                     <Button title="ホスト"
                         style={{
@@ -268,6 +270,7 @@ const game_detail = ({ route,navigation }) =>{
         </SafeAreaProvider>
     )
 }
+
 
 
 export default game_detail
