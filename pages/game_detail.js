@@ -268,4 +268,5 @@ const game_detail = ({ route,navigation }) =>{
 }
 
 
+
 export default game_detail
