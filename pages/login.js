@@ -18,7 +18,7 @@ const Login = ({navigation}) => {
             color: "warmGray.50",
           }}
         >
-          いらっしゃい　待ってたよ
+          ようこそ
         </Heading>
         <Heading
           mt="1"
@@ -29,17 +29,17 @@ const Login = ({navigation}) => {
           fontWeight="medium"
           size="xs"
         >
-          サインアップしなきゃダメだよぉ～💦
+          ログインしてください
         </Heading>
 
         <VStack space={3} mt="5">
           <FormControl>
-            <FormControl.Label>ユーザ名を教えてね</FormControl.Label>
+            <FormControl.Label>ユーザ名</FormControl.Label>
             <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="ユーザーID" />
           </FormControl>
           <FormControl>
-            <FormControl.Label>パスワードだよぉ～</FormControl.Label>
-            <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワードリセット" />
+            <FormControl.Label>パスワード</FormControl.Label>
+            <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード" />
             <Link
               _text={{
                 fontSize: "xs",
@@ -50,11 +50,11 @@ const Login = ({navigation}) => {
               mt="1"
               onPress={()=>{navigation.navigate("PasswordReset")}}
             >
-              忘れちゃったの？？？
+              パスワードを忘れた方はこちら
             </Link>
           </FormControl>
           <Button mt="2" colorScheme="indigo" onPress={() => signIn({ username, password })}>
-            おっけ～ならここ押してね
+            ログイン
           </Button>
         </VStack>
       </Box>
