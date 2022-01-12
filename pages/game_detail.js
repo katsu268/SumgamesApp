@@ -4,7 +4,7 @@ import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { fontSize, marginLeft } from 'styled-system';
 
-const BASE_URL="http://10.250.2.106:8000"
+const BASE_URL="http://10.250.2.35:8000/"
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
     return(
@@ -15,7 +15,7 @@ const game_detail = ({ route,navigation }) =>{
                         return(
                             <ImageBackground
                                 source={{
-                                    uri:BASE_URL+detail.image,
+                                    uri:'BASE_URL + detail.image'
                                 }}
                                 resizeMode="cover"
                                 style={{width:"100%",height:300}}
@@ -239,6 +239,7 @@ const game_detail = ({ route,navigation }) =>{
                 <View style={{
                     flexDirection: "row",
                     marginTop: 30,
+                    marginBottom: 100,
                 }}>
                     <Button title="ホスト"
                         style={{
