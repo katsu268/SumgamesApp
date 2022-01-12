@@ -219,7 +219,8 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://172.20.10.2:8000/",
+      talkroom_id: null,
+      BASE_URL: "http://192.168.0.8:8000/",
     }
   );
 
