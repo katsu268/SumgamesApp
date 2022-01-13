@@ -145,7 +145,7 @@ const guest_matching = ({ navigation, route }) =>{
                                                                                     uri: BASE_URL+"/media/"+u.host_user.image,
                                                                                 }}
                                                                             >
-                                                                                {u.host_user.user_name.slice(0,1).toUpperCase()}
+                                                                                {u.host_user.username.slice(0,1).toUpperCase()}
                                                                             </Avatar>
                                                                         }
                                                                         {u.guest_user.map((user,j)=>{
