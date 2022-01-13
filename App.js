@@ -220,7 +220,7 @@ export default function App() {
       user_token: null,
       user_id: null,
       talkroom_id: null,
-      BASE_URL: "http://172.20.10.11:8000/",
+      BASE_URL: "http://172.20.10.2:8000/",
     }
   );
 
