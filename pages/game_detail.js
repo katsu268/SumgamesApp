@@ -12,8 +12,7 @@ const game_detail = ({ route,navigation }) =>{
     const { BASE_URL,get } = React.useContext(AuthContext);
     const [data, setData] = React.useState({});
     const [isLoading, setLoading] = React.useState(true);
-    const host_data=Math.floor(detail.host/(detail.host+detail.guest)*100)
-
+    const [rate, setRate] = React.useState(0);
 
     React.useEffect(() => {
         async function fetchData() {
@@ -21,6 +20,9 @@ const game_detail = ({ route,navigation }) =>{
             const my_data = await get({url});
             if (my_data !== undefined){
                 setData(my_data);
+            }
+            if (my_data.host){
+                setRate(Math.floor(my_data.host/(my_data.host+my_data.guest)*100));
             }
             setLoading(false);
         }
@@ -191,7 +193,7 @@ const game_detail = ({ route,navigation }) =>{
                             marginLeft: 20
                         }}
                     >
-                        ホスト:
+                        ホスト:{data.host}
                     </Text>
                     <Slider
                         animationType="timing"
@@ -227,7 +229,7 @@ const game_detail = ({ route,navigation }) =>{
                         thumbTintColor="#0c0"
                         thumbTouchSize={{ width: 40, height: 40 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={host_data}
+                        value={rate}
                     />
                     <Text
                         style={{
