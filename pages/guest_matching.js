@@ -1,146 +1,307 @@
 import * as React from "react";
-import { Image, Tile, Input, Button } from "react-native-elements";
-import { View, Text, StyleSheet, ScrollView, } from 'react-native';
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import TinderCard from 'react-tinder-card'
+import styled from 'styled-components'
+import {
+    Box,
+    Heading,
+    AspectRatio,
+    Image,
+    Text,
+    Center,
+    HStack,
+    Stack,
+    ZStack,
+    Avatar,
+    NativeBaseProvider,
+    Badge,
+    IconButton,
+    Icon,
+} from "native-base"
+import { ImageBackground } from "react-native";
+import AuthContext from '../components/my_context';
+import Loading from '../components/loading';
+import { Entypo,FontAwesome5 } from "@expo/vector-icons"
+
+const CardContainer = styled.View`
+    width: 100%;
+    max-width: 360px;
+    height: 440px;
+`
+const Container = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex:1;
+`
+const Card = styled.View`
+    position: absolute;
+    width: 100%;
+    max-width: 360px;
+    height: 440px;
+    shadow-color: black;
+    shadow-opacity: 0.2;
+    shadow-radius: 20px;
+    border-radius: 20px;
+    resize-mode: cover;
+`
 
 
-const guest_matching = () =>{
+const guest_matching = ({ navigation, route }) =>{
+    const { game_id,gameName,gameImage } = route.params;
+    const { BASE_URL, get } = React.useContext(AuthContext);
+    const [ tinder_cards, setTinderCards] = React.useState([]);
+    const [isLoading, setLoading] = React.useState(true);
+    const childRefs = React.useMemo(() => Array(tinder_cards.length).fill(0).map(i => React.createRef()), [])
+    const alreadyRemoved = []
+    let charactersState = []
+
+    const fetchRoomDatas = async (id) => {
+        const my_data = await get({url:`api/talkroom/?game_id=${id}`});
+        setTinderCards(my_data);
+        charactersState = my_data;
+        setLoading(false);
+    }
+
+    React.useEffect(()=>{
+        navigation.setOptions({
+            title: gameName
+        });
+        fetchRoomDatas(game_id);
+    },[])
+
+    const onSwipe = (direction,id) => {
+        alreadyRemoved.push(id)
+    }
+    
+    const onCardLeftScreen = (id) => {
+        charactersState = charactersState.filter(character => character.id !== id);
+        setTinderCards(charactersState);
+    }
+
+    const swipe = (dir) => {
+        const cardsLeft = tinder_cards.filter(room => !alreadyRemoved.includes(room.id))
+        if (cardsLeft.length) {
+            const toBeRemoved = cardsLeft[cardsLeft.length - 1].id // Find the card object to be removed
+            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved) // Find the index of which to make the reference to
+            alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
+            childRefs[index].current.swipe(dir) // Swipe the card!
+        }
+    }
+
+    const goBack = () => {
+        const cardsLeft = tinder_cards.filter(room => !alreadyRemoved.includes(room.id))
+        if (tinder_cards.length - cardsLeft.length) {
+            const toBeRemoved = cardsLeft[cardsLeft.length].id // Find the card object to be removed
+            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved) // Find the index of which to make the reference to
+            alreadyRemoved.pop(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
+            childRefs[index].current.restoreCard()
+        }
+    }
     return(
-        <SafeAreaProvider>
-            <ScrollView>
-                {/* 募集ゲームの画像 */}
-                <Tile
-                    imageSrc={require('../assets/images/apex-image.jpg')}
-                    containerStyle={{
-                        marginTop: 50,
-                        height:265}}
-                />
-                {/* 募集条件全体 */}
-                <View style={{marginLeft:5}}>
-                    {/* 募集条件タイトル */}
-                    <Text
-                        style={{fontSize:30}}
-                        underlineColorAndroid="transparent"
-                        placeholder="Type something"
-                        placeholderTextColor="grey"
-                        numberOfLines={10}
-                        multiline={true}
-                        label="募集条件"
-                        labelStyle={{}}
-                        labelProps={{}}
-                        placeholder="募集条件"
-                        justifyContent="flex-start">
-                    募集条件
-                    </Text>
-                    {/* ユーザー名欄 */}
-                    <View style={{
-                        flexDirection: "row",
-                        marginTop:10
-                    }}>
-                        <Text style={{
-                            fontSize:20,
-                            marginRight:46,
-                            marginLeft:26
-                        }}>
-                            ユーザー名
-                        </Text>
-                        <Text style={{
-                            fontSize:20,
-                        }}>
-                            sample_1234
-                        </Text>
-                    </View>
-                    {/* ゲーム名欄 */}
-                    <View style={{
-                        flexDirection: "row",
-                        marginTop:10
-                    }}>
-                        <Text style={{
-                            fontSize:20,
-                            marginLeft:31.5,
-                            marginRight:56
-                        }}>
-                            ゲーム名
-                        </Text>
-                        <Text style={{
-                            fontSize:20,
-                        }}>
-                            Apex Legends
-                        </Text>
-                    </View>
-                    {/* 募集人数欄 */}
-                    <View style={{
-                        flexDirection: "row",
-                        marginTop:10
-                    }}>
-                        <Text style={{
-                            fontSize:20,
-                            marginLeft:31.5,
-                            marginRight:56
-                        }}>
-                            募集人数
-                        </Text>
-                        <Text style={{
-                            fontSize:20,
-                        }}>
-                            2
-                        </Text>
-                    </View>
-                    {/* 募集人数欄 */}
-                    <View style={{
-                        flexDirection: "row",
-                        marginTop:10
-                    }}>
-                        <Text style={{
-                            fontSize:20,
-                            // marginLeft:6,
-                            marginRight:20
-                        }}>
-                            プラットフォーム
-                        </Text>
-                        <Text style={{
-                            fontSize:20,
-                        }}>
-                            PC
-                        </Text>
-                    </View>
-                    {/* その他条件 */}
-                    <View style={{
-                        flexDirection: "row",
-                        marginTop:10
-                    }}>
-                        <Text style={{
-                            fontSize:20,
-                            marginLeft:26,
-                            marginRight:43
-                        }}>
-                            その他条件
-                        </Text>
-                        <Text style={{
-                            fontSize:20,
-                        }}>
-                            エンジョイ勢です
-                        </Text>
-                    </View>
-                </View>
-                {/* 参加不参加ボタン */}
-                <View style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    marginTop:20,
-                    marginLeft: 15}}>
-                    <Button title="参加"
-                            style={{
-                                width: 80
-                                }}/>
-                    <Button title="不参加"
-                            style={{
-                                marginLeft: 65,
-                                width: 80
-                                }}/>
-                </View>
-            </ScrollView>
-        </SafeAreaProvider>
+        // <NativeBaseProvider config={config}>
+        <NativeBaseProvider>
+            <Box flex={1}>
+                <ImageBackground source={{uri:BASE_URL+gameImage}} resizeMode="repeat" style={{flex: 1,justifyContent: "center"}}>
+                    {
+                        isLoading
+                        ?(
+                            <Center flex={1}>
+                                <Loading size={300} />
+                            </Center>
+                        )
+                        :(
+                            <Container>
+                                <CardContainer>
+                                    {tinder_cards.map((u,i)=>{
+                                        return (
+                                            <TinderCard ref={childRefs[i]} key={u.id} onSwipe={(direction)=>onSwipe(direction,u.id)} onCardLeftScreen={() => onCardLeftScreen(u.id)} preventSwipe={['up', 'down']} >
+                                                <Card>
+                                                    <Box
+                                                        bg="gray.50"
+                                                        p="12"
+                                                        rounded="xl"
+                                                        _text={{
+                                                            fontSize: 'md',
+                                                            fontWeight: 'medium',
+                                                            color: 'warmGray.50',
+                                                            textAlign: 'center',
+                                                        }}
+                                                        flex={1}
+                                                    >
+                                                        <Stack p="2" space={3}>
+                                                            <Stack space={2}>
+                                                                <Heading size="md" ml="-1">
+                                                                    <Avatar.Group size="16" max={5}>
+                                                                        {
+                                                                            (u.host_user.image === null)
+                                                                            ?<Avatar
+                                                                                bg="pink.600"
+                                                                            >
+                                                                                {u.host_user.username.slice(0,1).toUpperCase()}
+                                                                            </Avatar>
+                                                                            :<Avatar
+                                                                                bg="pink.600"
+                                                                                source={{
+                                                                                    uri: BASE_URL+"/media/"+u.host_user.image,
+                                                                                }}
+                                                                            >
+                                                                                {u.host_user.user_name.slice(0,1).toUpperCase()}
+                                                                            </Avatar>
+                                                                        }
+                                                                        {u.guest_user.map((user,j)=>{
+                                                                            return (
+                                                                                (user.image === null)
+                                                                                ?<Avatar
+                                                                                    key={j}
+                                                                                    bg="cyan.500"
+                                                                                >
+                                                                                    {user.username.slice(0,1).toUpperCase()}
+                                                                                </Avatar>
+                                                                                :<Avatar
+                                                                                    key={j}
+                                                                                    bg="cyan.500"
+                                                                                    source={{
+                                                                                        uri: BASE_URL+"/media/"+user.image,
+                                                                                    }}
+                                                                                >
+                                                                                    {user.username.slice(0,1).toUpperCase()}
+                                                                                </Avatar>
+                                                                            );
+                                                                        })}
+                                                                    </Avatar.Group>
+                                                                </Heading>
+                                                                <Text
+                                                                    fontSize="xs"
+                                                                    _light={{
+                                                                    color: "violet.500",
+                                                                    }}
+                                                                    _dark={{
+                                                                    color: "violet.400",
+                                                                    }}
+                                                                    fontWeight="500"
+                                                                    ml="-0.5"
+                                                                    mt="-1"
+                                                                >
+                                                                    あと
+                                                                    <Text bold fontSize="lg" >{Number(u.recruit_num) - u.guest_user.length}</Text>
+                                                                    人募集中！！！
+                                                                </Text>
+                                                            </Stack>
+                                                            <Stack>
+                                                                <Badge colorScheme="success" variant="outline">募集プラットフォーム</Badge>
+                                                                <HStack space={3} alignItems="center" style={{flexWrap:"wrap"}} mt={2}>
+                                                                    {u.recruit_platform.map((paltform,k)=>{
+                                                                    return (
+                                                                        <Center key={k} h="5" w="auto" bg="emerald.500" pr="1" pl="1" rounded="md" shadow={3} mb="2" >{paltform}</Center>
+                                                                    )
+                                                                    })}
+                                                                </HStack>
+                                                            </Stack>
+                                                            <Stack>
+                                                                <Badge colorScheme="info" variant="outline" mb={1}>募集内容</Badge>
+                                                                <Text fontWeight="400">
+                                                                    {u.recruit_context}
+                                                                </Text>
+                                                            </Stack>
+                                                        </Stack>
+                                                    </Box>
+                                                </Card>
+                                            </TinderCard>
+                                        );
+                                    })}
+                                </CardContainer>
+                                <HStack alignItems="center" maxWidth={360}>
+                                    <Center flex={1}>
+                                        <IconButton
+                                            icon={<Icon as={Entypo} name="emoji-sad" />}
+                                            borderRadius="full"
+                                            _icon={{
+                                                color: "blue.500",
+                                                size: "md",
+                                            }}
+                                            _hover={{
+                                                bg: "blue.600:alpha.20",
+                                            }}
+                                            _pressed={{
+                                                bg: "blue.600:alpha.20",
+                                                _ios: {
+                                                _icon: {
+                                                    size: "2xl",
+                                                },
+                                                },
+                                            }}
+                                            _ios={{
+                                                _icon: {
+                                                size: "2xl",
+                                                },
+                                            }}
+                                            onPress={() => swipe('left')}
+                                        />
+                                    </Center>
+                                    <Center flex={1}>
+                                        <IconButton
+                                            icon={<Icon as={FontAwesome5} name="undo" />}
+                                            borderRadius="full"
+                                            _icon={{
+                                                color: "orange.500",
+                                                size: "md",
+                                            }}
+                                            _hover={{
+                                                bg: "orange.600:alpha.20",
+                                            }}
+                                            _pressed={{
+                                                bg: "orange.600:alpha.20",
+                                                _ios: {
+                                                _icon: {
+                                                    size: "2xl",
+                                                },
+                                                },
+                                            }}
+                                            _ios={{
+                                                _icon: {
+                                                size: "xl",
+                                                },
+                                            }}
+                                            onPress={()=>goBack()}
+                                        />
+                                    </Center>
+                                    <Center flex={1}>
+                                        <IconButton
+                                            icon={<Icon as={Entypo} name="emoji-happy" />}
+                                            borderRadius="full"
+                                            _icon={{
+                                                color: "rose.500",
+                                                size: "md",
+                                            }}
+                                            _hover={{
+                                                bg: "rose.600:alpha.20",
+                                            }}
+                                            _pressed={{
+                                                bg: "rose.600:alpha.20",
+                                                _icon: {
+                                                name: "emoji-flirt",
+                                                },
+                                                _ios: {
+                                                _icon: {
+                                                    size: "2xl",
+                                                },
+                                                },
+                                            }}
+                                            _ios={{
+                                                _icon: {
+                                                size: "2xl",
+                                                },
+                                            }}
+                                            onPress={() => swipe('right')}
+                                        />
+                                    </Center>
+                                </HStack>
+                            </Container>
+                        )
+                    }
+                </ImageBackground>
+            </Box>
+        </NativeBaseProvider>
     )
 }
 

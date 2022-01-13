@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View, Modal, Alert, TextInput} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button } from "react-native-elements";
-import { Radio, NativeBaseProvider, Avatar } from "native-base";
-import { flex, flexDirection } from "styled-system";
+import { Button, Radio, NativeBaseProvider, Avatar, Center } from "native-base";
+import AuthContext from "../components/my_context";
 
 const mypage =()=> {
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setLoading] = React.useState(true);
     const [myData, setmyData] = React.useState([]);
-    // React.useEffect(() => {
-    //   sumgames_api("accounts/user/")
-    //   .then((user_data) => setmyData(user_data));
-    // }, []);
+    const { get, BASE_URL } = React.useContext(AuthContext);
 
     const gender_list = {
         "MA":"男性",
@@ -27,25 +23,35 @@ const mypage =()=> {
     const [email, setEmail] = React.useState(myData.email);
     const [introduction, setIntroduction] = React.useState(myData.introduction);
 
-    const [Inputheigt, setInputheight] = React.useState(0);
+    const [Inputheight, setInputheight] = React.useState();
+
+    React.useEffect(() => {
+        async function fetchData() {
+          const url = "accounts/user/"
+          const my_data = await get({url});
+          setmyData(my_data);
+        }
+        fetchData();
+      }, []);
+    
 
     return(
         <SafeAreaProvider>
             <ScrollView style={{
                 marginLeft:5
             }}>
-                <Text style={{
-                    fontSize:30,
-                    marginTop: 50,
-                    marginLeft: 10}}>
-                    マイページ
-                </Text>
+                <Center>
+                    <Text style={{
+                        fontSize:30,
+                        marginTop: 50,
+                        marginLeft: 10}}>
+                        Profile
+                    </Text>
+                </Center>
                 <Button
-                title="編集"
-                buttonStyle={{width:80}}
                 style={{
-                    width: 120,
-                    marginLeft: "65%",
+                    width: 100,
+                    marginLeft: "70%",
                     alignItems: 'flex-end',
                     marginTop: 10}}
                 onPress={() => {
@@ -58,7 +64,9 @@ const mypage =()=> {
                         setIntroduction(myData.introduction);
                     }
                 }
-                />
+                >
+                    編集
+                </Button>
                 <Modal
                     animationType = "slide"
                     transparent={true}
@@ -71,33 +79,30 @@ const mypage =()=> {
                     marginLeft:5,
                     backgroundColor:"white"
                         }}>
-                        <Text style={{
-                            fontSize:30,
-                            marginTop: 50,
-                            marginLeft: 10}}>
-                            マイページ編集
-                        </Text>
                         <Button
-                        title="キャンセル"
-                        buttonStyle={{width:100}}
-                        style={{
-                            width: 100,
-                            marginLeft: "70%",
-                            alignItems: 'flex-end',
-                            marginTop: 10}}
-                        onPress={() => setModalVisible(!modalVisible)}
-                        />
+                            buttonStyle={{width:100}}
+                            style={{
+                                width: 100,
+                                marginLeft: "70%",
+                                alignItems: 'flex-end',
+                                marginTop: 85}}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+                            キャンセル
+                        </Button>
                         <View style={{marginLeft: "10%"}}>
+                            <Avatar>
+                                
+                            </Avatar>
                             <View style={{
-                                    flexDirection: "row",
                                     marginTop:45
                                 }}>
                                     <Text style={{
-                                        fontSize:20,
+                                        fontSize:15,
                                         marginRight:45,
                                         marginLeft:15
                                     }}>
-                                        ユーザー名
+                                        username
                                     </Text>
                                     <TextInput
                                         value={username}
@@ -106,6 +111,12 @@ const mypage =()=> {
                                         fontSize:20,
                                         width: 180,
                                         borderBottomWidth: 1,
+                                        borderRadius:5,
+                                        borderWidth:1,
+                                        borderColor:"lightblue",
+                                        overflow:"hidden",
+                                        backgroundColor:"lightgrey",
+                                        paddingLeft:5,
                                         }}
                                         onChangeText={(value) => {setUsername(()=>{return username===value})}}
                                     />
@@ -236,7 +247,6 @@ const mypage =()=> {
                                 />
                             </View>
                             <Button
-                                title="保存"
                                 style={{
                                     width: 80,
                                     marginLeft: "35%",
@@ -246,18 +256,23 @@ const mypage =()=> {
                                     setModalVisible(!modalVisible);
 
                                 }}
-                            />
+                            >
+                                保存
+                            </Button>
                         </View>
                     </ScrollView>
                 </Modal>
                 <NativeBaseProvider>
-                    <Avatar
-                        value={myData.image}
-                    />
+                    <Center style={{ marginTop: 20 }}>
+                        <Avatar
+                            value={myData.image}
+                            size="xl"
+                        />
+                    </Center>
                 </NativeBaseProvider>
                 <View style={{marginLeft: 15}}>
                     <View style={{
-                            marginTop:40
+                            marginTop:30
                         }}>
                             <Text style={{
                                 fontSize:20,
@@ -350,34 +365,49 @@ const mypage =()=> {
                             </Text>
                     </View>
                     <View style={{
-                            flexDirection: "row",
                             marginTop:25
                         }}>
                             <Text style={{
-                                fontSize:20,
-                                marginRight:15
+                                fontSize:15,
+                                marginRight:15,
+                                marginLeft:20
                             }}>
                                 e-mail
                             </Text>
                             <Text style={{
+                                marginLeft:50,
+                                width:250,
                                 fontSize:20,
+                                borderRadius:5,
+                                borderWidth:1,
+                                borderColor:"lightgrey",
+                                overflow:"hidden",
+                                backgroundColor:"lightgrey",
+                                paddingLeft:5,
                             }}>
                                 {myData.email}
                             </Text>
                     </View>
                     <View style={{
-                            flexDirection: "row",
                             marginTop:25
                         }}>
                             <Text style={{
-                                fontSize:20,
+                                fontSize:15,
                                 marginRight:43,
-                                marginLeft: 20
                             }}>
                                 introduction
                             </Text>
                             <Text style={{
+                                marginLeft:50,
+                                width:300,
                                 fontSize:20,
+                                borderRadius:5,
+                                borderWidth:1,
+                                borderColor:"lightgrey",
+                                overflow:"hidden",
+                                backgroundColor:"lightgrey",
+                                paddingLeft:5,
+                                height:Inputheight
                             }}>
                                 {myData.introduction}
                             </Text>
