@@ -5,10 +5,22 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthContext from '../components/my_context';
 
 
-const BASE_URL="http://10.250.2.35:8000/"
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
-    const { BASE_URL } = React.useContext(AuthContext);
+    const { BASE_URL,get } = React.useContext(AuthContext);
+    const [data, setData] = React.useState({});
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const url = `api/gameitem/${detail.id}/`
+            const my_data = await get({url});
+            if (my_data !== undefined){
+                setData(my_data);
+            }
+        }
+        fetchData();
+      }, []);
+    
     return(
         <SafeAreaProvider>
             <ScrollView>
@@ -17,7 +29,7 @@ const game_detail = ({ route,navigation }) =>{
                         return(
                             <ImageBackground
                                 source={{
-                                    uri:'BASE_URL + detail.image'
+                                    uri:BASE_URL + detail.image
                                 }}
                                 resizeMode="cover"
                                 style={{width:"100%",height:300}}
@@ -101,7 +113,7 @@ const game_detail = ({ route,navigation }) =>{
 
                     <View>
                     <Card containerStyle={{
-                            backgroundColor: "#1A5276"
+                            backgroundColor: "#87ceeb"
                         }}>
                             {/* <Card.Title>プラットフォーム</Card.Title> */}
                             <Text
@@ -171,7 +183,7 @@ const game_detail = ({ route,navigation }) =>{
                             marginLeft: 20
                         }}
                     >
-                        ホスト
+                        ホスト:
                     </Text>
                     <Slider
                         animationType="timing"
@@ -216,7 +228,10 @@ const game_detail = ({ route,navigation }) =>{
                         thumbTintColor="#0c0"
                         thumbTouchSize={{ width: 40, height: 40 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={50}
+                        value={()=>(
+                            //Math.floor(host/(host+guest)*100)
+                            50
+                        )}
                     />
                     <Text
                         style={{
@@ -224,7 +239,7 @@ const game_detail = ({ route,navigation }) =>{
                             marginTop: 25
                         }}
                     >
-                        ゲスト
+                        ゲスト:
                     </Text>
                 </View>
 
