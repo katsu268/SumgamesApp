@@ -12,6 +12,8 @@ const game_detail = ({ route,navigation }) =>{
     const { BASE_URL,get } = React.useContext(AuthContext);
     const [data, setData] = React.useState({});
     const [isLoading, setLoading] = React.useState(true);
+    const host_data=Math.floor(detail.host/(detail.host+detail.guest)*100)
+
 
     React.useEffect(() => {
         async function fetchData() {
@@ -24,6 +26,7 @@ const game_detail = ({ route,navigation }) =>{
         }
         fetchData();
       }, []);
+
     
     return(
         <SafeAreaProvider>
@@ -224,7 +227,7 @@ const game_detail = ({ route,navigation }) =>{
                         thumbTintColor="#0c0"
                         thumbTouchSize={{ width: 40, height: 40 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={50}
+                        value={host_data}
                     />
                     <Text
                         style={{
