@@ -22,7 +22,7 @@ import {
 import { ImageBackground } from "react-native";
 import AuthContext from '../components/my_context';
 import Loading from '../components/loading';
-import { Entypo,FontAwesome5 } from "@expo/vector-icons"
+import { Entypo } from "@expo/vector-icons"
 
 const CardContainer = styled.View`
     width: 100%;
@@ -53,14 +53,14 @@ const guest_matching = ({ navigation, route }) =>{
     const { BASE_URL, get } = React.useContext(AuthContext);
     const [ tinder_cards, setTinderCards] = React.useState([]);
     const [isLoading, setLoading] = React.useState(true);
-    const childRefs = React.useMemo(() => Array(tinder_cards.length).fill(0).map(i => React.createRef()), [])
+    const [childRefs, setchildRefs] = React.useState([]);
     const alreadyRemoved = []
-    let charactersState = []
+    let [ cardsMemory,setCardsMemory] = React.useState([]);
 
     const fetchRoomDatas = async (id) => {
         const my_data = await get({url:`api/talkroom/?game_id=${id}`});
         setTinderCards(my_data);
-        charactersState = my_data;
+        setCardsMemory(my_data);
         setLoading(false);
     }
 
@@ -71,34 +71,30 @@ const guest_matching = ({ navigation, route }) =>{
         fetchRoomDatas(game_id);
     },[])
 
+    React.useEffect(()=>{
+        setchildRefs(Array(tinder_cards.length).fill(0).map(i => React.createRef()));
+    },[tinder_cards])
+
     const onSwipe = (direction,id) => {
         alreadyRemoved.push(id)
     }
     
     const onCardLeftScreen = (id) => {
-        charactersState = charactersState.filter(character => character.id !== id);
+        let charactersState = cardsMemory.filter(room => room.id !== id);
         setTinderCards(charactersState);
+        setCardsMemory(charactersState);
     }
 
     const swipe = (dir) => {
         const cardsLeft = tinder_cards.filter(room => !alreadyRemoved.includes(room.id))
         if (cardsLeft.length) {
-            const toBeRemoved = cardsLeft[cardsLeft.length - 1].id // Find the card object to be removed
-            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved) // Find the index of which to make the reference to
-            alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            childRefs[index].current.swipe(dir) // Swipe the card!
+            const toBeRemoved = cardsLeft[cardsLeft.length - 1].id; // Find the card object to be removed
+            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved); // Find the index of which to make the reference to
+            alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
+            childRefs[index].current.swipe(dir); // Swipe the card!
         }
     }
 
-    const goBack = () => {
-        const cardsLeft = tinder_cards.filter(room => !alreadyRemoved.includes(room.id))
-        if (tinder_cards.length - cardsLeft.length) {
-            const toBeRemoved = cardsLeft[cardsLeft.length].id // Find the card object to be removed
-            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved) // Find the index of which to make the reference to
-            alreadyRemoved.pop(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            childRefs[index].current.restoreCard()
-        }
-    }
     return(
         // <NativeBaseProvider config={config}>
         <NativeBaseProvider>
@@ -165,7 +161,7 @@ const guest_matching = ({ navigation, route }) =>{
                                                                                         key={j}
                                                                                         bg="cyan.500"
                                                                                         source={{
-                                                                                            uri: BASE_URL+"/media/"+user.image,
+                                                                                            uri: BASE_URL+user.image,
                                                                                         }}
                                                                                     >
                                                                                         {user.username.slice(0,1).toUpperCase()}
@@ -240,33 +236,6 @@ const guest_matching = ({ navigation, route }) =>{
                                                     },
                                                 }}
                                                 onPress={() => swipe('left')}
-                                            />
-                                        </Center>
-                                        <Center flex={1}>
-                                            <IconButton
-                                                icon={<Icon as={FontAwesome5} name="undo" />}
-                                                borderRadius="full"
-                                                _icon={{
-                                                    color: "orange.500",
-                                                    size: "md",
-                                                }}
-                                                _hover={{
-                                                    bg: "orange.600:alpha.20",
-                                                }}
-                                                _pressed={{
-                                                    bg: "orange.600:alpha.20",
-                                                    _ios: {
-                                                    _icon: {
-                                                        size: "2xl",
-                                                    },
-                                                    },
-                                                }}
-                                                _ios={{
-                                                    _icon: {
-                                                    size: "xl",
-                                                    },
-                                                }}
-                                                onPress={()=>goBack()}
                                             />
                                         </Center>
                                         <Center flex={1}>
