@@ -219,7 +219,8 @@ export default function App() {
       isSignout: false,
       user_token: null,
       user_id: null,
-      BASE_URL: "http://172.20.10.2:8000/",
+      talkroom_id: null,
+      BASE_URL: "http://192.168.0.8:8000/",
     }
   );
 
@@ -422,9 +423,9 @@ export default function App() {
             <Stack.Navigator>
               {state.user_token == null ? (
                 <Stack.Group>
-                  <Stack.Screen name="Signup" component={Signup} />
-                  <Stack.Screen name="Login" component={Login} />
-                  <Stack.Screen name="PasswordReset" component={PasswordReset} />
+                  <Stack.Screen name="Signup" component={Signup} options={{title:"サインアップ"}}/>
+                  <Stack.Screen name="Login" component={Login} options={{title:"ログイン"}}/>
+                  <Stack.Screen name="PasswordReset" component={PasswordReset} options={{title:"パスワードリセット"}}/>
                 </Stack.Group>
               ) : (
                 state.talkroom_id == null ? (

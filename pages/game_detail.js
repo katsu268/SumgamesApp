@@ -274,7 +274,11 @@ const game_detail = ({ route,navigation }) =>{
                             marginLeft: 65,
                             marginLeft: "25%",
                             }}
-                        onPress={() => navigation.navigate('GuestMatching')}
+                        onPress={() => navigation.navigate('GuestMatching',{
+                            game_id:detail.id,
+                            gameName:detail.game_name,
+                            gameImage:detail.image
+                        })}
                     />
                 </View>
             </ScrollView>
