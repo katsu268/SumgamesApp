@@ -1,14 +1,17 @@
 import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card, Divider } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthContext from '../components/my_context';
+import Loading from '../components/loading';
+import { ScrollView, Center, Stack } from 'native-base';
 
 
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
     const { BASE_URL,get } = React.useContext(AuthContext);
     const [data, setData] = React.useState({});
+    const [isLoading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         async function fetchData() {
@@ -17,13 +20,23 @@ const game_detail = ({ route,navigation }) =>{
             if (my_data !== undefined){
                 setData(my_data);
             }
+            setLoading(false);
         }
         fetchData();
       }, []);
     
     return(
         <SafeAreaProvider>
-            <ScrollView>
+            <ScrollView flex={1}>
+            {
+            (isLoading)
+            ?(
+                <Center flex={1}>
+                    <Loading size={150}/>
+                </Center>
+            )
+            :(
+            <Stack flex={1}>
                 <Tile
                     ImageComponent={()=>{
                         return(
@@ -51,14 +64,6 @@ const game_detail = ({ route,navigation }) =>{
                     featured
                     height={300}
                 />
-
-
-                {/* <View style={{
-                    flexDirection: 'row',
-                    marginTop: 40,
-                }}> */}
-
-
                     <View>
                         <Card containerStyle={{
                             backgroundColor: "#AAB7B8"
@@ -192,15 +197,6 @@ const game_detail = ({ route,navigation }) =>{
                         maximumValue={100}
                         minimumTrackTintColor="#222"
                         minimumValue={0}
-                        onSlidingComplete={() =>
-                            console.log("onSlidingComplete()")
-                        }
-                        onSlidingStart={() =>
-                            console.log("onSlidingStart()")
-                        }
-                        onValueChange={value =>
-                            console.log("onValueChange()", value)
-                        }
                         orientation="horizontal"
                         step={1}
                         style={{ 
@@ -228,10 +224,7 @@ const game_detail = ({ route,navigation }) =>{
                         thumbTintColor="#0c0"
                         thumbTouchSize={{ width: 40, height: 40 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={()=>(
-                            //Math.floor(host/(host+guest)*100)
-                            50
-                        )}
+                        value={50}
                     />
                     <Text
                         style={{
@@ -281,6 +274,8 @@ const game_detail = ({ route,navigation }) =>{
                         })}
                     />
                 </View>
+            </Stack>)
+            }
             </ScrollView>
         </SafeAreaProvider>
     )
