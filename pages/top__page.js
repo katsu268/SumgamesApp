@@ -27,7 +27,9 @@ const TopPage = ({navigation}) => {
     async function fetchData() {
       const url = "api/gameitem/"
       const my_data = await get({url});
-      setData(my_data);
+      if (my_data !== undefined){
+        setData(my_data);
+      }
     }
     fetchData();
   }, []);

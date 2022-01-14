@@ -416,9 +416,9 @@ export default function App() {
             <Stack.Navigator>
               {state.user_token == null ? (
                 <Stack.Group>
-                  <Stack.Screen name="Signup" component={Signup} />
-                  <Stack.Screen name="Login" component={Login} />
-                  <Stack.Screen name="PasswordReset" component={PasswordReset} />
+                  <Stack.Screen name="Signup" component={Signup} options={{title:"サインアップ"}}/>
+                  <Stack.Screen name="Login" component={Login} options={{title:"ログイン"}}/>
+                  <Stack.Screen name="PasswordReset" component={PasswordReset} options={{title:"パスワードリセット"}}/>
                 </Stack.Group>
               ) : (
                 state.talkroom_id == null ? (

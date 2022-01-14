@@ -1,22 +1,53 @@
 import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card, Divider } from 'react-native-elements';
 import React ,{ Component }from 'react';
-import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthContext from '../components/my_context';
+import Loading from '../components/loading';
+import { ScrollView, Center, Stack } from 'native-base';
 
 
 const game_detail = ({ route,navigation }) =>{
     const { detail } = route.params;
-    const { BASE_URL } = React.useContext(AuthContext);
+    const { BASE_URL,get } = React.useContext(AuthContext);
+    const [data, setData] = React.useState({});
+    const [isLoading, setLoading] = React.useState(true);
+    const [rate, setRate] = React.useState(0);
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const url = `api/gameitem/${detail.id}/`
+            const my_data = await get({url});
+            if (my_data !== undefined){
+                setData(my_data);
+            }
+            if (my_data.host){
+                setRate(Math.floor(my_data.host/(my_data.host+my_data.guest)*100));
+            }
+            setLoading(false);
+        }
+        fetchData();
+      }, []);
+
+    
     return(
         <SafeAreaProvider>
-            <ScrollView>
+            <ScrollView flex={1}>
+            {
+            (isLoading)
+            ?(
+                <Center flex={1}>
+                    <Loading size={150}/>
+                </Center>
+            )
+            :(
+            <Stack flex={1}>
                 <Tile
                     ImageComponent={()=>{
                         return(
                             <ImageBackground
                                 source={{
-                                    uri:BASE_URL+detail.image,
+                                    uri:BASE_URL + detail.image
                                 }}
                                 resizeMode="cover"
                                 style={{width:"100%",height:300}}
@@ -38,14 +69,6 @@ const game_detail = ({ route,navigation }) =>{
                     featured
                     height={300}
                 />
-
-
-                {/* <View style={{
-                    flexDirection: 'row',
-                    marginTop: 40,
-                }}> */}
-
-
                     <View>
                         <Card containerStyle={{
                             backgroundColor: "#AAB7B8"
@@ -100,7 +123,7 @@ const game_detail = ({ route,navigation }) =>{
 
                     <View>
                     <Card containerStyle={{
-                            backgroundColor: "#1A5276"
+                            backgroundColor: "#87ceeb"
                         }}>
                             {/* <Card.Title>プラットフォーム</Card.Title> */}
                             <Text
@@ -170,7 +193,7 @@ const game_detail = ({ route,navigation }) =>{
                             marginLeft: 20
                         }}
                     >
-                        ホスト
+                        ホスト:{data.host}
                     </Text>
                     <Slider
                         animationType="timing"
@@ -179,15 +202,6 @@ const game_detail = ({ route,navigation }) =>{
                         maximumValue={100}
                         minimumTrackTintColor="#222"
                         minimumValue={0}
-                        onSlidingComplete={() =>
-                            console.log("onSlidingComplete()")
-                        }
-                        onSlidingStart={() =>
-                            console.log("onSlidingStart()")
-                        }
-                        onValueChange={value =>
-                            console.log("onValueChange()", value)
-                        }
                         orientation="horizontal"
                         step={1}
                         style={{ 
@@ -215,7 +229,7 @@ const game_detail = ({ route,navigation }) =>{
                         thumbTintColor="#0c0"
                         thumbTouchSize={{ width: 40, height: 40 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={50}
+                        value={rate}
                     />
                     <Text
                         style={{
@@ -223,7 +237,7 @@ const game_detail = ({ route,navigation }) =>{
                             marginTop: 25
                         }}
                     >
-                        ゲスト
+                        ゲスト:
                     </Text>
                 </View>
 
@@ -240,6 +254,7 @@ const game_detail = ({ route,navigation }) =>{
                 <View style={{
                     flexDirection: "row",
                     marginTop: 30,
+                    marginBottom: 100,
                 }}>
                     <Button title="ホスト"
                         style={{
@@ -257,13 +272,20 @@ const game_detail = ({ route,navigation }) =>{
                             marginLeft: 65,
                             marginLeft: "25%",
                             }}
-                        onPress={() => navigation.navigate('GuestMatching')}
+                        onPress={() => navigation.navigate('GuestMatching',{
+                            game_id:detail.id,
+                            gameName:detail.game_name,
+                            gameImage:detail.image
+                        })}
                     />
                 </View>
+            </Stack>)
+            }
             </ScrollView>
         </SafeAreaProvider>
     )
 }
+
 
 
 export default game_detail
