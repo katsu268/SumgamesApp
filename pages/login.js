@@ -1,11 +1,13 @@
 import * as React from "react";
 import {Box, Heading, VStack, FormControl, Input, Button, Link, Center, KeyboardAvoidingView } from "native-base";
 import AuthContext from '../components/my_context';
+import ErrorMessage from './signup';
 
 
 const Login = ({navigation}) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [errorMessages, setErrorMessages] = React.useState([]);
   const { signIn } = React.useContext(AuthContext);
   return (
     <KeyboardAvoidingView
@@ -40,11 +42,11 @@ const Login = ({navigation}) => {
           </Heading>
 
           <VStack space={3} mt="5">
-            <FormControl>
+            <FormControl isInvalid={errorMessages===[]}>
               <FormControl.Label>ユーザ名</FormControl.Label>
               <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="ユーザーID" />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={errorMessages===[]}>
               <FormControl.Label>パスワード</FormControl.Label>
               <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード" />
               <Link
@@ -59,8 +61,16 @@ const Login = ({navigation}) => {
               >
                 パスワードを忘れた方はこちら
               </Link>
+              {errorMessages.map((u,i)=>{
+                return (
+                  <ErrorMessage key={i} errormessage={u}></ErrorMessage>
+                );
+              })}
             </FormControl>
-            <Button mt="2" colorScheme="indigo" onPress={() => signIn({ username, password })}>
+            <Button mt="2" colorScheme="indigo" onPress={async () => {
+                let result = await signIn({ username, password });
+                console.log(result);
+              }}>
               ログイン
             </Button>
           </VStack>

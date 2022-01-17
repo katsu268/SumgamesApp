@@ -213,7 +213,7 @@ export default function App() {
       user_token: null,
       user_id: null,
       talkroom_id: null,
-      BASE_URL: "http://10.250.2.38:8000/",
+      BASE_URL: "http://172.20.10.2:8000/",
     }
   );
 
@@ -257,6 +257,9 @@ export default function App() {
             )
           });
           const result = await response.json();
+          if (result.non_field_errors !== undefined){
+            return result.non_field_errors
+          }
           save("token", result.token);
           save("user_id", result.user_id);
           dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });
@@ -288,6 +291,7 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
+          console.log(result);
           save("token", result.token);
           save("user_id", result.user_id);
           dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });
