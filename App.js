@@ -152,13 +152,6 @@ function MyTabBar({ state, descriptors, navigation }) {
         >
           ログアウト
         </Menu.Item>
-        <Menu.Item 
-          onPress={()=>{
-            user_delete();
-          }}
-        >
-          ユーザー削除
-        </Menu.Item>
       </Menu>
     </HStack>
   );
