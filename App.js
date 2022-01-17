@@ -152,13 +152,6 @@ function MyTabBar({ state, descriptors, navigation }) {
         >
           ログアウト
         </Menu.Item>
-        <Menu.Item 
-          onPress={()=>{
-            user_delete();
-          }}
-        >
-          ユーザー削除
-        </Menu.Item>
       </Menu>
     </HStack>
   );
@@ -220,7 +213,7 @@ export default function App() {
       user_token: null,
       user_id: null,
       talkroom_id: null,
-      BASE_URL: "http://44.195.172.251:8000/",
+      BASE_URL: "http://172.20.10.2:8000/",
     }
   );
 
