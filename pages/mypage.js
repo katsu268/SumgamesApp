@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View, Modal, Alert, TextInput} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, Radio, NativeBaseProvider, Avatar, Center, TextArea, Icon } from "native-base";
+import { Button, Radio, NativeBaseProvider, Avatar, Center, TextArea, Icon, Pressable } from "native-base";
 import AuthContext from "../components/my_context";
 import Loading from "../components/loading";
 import * as SecureStore from 'expo-secure-store';
@@ -28,6 +28,8 @@ const mypage =({ route,navigation })=> {
     const [email, setEmail] = React.useState(myData.email);
     const [introduction, setIntroduction] = React.useState(myData.introduction);
 
+    const [userid, setUserid] = React.useState("");
+
     React.useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
@@ -50,6 +52,13 @@ const mypage =({ route,navigation })=> {
           })();
       }, []);
 
+    React.useEffect(() => {
+        (async () => {
+          let user_id = await SecureStore.getItemAsync('user_id');
+          setUserid(user_id);
+        })();
+    }, []);
+
       const pickImage = async () => {
           let result = await ImagePicker.launchImageLibraryAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -58,21 +67,9 @@ const mypage =({ route,navigation })=> {
               quality: 1,
           });
           if (!result.cancelled) {
-              let response = await post({url:"accounts/user/",data:{
-                  "talktext": "",
-                  "talkfile": 'data:image/jpeg;base64,' + result.base64
+              let response = await patch({url:`accounts/user/${userid}/`,data:{
+                  "image": 'data:image/jpeg;base64,' + result.base64
               }});
-              let imageMessage = {
-                  _id: response.id,
-                  createdAt: response.send_at,
-                  user: {
-                      _id: response.user,
-                      name: '',
-                      avatar: '',
-                  },
-                  image:result.uri
-              };
-              setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage));
           }
       };
 
@@ -103,8 +100,7 @@ const mypage =({ route,navigation })=> {
     };
 
     const fetchData = async()=>{
-          let user_id = await SecureStore.getItemAsync('user_id');
-          const url = `accounts/user/${user_id}/`
+          const url = `accounts/user/${userid}/`
           const my_data = await get({url});
           setmyData(my_data);
           setLoading(false);
@@ -149,19 +145,19 @@ const mypage =({ route,navigation })=> {
                 </Center>
                 <Button
                   style={{
-                      width: 100,
-                      marginLeft: "70%",
-                      alignItems: 'flex-end',
-                      marginTop: 10}}
+                    width: 100,
+                    marginLeft: "70%",
+                    alignItems: 'flex-end',
+                    marginTop: 10}}
                   onPress={() => {
-                          setModalVisible(true);
-                          setUsername(myData.username);
-                          setFirstname(myData.firstname);
-                          setLastname(myData.lastname);
-                          setGender(myData.gender);
-                          setEmail(myData.email);
-                          setIntroduction(myData.introduction);
-                      }
+                    setModalVisible(true);
+                    setUsername(myData.username);
+                    setFirstname(myData.firstname);
+                    setLastname(myData.lastname);
+                    setGender(myData.gender);
+                    setEmail(myData.email);
+                    setIntroduction(myData.introduction);
+                    }
                   }
                 >
                     編集
@@ -202,28 +198,29 @@ const mypage =({ route,navigation })=> {
                             >
                                 保存
                         </Button>
-                        <Center style={{ marginTop: 20 }}>
-                            {(myData.image === "")
-                            ?<Avatar
-                                bg="green.500"
-                                size="lg"
-                            >
-                                {myData.username.slice(0,1).toUpperCase()}
-                            </Avatar>
-                            :<Avatar
-                                bg="green.500"
-                                size="lg"
-                                source={{
-                                    uri: BASE_URL+"/media/"+myData.image,
-                                }}
-                            >
-                                {myData.username.slice(0,1).toUpperCase()}
-                            </Avatar>}
+                        <Center>
+                              {(myData.image === "")
+                              ?<Avatar
+                                  bg="green.500"
+                                  size="lg"
+                              >
+                                  {myData.username.slice(0,1).toUpperCase()}
+                              </Avatar>
+                              :<Avatar
+                                  bg="green.500"
+                                  size="lg"
+                                  source={{
+                                      uri: BASE_URL+"/media/"+myData.image,
+                                  }}
+                              >
+                                  {myData.username.slice(0,1).toUpperCase()}
+                              </Avatar>}
+                              <Button 
+                                style={{position:"absolute", width: 60, height: 60, borderRadius: 30, backgroundColor: 'rgba(0, 0, 0, 0)' }}
+                                onPress={pickImage}>
+                                
+                              </Button>
                         </Center>
-                        <Icon 
-                          name="settings"
-                          // onPress=
-                          />
                         <View style={{marginLeft:20}}>
                             <View style={{
                                     marginTop:30
