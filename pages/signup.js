@@ -1,7 +1,14 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView} from "native-base";
+import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView, WarningOutlineIcon,} from "native-base";
 import AuthContext from '../components/my_context';
 
+const ErrorMessage = (props) => {
+  return (
+    <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+      {props.errormessage}
+    </FormControl.ErrorMessage>
+  )
+}
 
 const Signup = ({navigation}) => {
   const { signUp } = React.useContext(AuthContext);
@@ -73,9 +80,10 @@ const Signup = ({navigation}) => {
               サインアップしてください
             </Heading>
             <VStack space={3} mt="5">
-              <FormControl>
+              <FormControl isInvalid={username===""}>
                 <FormControl.Label>ユーザー名</FormControl.Label>
                 <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="ユーザーID" />
+                <ErrorMessage errormessage="入力必須エリアです！"></ErrorMessage>
                 <FormControl.HelperText _text={{fontSize: 'xs',color:"red.600"}}>
                   ＊ログイン時に使用します
                 </FormControl.HelperText>
@@ -101,17 +109,20 @@ const Signup = ({navigation}) => {
                   }
                 </Radio.Group>
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={email===""}>
                 <FormControl.Label>Email</FormControl.Label>
                 <Input value={email} onChangeText={(value)=>setEmail(value)} placeholder="Email" />
+                <ErrorMessage errormessage="入力必須エリアです！"></ErrorMessage>
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={password===""}>
                 <FormControl.Label>Password</FormControl.Label>
                 <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード"/>
+                <ErrorMessage errormessage="入力必須エリアです！"></ErrorMessage>
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={password_again===""}>
                 <FormControl.Label>Password ＊確認</FormControl.Label>
                 <Input type="password" value={password_again} onChangeText={(value)=>setPasswordAgain(value)} placeholder="もう一度入力してください" />
+                <ErrorMessage errormessage="入力必須エリアです！"></ErrorMessage>
                 {validationPassword?(
                   <FormControl.HelperText _text={{fontSize: 'xs',color:"red.600"}}>
                   </FormControl.HelperText>
