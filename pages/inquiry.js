@@ -3,7 +3,7 @@ import {Box, Heading, VStack, FormControl, TextArea, Button, Link, Radio, Center
 import AuthContext from '../components/my_context';
 
 
-const Login = ({navigation}) => {
+const Inquiry = ({navigation}) => {
 //   const [type, setType] = React.useState("");
   const [contents, setContents] = React.useState("");
   const { post } = React.useContext(AuthContext);
@@ -102,4 +102,4 @@ const Login = ({navigation}) => {
   )
 }
 
-export default Login;
+export default Inquiry;
