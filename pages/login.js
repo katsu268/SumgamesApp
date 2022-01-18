@@ -69,7 +69,6 @@ const Login = ({navigation}) => {
             </FormControl>
             <Button mt="2" colorScheme="indigo" onPress={async () => {
                 let result = await signIn({ username, password });
-                console.log(result);
               }}>
               ログイン
             </Button>
