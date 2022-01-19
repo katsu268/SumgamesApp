@@ -4,11 +4,12 @@ import AuthContext from '../components/my_context';
 import ErrorMessage from './signup';
 
 
-const Login = ({navigation}) => {
-  const [username, setUsername] = React.useState("");
+const PasswordReset = ({navigation}) => {
+  const [Email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [Confirmation,setConfirmation] = React.useState("")
   const [errorMessages, setErrorMessages] = React.useState([]);
-  const { signIn } = React.useContext(AuthContext);
+  const { password_reset } = React.useContext(AuthContext);
   return (
     <KeyboardAvoidingView
       h={{
@@ -44,21 +45,21 @@ const Login = ({navigation}) => {
           <VStack space={3} mt="5">
             <FormControl isInvalid={errorMessages===[]}>
               <FormControl.Label>Email</FormControl.Label>
-              <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="Emailを入力" />
+              <Input value={Email} onChangeText={(value)=>setEmail(value)} placeholder="Emailを入力" />
             </FormControl>
             <FormControl isInvalid={errorMessages===[]}>
               <FormControl.Label>新しいパスワード</FormControl.Label>
               <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="新しいパスワードを入力" />
             </FormControl>
             <FormControl isInvalid={errorMessages==[]}>
-              <FormControl.Label>再度新しいパスワードを入力</FormControl.Label>
-              <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="再度新しいパスワードを入力" />
+              <FormControl.Label>もう一度新しいパスワード</FormControl.Label>
+              <Input type="password" value={Confirmation} onChangeText={(value)=>setConfirmation(value)} placeholder="もう一度新しいパスワードを入力" />
             </FormControl>
             <Button mt="2" colorScheme="indigo" onPress={async () => {
-                let result = await signIn({ username, password });
+                let result = await password_reset({ Email, password,Confirmation });
                 console.log(result);
               }}>
-              登録
+              変　更
             </Button>
           </VStack>
         </Box>
@@ -67,4 +68,4 @@ const Login = ({navigation}) => {
   )
 }
 
-export default Login;
+export default PasswordReset;

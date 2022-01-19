@@ -227,12 +227,12 @@ export default function App() {
         dispatch({ type: 'RESTORE_TOKEN', user_token: userToken, user_id: userID, talkroom_id: talkroomID });
       } catch (e) {
         // Restoring token failed
-        let userToken = await SecureStore.deleteItemAsync("token");
-        let userID = await SecureStore.deleteItemAsync('user_id');
-        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
-        dispatch({ type: 'SIGN_OUT' });
         console.log(e);
       }
+      // After restoring token, we may need to validate it in production apps
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      //console.log(userToken);
     };
     bootstrapAsync();
   }, []);
