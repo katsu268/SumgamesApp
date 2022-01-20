@@ -46,7 +46,8 @@
     "react-tinder-card": "^1.4.5",
     "rmc-input-number": "^1.0.5",
     "styled-components": "^5.3.3",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "expo-notifications": "~0.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
