@@ -171,30 +171,21 @@ const game_detail = ({ route,navigation }) =>{
                                 </View>
                             </View>
                         </Card>
-
                     </View>
-
-
                     {
                         (rate)
                         ?
-                        <Text 
-                        style={{
-                            fontSize: 20,
-                            marginTop: 5,
-                            marginLeft: 170,
-                            // marginBottom: 5,
-                        }}
-                        >
-                        レート
-                        </Text>
-                        :<></>
-                    }
-
-
-                    {
-                        (rate)
-                        ?
+                        <View style={{flex:1}}>
+                            <Text 
+                            style={{
+                                fontSize: 20,
+                                marginTop: 5,
+                                marginLeft: 170,
+                                // marginBottom: 5,
+                            }}
+                            >
+                            レート
+                            </Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text
                                     style={{
@@ -255,7 +246,10 @@ const game_detail = ({ route,navigation }) =>{
                                     ゲスト{"\n"}{detail.guest}
                                 </Text>
                             </View>
-                        :<></>
+                        </View>
+                        :<View style={{flex:1}}>
+                            <Text h3={true} style={{flex:1}}>現在募集中のホストはいません。</Text>
+                        </View>
                     }
 
                     <Text
@@ -269,32 +263,27 @@ const game_detail = ({ route,navigation }) =>{
                     </Text>
 
                     <View style={{
-                        flexDirection: "row",
+                        flex:1,
                         marginTop: 30,
                         marginBottom: 100,
+                        flexDirection:"row"
                     }}>
-                        <Button title="ホスト"
-                            style={{
-                                justifyContent: "flex-start",
-                                marginRight: 25,
-                                marginLeft: "25%",
-                                }}
-                            onPress={() => navigation.navigate('HostForm',{
-                                detail:detail
+                        <View style={{flex:1,paddingRight:20,paddingLeft:40}}>
+                            <Button title="ホスト"
+                                onPress={() => navigation.navigate('HostForm',{
+                                    detail:detail
+                                    })}
+                            />
+                        </View>
+                        <View style={{flex:1,paddingRight:40,paddingLeft:20}}>
+                            <Button title="ゲスト"
+                                onPress={() => navigation.navigate('GuestMatching',{
+                                    game_id:detail.id,
+                                    gameName:detail.game_name,
+                                    gameImage:detail.image
                                 })}
-                        />
-                        <Button title="ゲスト"
-                            style={{
-                                justifyContent: "flex-end",
-                                marginLeft: 65,
-                                marginLeft: "25%",
-                                }}
-                            onPress={() => navigation.navigate('GuestMatching',{
-                                game_id:detail.id,
-                                gameName:detail.game_name,
-                                gameImage:detail.image
-                            })}
-                        />
+                            />
+                        </View>
                     </View>
 
             </Stack>)
