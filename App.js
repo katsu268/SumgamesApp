@@ -13,7 +13,7 @@ import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
 import talk from './pages/talk';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box,Button,AlertDialog } from 'native-base';
+import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box,Button,AlertDialog, Image } from 'native-base';
 import { Feather,Ionicons } from "@expo/vector-icons";
 import {SSRProvider} from '@react-aria/ssr';
 import AuthContext from './components/my_context';
@@ -21,10 +21,12 @@ import AuthContext from './components/my_context';
 
 import * as SecureStore from 'expo-secure-store';
 
+import AppLoading from 'expo-app-loading';
+import { Asset } from 'expo-asset';
+
 const save = async (key, value) => {
   await SecureStore.setItemAsync(key, value);
 }
-
 
 const Tab = createBottomTabNavigator();
 
@@ -412,7 +414,37 @@ export default function App() {
     }),
     []
   );
+  const cacheResourcesAsync = async() => {
+    const images = [
+      require('./assets/images/20211118103410.png'),
+      require('./assets/images/apex-image.jpg'),
+      require('./assets/images/game01.png'),
+      require('./assets/images/gamer.png'),
+      require('./assets/images/monst.jpg'),
+      require('./assets/gifs/loading_apex.gif'),
+      require('./assets/gifs/loading_dora.gif'),
+      require('./assets/gifs/loading_genshin.gif'),
+      require('./assets/gifs/loading_mario.gif'),
+      require('./assets/gifs/loading_pokemon.gif'),
+      require('./assets/gifs/loading.gif'),
+    ];
+
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    }); 
+    return Promise.all(cacheImages);
+  }
+
   return (
+    (state.isLoading)
+    ?<NativeBaseProvider>
+      <AppLoading
+        startAsync={cacheResourcesAsync}
+        onFinish={console.log("ok")}
+        onError={console.warn}
+      />
+    </NativeBaseProvider>
+    :
     <SSRProvider>
       <NativeBaseProvider>
         <NavigationContainer>

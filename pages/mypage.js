@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View, Modal, Alert, TextInput} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, Radio, NativeBaseProvider, Avatar, Center, TextArea, Icon, Pressable } from "native-base";
+import { Button, Radio, NativeBaseProvider, Avatar, Center, TextArea } from "native-base";
 import AuthContext from "../components/my_context";
 import Loading from "../components/loading";
 import * as SecureStore from 'expo-secure-store';
@@ -27,6 +27,7 @@ const mypage =({ route,navigation })=> {
     const [gender, setGender] = React.useState(myData.gender);
     const [email, setEmail] = React.useState(myData.email);
     const [introduction, setIntroduction] = React.useState(myData.introduction);
+    const [image, setImage] = React.useState(myData.image);
 
     const [userid, setUserid] = React.useState("");
 
@@ -41,63 +42,22 @@ const mypage =({ route,navigation })=> {
         })();
     }, []);
 
-    React.useEffect(() => {
-          (async () => {
-          if (Platform.OS !== 'web') {
-              const { status } = await ImagePicker.requestCameraPermissionsAsync();
-              if (status !== 'granted') {
-              alert('カメラへのアクセスを許可してください');
-              }
-          }
-          })();
-      }, []);
-
-    React.useEffect(() => {
-        (async () => {
-          let user_id = await SecureStore.getItemAsync('user_id');
-          setUserid(user_id);
-        })();
-    }, []);
-
       const pickImage = async () => {
           let result = await ImagePicker.launchImageLibraryAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.Images,
               base64:true,
-              allowsEditing: false,
+              allowsEditing: true,
               quality: 1,
           });
           if (!result.cancelled) {
               let response = await patch({url:`accounts/user/${userid}/`,data:{
                   "image": 'data:image/jpeg;base64,' + result.base64
               }});
+              const my_data = await get({url:`accounts/user/${userid}/`});
+              setmyData(my_data);
+              console.log(my_data);
           }
       };
-
-    const pickCamera = async () => {
-      let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          base64:true,
-          allowsEditing: false,
-          quality: 1,
-      });
-      if (!result.cancelled) {
-          let response = await post({url:"accounts/user/",data:{
-              "talktext": "",
-              "talkfile": 'data:image/jpeg;base64,' + result.base64
-          }});
-          let imageMessage = {
-              _id: response.id,
-              createdAt: response.send_at,
-              user: {
-                  _id: response.user,
-                  name: '',
-                  avatar: '',
-              },
-              image:result.uri
-          };
-          setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage))
-      }
-    };
 
     const fetchData = async()=>{
           const url = `accounts/user/${userid}/`
@@ -107,7 +67,15 @@ const mypage =({ route,navigation })=> {
         }
 
     React.useEffect(() => {
-        fetchData();
+        const get_user_id = async () => {
+          let user_id = await SecureStore.getItemAsync('user_id');
+          const url = `accounts/user/${user_id}/`
+          const my_data = await get({url});
+          setmyData(my_data);
+          setLoading(false);
+          setUserid(user_id);
+        }
+        get_user_id();
       }, []);
 
       const Edit = async()=>{
@@ -122,12 +90,12 @@ const mypage =({ route,navigation })=> {
             "email": `${email}`,
             "introduction": `${introduction}`,
           }
-            console.log(data);
             patch({ url:url,data:data });
+            const my_data = await get({url:`accounts/user/${userid}/`});
+            fetchData();
           };
         }
     
-
     return(
         <SafeAreaProvider>
             {(isLoading)
@@ -194,24 +162,20 @@ const mypage =({ route,navigation })=> {
                                     setModalVisible(!modalVisible);
                                     Edit();
                                     fetchData();
+                                    
                                 }}
                             >
                                 保存
                         </Button>
                         <Center>
-                              {(myData.image === "")
-                              ?<Avatar
-                                  bg="green.500"
-                                  size="lg"
-                              >
+                              {(myData.image === null)
+                              ?<Avatar bg="green.500" size="lg" >
                                   {myData.username.slice(0,1).toUpperCase()}
                               </Avatar>
                               :<Avatar
                                   bg="green.500"
                                   size="lg"
-                                  source={{
-                                      uri: BASE_URL+"/media/"+myData.image,
-                                  }}
+                                  source={{ uri: BASE_URL+"/media/"+myData.image }}
                               >
                                   {myData.username.slice(0,1).toUpperCase()}
                               </Avatar>}
@@ -396,7 +360,7 @@ const mypage =({ route,navigation })=> {
                 </Modal>
                 <NativeBaseProvider>
                     <Center style={{ marginTop: 20 }}>
-                        {(myData.image === "")
+                        {(myData.image === null)
                         ?<Avatar
                             bg="green.500"
                             size="lg"
@@ -406,9 +370,7 @@ const mypage =({ route,navigation })=> {
                         :<Avatar
                             bg="green.500"
                             size="lg"
-                            source={{
-                                uri: BASE_URL+"/media/"+myData.image,
-                            }}
+                            source={{ uri: BASE_URL+"/media/"+myData.image }}
                         >
                             {myData.username.slice(0,1).toUpperCase()}
                         </Avatar>}
