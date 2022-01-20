@@ -17,6 +17,8 @@
     "@react-navigation/stack": "^6.0.11",
     "@react-spring/native": "^9.4.1",
     "expo": "~42.0.1",
+    "expo-app-loading": "1.1.2",
+    "expo-asset": "~8.3.3",
     "expo-auth-session": "~3.3.1",
     "expo-image-picker": "~10.2.2",
     "expo-linear-gradient": "~9.2.0",
@@ -46,7 +48,8 @@
     "react-tinder-card": "^1.4.5",
     "rmc-input-number": "^1.0.5",
     "styled-components": "^5.3.3",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "expo-splash-screen": "~0.11.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
