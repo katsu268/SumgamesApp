@@ -31,7 +31,7 @@ const Signup = ({navigation}) => {
       setValidationResult(false);
     }else{
       setValidationResult(true);
-      if (password == password_again){
+      if (password === password_again){
         setValidationPassword(true);
       }else{
         setValidationPassword(false);
@@ -132,7 +132,7 @@ const Signup = ({navigation}) => {
                   </FormControl.HelperText>
                 )}
               </FormControl>
-              <Button mt="2" colorScheme="indigo" onPress={()=>{validation()}}>
+              <Button isDisabled={username === "" || email === "" || password === "" || password_again === "" || password !== password_again} mt="2" colorScheme="indigo" onPress={()=>{validation()}}>
                 Sign up
               </Button>
             </VStack>

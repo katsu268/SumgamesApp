@@ -213,7 +213,7 @@ export default function App() {
       user_token: null,
       user_id: null,
       talkroom_id: null,
-      BASE_URL: "http://192.168.10.5:8000/",
+      BASE_URL: "https://sumgames.click/",
     }
   );
 

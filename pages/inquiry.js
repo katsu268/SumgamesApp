@@ -3,7 +3,7 @@ import {Box, Heading, VStack, FormControl, TextArea, Button, Link, Radio, Center
 import AuthContext from '../components/my_context';
 
 
-const Login = ({navigation}) => {
+const Inquiry = ({navigation}) => {
 //   const [type, setType] = React.useState("");
   const [contents, setContents] = React.useState("");
   const { post } = React.useContext(AuthContext);
@@ -14,15 +14,16 @@ const Login = ({navigation}) => {
     "others":"その他",
   }
 
-  const [isDisabled, setIsDisabled] = React.useState(false);
 
-  React.useEffect(()=>{
-      if (type !== ""){
-          setIsDisabled(false);
-      }else{
-          setIsDisabled(true);
-      }
-  },[type_list]);
+  const onSend=async() => {
+    let data = {
+      "inquiry_title": type_list[type],
+      "inquiry_context": contents
+  }
+    const result = await post({url:"api/inquiry/",data:data});
+    return result;
+  }
+
 
 
   return (
@@ -45,7 +46,7 @@ const Login = ({navigation}) => {
           >
               お問い合わせ
           </Heading>
-          <Heading
+          {/* <Heading
             mt="1"
             _dark={{
               color: "warmGray.200",
@@ -55,7 +56,7 @@ const Login = ({navigation}) => {
             size="xs"
           >
             お問い合わせ内容を入力してください
-          </Heading>
+          </Heading> */}
 
           <VStack space={3} mt="5">
             <FormControl>
@@ -83,14 +84,15 @@ const Login = ({navigation}) => {
               <FormControl.Label>お問い合わせ内容</FormControl.Label>
                 <TextArea
                     h={20}
-                    placeholder="Text Area Placeholder"
+                    placeholder="お問い合わせ内容を入力してください"
                     w={{
                         base: "100%",
                         md: "25%",
                     }}
+                    onChangeText={(value)=>setContents(value)}
                 />
             </FormControl>
-            <Button isDisabled={isDisabled} mt="2" colorScheme="indigo" onPress={() => signIn({ type, contents })}>
+            <Button isDisabled={type === "" || contents === ""} mt="2" colorScheme="indigo" onPress={onSend}>
               送信
             </Button>
           </VStack>
@@ -100,4 +102,4 @@ const Login = ({navigation}) => {
   )
 }
 
-export default Login;
+export default Inquiry;
