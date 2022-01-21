@@ -175,7 +175,7 @@ const mypage =({ route,navigation })=> {
                               :<Avatar
                                   bg="green.500"
                                   size="lg"
-                                  source={{ uri: BASE_URL+"/media/"+myData.image }}
+                                  source={{ uri: BASE_URL+myData.image }}
                               >
                                   {myData.username.slice(0,1).toUpperCase()}
                               </Avatar>}
@@ -370,7 +370,7 @@ const mypage =({ route,navigation })=> {
                         :<Avatar
                             bg="green.500"
                             size="lg"
-                            source={{ uri: BASE_URL+"/media/"+myData.image }}
+                            source={{ uri: BASE_URL+myData.image }}
                         >
                             {myData.username.slice(0,1).toUpperCase()}
                         </Avatar>}

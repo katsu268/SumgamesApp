@@ -16,15 +16,44 @@ Notifications.setNotificationHandler({
     }),
 });
 
+const registerForPushNotificationsAsync = async () => {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('プッシュ通知の許可をしてください！');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+      alert('プッシュ通知には物理デバイスを使用する必要があります');
+    }
+  
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+  }
+
 const talk =({ route,navigation })=> {
     const { talkroom_id, user_id } = route.params;
-    const { BASE_URL, get, post } = React.useContext(AuthContext);
+    const { BASE_URL, get, post, exit_talkroom } = React.useContext(AuthContext);
 
     //Push通知関連
-    // const [expoPushToken, setExpoPushToken] = useState('');
-    // const [notification, setNotification] = useState(false);
-    // const notificationListener = useRef();
-    // const responseListener = useRef();
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
 
     //talkroomUI関連
     const [ roomInfo, setRoomInfo] = useState([]);
@@ -64,27 +93,80 @@ const talk =({ route,navigation })=> {
         )
     }
 
-    // useEffect(() => {
-    //     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-    //     // This listener is fired whenever a notification is received while the app is foregrounded
-    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //         setNotification(notification);
-    //     });
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+        // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            setNotification(notification);
+        });
     
-    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //         console.log(response);
-    //     });
+        // このリスナーは、ユーザーが通知をタップまたは操作するたびに起動されます（アプリがフォアグラウンド、バックグラウンド、または強制終了されたときに機能します）
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log(response);
+        });
     
-    //     return () => {
-    //         Notifications.removeNotificationSubscription(notificationListener.current);
-    //         Notifications.removeNotificationSubscription(responseListener.current);
-    //     };
-    // }, []);
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
+    const fetchTalkroomData = async () => {
+        const room_data = await get({url:`api/talkroom/${talkroom_id}/`});
+        if (room_data === undefined){
+            exit_talkroom()
+        }
+        navigation.setOptions({
+            headerLeft: ()=>{
+                return (
+                    <Avatar.Group size="10" max={3} ml="3">
+                        {(room_data.host_user.user_image === "")
+                        ?<Avatar
+                            bg="green.500"
+                        >
+                            {room_data.host_user.user_name.slice(0,1).toUpperCase()}
+                        </Avatar>
+                        :<Avatar
+                            bg="green.500"
+                            source={{
+                                uri: BASE_URL+"/media/"+room_data.host_user.user_image,
+                            }}
+                        >
+                            {room_data.host_user.user_name.slice(0,1).toUpperCase()}
+                        </Avatar>}
+                        {room_data.guest_user.map((u,i)=>{
+                            return (
+                                (u.user_image === "")
+                                ?<Avatar
+                                    key={i}
+                                    bg="green.500"
+                                >
+                                    {u.user_name.slice(0,1).toUpperCase()}
+                                </Avatar>
+                                :<Avatar
+                                    key={i}
+                                    bg="green.500"
+                                    source={{
+                                        uri: BASE_URL+"/media/"+u.user_image,
+                                    }}
+                                >
+                                    {u.user_name.slice(0,1).toUpperCase()}
+                                </Avatar>
+                            );
+                        })}
+                    </Avatar.Group>
+                )
+              },
+        });
+        setRoomInfo(room_data);
+    }
 
     useEffect(() => {
         async function fetchTalkData() {
             const my_data = await get({url:"api/talk/"});
+            if (room_data === undefined){
+                exit_talkroom()
+            }
             for(let u of my_data){
                 if (u.talkfile === null){
                     setMessages(previousMessages => GiftedChat.append(previousMessages,
@@ -119,52 +201,7 @@ const talk =({ route,navigation })=> {
     }, [])
 
     useEffect(() => {
-        async function fetchTalkroomData() {
-            const room_data = await get({url:`api/talkroom/${talkroom_id}/`});
-            navigation.setOptions({
-                headerLeft: ()=>{
-                    return (
-                        <Avatar.Group size="10" max={3} ml="3">
-                            {(room_data.host_user.user_image === "")
-                            ?<Avatar
-                                bg="green.500"
-                            >
-                                {room_data.host_user.user_name.slice(0,1).toUpperCase()}
-                            </Avatar>
-                            :<Avatar
-                                bg="green.500"
-                                source={{
-                                    uri: BASE_URL+"/media/"+room_data.host_user.user_image,
-                                }}
-                            >
-                                {room_data.host_user.user_name.slice(0,1).toUpperCase()}
-                            </Avatar>}
-                            {room_data.guest_user.map((u,i)=>{
-                                return (
-                                    (u.user_image === "")
-                                    ?<Avatar
-                                        key={i}
-                                        bg="green.500"
-                                    >
-                                        {u.user_name.slice(0,1).toUpperCase()}
-                                    </Avatar>
-                                    :<Avatar
-                                        key={i}
-                                        bg="green.500"
-                                        source={{
-                                            uri: BASE_URL+"/media/"+u.user_image,
-                                        }}
-                                    >
-                                        {u.user_name.slice(0,1).toUpperCase()}
-                                    </Avatar>
-                                );
-                            })}
-                        </Avatar.Group>
-                    )
-                  },
-            });
-            setRoomInfo(room_data);
-        }
+        
         fetchTalkroomData();
     }, [])
 
