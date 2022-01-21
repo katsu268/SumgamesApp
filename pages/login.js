@@ -67,7 +67,7 @@ const Login = ({navigation}) => {
                 );
               })}
             </FormControl>
-            <Button mt="2" colorScheme="indigo" onPress={async () => {
+            <Button isDisabled={username === "" || password === ""} mt="2" colorScheme="indigo" onPress={async () => {
                 let result = await signIn({ username, password });
               }}>
               ログイン
