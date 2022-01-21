@@ -490,7 +490,7 @@ export default function App() {
                         const [isOpen, setIsOpen] = React.useState(false);
                         const onClose = () => setIsOpen(false);
                         const cancelRef = React.useRef(null);
-                        const { post } = React.useContext(AuthContext);
+                        const { post,exit_talkroom } = React.useContext(AuthContext);
                         return (
                           <Box>
                             <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>

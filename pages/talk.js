@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { GiftedChat,Send } from 'react-native-gifted-chat'
+import Loading from "../components/loading";
 import { Icon } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker';
 import { Platform,View } from 'react-native';
 import AuthContext from '../components/my_context';
-import {Avatar} from 'native-base';
+import {Avatar,Center} from 'native-base';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
@@ -15,6 +16,26 @@ Notifications.setNotificationHandler({
         shouldSetBadge: false,
     }),
 });
+
+async function sendPushNotification(expoPushToken) {
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Original Title',
+      body: 'And here is the body!',
+      data: { someData: 'goes here' },
+    };
+  
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+}
 
 const registerForPushNotificationsAsync = async () => {
     let token;
@@ -93,23 +114,41 @@ const talk =({ route,navigation })=> {
         )
     }
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-        // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            setNotification(notification);
-        });
-    
-        // このリスナーは、ユーザーが通知をタップまたは操作するたびに起動されます（アプリがフォアグラウンド、バックグラウンド、または強制終了されたときに機能します）
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-        });
-    
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
+    const fetchTalkData = async () => {
+        const my_data = await get({url:"api/talk/"});
+        if (my_data === undefined){
+            exit_talkroom()
+        }
+        for(let u of my_data){
+            if (u.talkfile === null){
+                setMessages(previousMessages => GiftedChat.append(previousMessages,
+                    {
+                        _id: u.id,
+                        text: u.talktext,
+                        createdAt: u.send_at,
+                        user: {
+                            _id: u.user.user_id,
+                            name: u.user.user_name,
+                            avatar: u.user.user_image,
+                        },
+                    })
+                )
+            }else{
+                setMessages(previousMessages => GiftedChat.append(previousMessages,
+                    {
+                        _id: u.id,
+                        image: BASE_URL+u.talkfile,
+                        createdAt: u.send_at,
+                        user: {
+                            _id: u.user.user_id,
+                            name: u.user.user_name,
+                            avatar: u.user.user_image,
+                        },
+                    })
+                )
+            }
         };
-    }, []);
+    }
 
     const fetchTalkroomData = async () => {
         const room_data = await get({url:`api/talkroom/${talkroom_id}/`});
@@ -162,55 +201,37 @@ const talk =({ route,navigation })=> {
     }
 
     useEffect(() => {
-        async function fetchTalkData() {
-            const my_data = await get({url:"api/talk/"});
-            if (room_data === undefined){
-                exit_talkroom()
-            }
-            for(let u of my_data){
-                if (u.talkfile === null){
-                    setMessages(previousMessages => GiftedChat.append(previousMessages,
-                        {
-                            _id: u.id,
-                            text: u.talktext,
-                            createdAt: u.send_at,
-                            user: {
-                                _id: u.user.user_id,
-                                name: u.user.user_name,
-                                avatar: u.user.user_image,
-                            },
-                        })
-                    )
-                }else{
-                    setMessages(previousMessages => GiftedChat.append(previousMessages,
-                        {
-                            _id: u.id,
-                            image: BASE_URL+u.talkfile,
-                            createdAt: u.send_at,
-                            user: {
-                                _id: u.user.user_id,
-                                name: u.user.user_name,
-                                avatar: u.user.user_image,
-                            },
-                        })
-                    )
-                }
-            };
-        }
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+        // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            fetchTalkData();
+            setNotification(notification);
+        });
+    
+        // このリスナーは、ユーザーが通知をタップまたは操作するたびに起動されます（アプリがフォアグラウンド、バックグラウンド、または強制終了されたときに機能します）
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log(response);
+        });
+    
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        fetchTalkroomData();
         fetchTalkData();
     }, [])
 
-    useEffect(() => {
-        
-        fetchTalkroomData();
-    }, [])
-
     const onSend = useCallback((messages = []) => {
-        post({url:"api/talk/",data:{
-            "talktext": messages[0]["text"],
-            "talkfile": null
-        }});
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
+        if(messages[0]["text"].length < 201){
+            post({url:"api/talk/",data:{
+                "talktext": messages[0]["text"],
+                "talkfile": null
+            }});
+            setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
+        }
     }, [])
 
     useEffect(() => {
@@ -353,6 +374,7 @@ const talk =({ route,navigation })=> {
         lightboxProps={{
             springConfig:{ tension: 30, friction: 7,useNativeDriver: false }
         }}
+        renderLoading={()=>{return (<Center flex="1" my="10"><Loading size={150}/></Center>)}}
         />
     )
 }
