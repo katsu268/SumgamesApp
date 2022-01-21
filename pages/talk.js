@@ -1,14 +1,32 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { GiftedChat,Send } from 'react-native-gifted-chat'
 import { Icon } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker';
 import { Platform,View } from 'react-native';
 import AuthContext from '../components/my_context';
 import {Avatar} from 'native-base';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
 
 const talk =({ route,navigation })=> {
     const { talkroom_id, user_id } = route.params;
     const { BASE_URL, get, post } = React.useContext(AuthContext);
+
+    //Push通知関連
+    // const [expoPushToken, setExpoPushToken] = useState('');
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
+
+    //talkroomUI関連
     const [ roomInfo, setRoomInfo] = useState([]);
     const [messages, setMessages] = useState([
         {
@@ -45,6 +63,24 @@ const talk =({ route,navigation })=> {
             </Avatar>
         )
     }
+
+    // useEffect(() => {
+    //     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    //     // This listener is fired whenever a notification is received while the app is foregrounded
+    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //         setNotification(notification);
+    //     });
+    
+    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //         console.log(response);
+    //     });
+    
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(notificationListener.current);
+    //         Notifications.removeNotificationSubscription(responseListener.current);
+    //     };
+    // }, []);
 
     useEffect(() => {
         async function fetchTalkData() {

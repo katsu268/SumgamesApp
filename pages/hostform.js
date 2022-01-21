@@ -5,7 +5,7 @@ import AuthContext from '../components/my_context';
 
 const HostForm = ({ route,navigation }) => {
     const { detail } = route.params;
-    const { BASE_URL, post, join_talkroom } = React.useContext(AuthContext);
+    const { BASE_URL, post, host_talkroom } = React.useContext(AuthContext);
     //募集人数
     const [recruit_num, setRecruitNum] = React.useState("1");
     const gender = {
@@ -53,7 +53,7 @@ const HostForm = ({ route,navigation }) => {
             data["recruit_context"] = recruit_context;
         }
         const response = await post({url:"api/talkroom/",data});
-        const join = await join_talkroom({talkroomID:response.id});
+        host_talkroom({talkroomID:response.id})
     };
 
     const [isDisabled, setIsDisabled] = React.useState(false);

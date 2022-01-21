@@ -50,7 +50,7 @@ const Card = styled.View`
 
 const guest_matching = ({ navigation, route }) =>{
     const { game_id,gameName,gameImage } = route.params;
-    const { BASE_URL, get } = React.useContext(AuthContext);
+    const { BASE_URL, get, join_talkroom } = React.useContext(AuthContext);
     const [ tinder_cards, setTinderCards] = React.useState([]);
     const [isLoading, setLoading] = React.useState(true);
     const [childRefs, setchildRefs] = React.useState([]);
@@ -76,6 +76,9 @@ const guest_matching = ({ navigation, route }) =>{
     },[tinder_cards])
 
     const onSwipe = (direction,id) => {
+        if (direction == "right"){
+            join_talkroom({talkroomID:id})
+        }
         alreadyRemoved.push(id)
     }
     

@@ -401,11 +401,27 @@ export default function App() {
           console.log(error);
         }
       },
+      host_talkroom: async (data) => {
+        save("talkroom_id", data.talkroomID);
+        dispatch({ type: 'JOIN_TALKROOM', talkroom_id: data.talkroomID });
+      },
       join_talkroom: async (data) => {
         try {
-          let talkroomID = data.talkroomID
-          save("talkroom_id", talkroomID);
-          dispatch({ type: 'JOIN_TALKROOM', talkroom_id: talkroomID });
+          const user_token = await SecureStore.getItemAsync('token');
+          const response = await fetch(state.BASE_URL+`api/talkroom/${data.talkroomID}/join_talkroom/`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+            body: JSON.stringify({})
+          });
+          const result = await response.json();
+          save("talkroom_id", data.talkroomID);
+          dispatch({ type: 'JOIN_TALKROOM', talkroom_id: data.talkroomID });
+          return result;
         } catch (error) {
           console.log(error);
         }
