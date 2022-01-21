@@ -426,10 +426,7 @@ export default function App() {
           console.log(error);
         }
       },
-      exit_talkroom: async () => {
-        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
-        dispatch({ type: 'EXIT_TALKROOM' });
-      }
+      
     }),
     []
   );
@@ -524,7 +521,9 @@ export default function App() {
                                     <Button colorScheme="danger" onPress={async ()=>{
                                       try {
                                         let response = await post({url:`api/talkroom/${state.talkroom_id}/exit_talkroom/`,data:{}});
-                                        exit_talkroom();
+                                        console.log(response);
+                                        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
+                                        dispatch({ type: 'EXIT_TALKROOM' });
                                       } catch (error) {
                                         console.log(error);
                                       }

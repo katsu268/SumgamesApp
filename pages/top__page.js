@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Tile } from 'react-native-elements';
-import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, AspectRatio, Center, Divider, Input, SearchIcon} from 'native-base';
+import { NativeBaseProvider, Pressable, ScrollView, Heading, Button, Box, Image, Stack, HStack, Text, Icon, AspectRatio, Center, Divider, Input, SearchIcon, IconButton} from 'native-base';
 import Loading from "../components/loading";
 import AuthContext from '../components/my_context';
+import { Ionicons } from "@expo/vector-icons";
 
 
 const TopPage = ({navigation}) => {
@@ -23,14 +24,15 @@ const TopPage = ({navigation}) => {
     return;
   }
 
-  React.useEffect(() => {
-    async function fetchData() {
-      const url = "api/gameitem/"
-      const my_data = await get({url});
-      if (my_data !== undefined){
-        setData(my_data);
-      }
+  async function fetchData() {
+    const url = "api/gameitem/"
+    const my_data = await get({url});
+    if (my_data !== undefined){
+      setData(my_data);
     }
+  }
+
+  React.useEffect(() => {
     fetchData();
   }, []);
 
@@ -128,9 +130,41 @@ const TopPage = ({navigation}) => {
             </ScrollView>
           )}
         
-        <Box>
+        {/* <Box>
           <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
-        </Box>
+        </Box> */}
+        <HStack alignItems="center" maxWidth={360}>
+          <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
+          <Center pt="2">
+            <IconButton
+              icon={<Icon as={Ionicons} name="reload"/>}
+              borderRadius="full"
+              _icon={{
+                color: "primary.500",
+                size: "md",
+              }}
+              _hover={{
+                  bg: "blue.600:alpha.20",
+              }}
+              _pressed={{
+                  bg: "blue.600:alpha.20",
+                  _ios: {
+                  _icon: {
+                      size: "md",
+                  },
+                  },
+              }}
+              _ios={{
+                  _icon: {
+                  size: "md",
+                  },
+              }}
+              onPress={fetchData}
+            />
+          </Center>
+        </HStack>
+
+
         <Divider my="2" />
         <ScrollView horizontal={true}>
           {data.map((u,i)=>{
