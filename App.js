@@ -293,7 +293,6 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
-          console.log(result);
           save("token", result.token);
           save("user_id", result.user_id);
           dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });
@@ -521,7 +520,6 @@ export default function App() {
                                     <Button colorScheme="danger" onPress={async ()=>{
                                       try {
                                         let response = await post({url:`api/talkroom/${state.talkroom_id}/exit_talkroom/`,data:{}});
-                                        console.log(response);
                                         let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
                                         dispatch({ type: 'EXIT_TALKROOM' });
                                       } catch (error) {
