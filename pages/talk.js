@@ -72,7 +72,6 @@ const talk =({ route,navigation })=> {
 
     //Push通知関連
     const [expoPushToken, setExpoPushToken] = useState('');
-    const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
     const responseListener = useRef();
 
@@ -115,6 +114,22 @@ const talk =({ route,navigation })=> {
     }
 
     const fetchTalkData = async () => {
+        setMessages(
+            [
+                {
+                    _id: 1,
+                    text: 'マナーを守って交流しましょう！',
+                    createdAt: new Date().getTime(),
+                    system: true
+                },
+                {
+                    _id: 0,
+                    text: 'トークルームを作成しました',
+                    createdAt: new Date().getTime(),
+                    system: true
+                },
+            ]
+        );
         const my_data = await get({url:"api/talk/"});
         if (my_data === undefined){
             exit_talkroom()
@@ -204,8 +219,8 @@ const talk =({ route,navigation })=> {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
         // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            console.log(notification);
             fetchTalkData();
-            setNotification(notification);
         });
     
         // このリスナーは、ユーザーが通知をタップまたは操作するたびに起動されます（アプリがフォアグラウンド、バックグラウンド、または強制終了されたときに機能します）
@@ -308,8 +323,6 @@ const talk =({ route,navigation })=> {
         }
     };
 
-   
-
     return(
         <GiftedChat
         messages={messages}
@@ -351,6 +364,14 @@ const talk =({ route,navigation })=> {
                         size={30}
                         iconStyle={{paddingBottom:12}}
                         onPress={pickImage}
+                    />
+                    <Icon
+                        name='camera'
+                        type='evilicon'
+                        color='#93c'
+                        size={30}
+                        iconStyle={{paddingLeft:10,paddingBottom:12}}
+                        onPress={()=>sendPushNotification(expoPushToken)}
                     />
                 </View>
             )
