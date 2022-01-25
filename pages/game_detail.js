@@ -22,6 +22,7 @@ const game_detail = ({ route,navigation }) =>{
             if (my_data !== undefined){
                 setData(my_data);
             }
+            //my_data.hostの値がある時、ホストの割合を算出
             if (my_data.host){
                 setRate(Math.floor(my_data.host/(my_data.host+my_data.guest)*100));
             }
@@ -144,7 +145,7 @@ const game_detail = ({ route,navigation }) =>{
                             />
                             <View style={{ flexDirection: 'row' }}>
                                 <Image
-                                    source={require('../assets/images/game01.png')}
+                                    source={require('../assets/images/game02.png')}
                                     style={{ width: 180, height: 200 }}
                                 />
                                 <Divider
@@ -178,9 +179,9 @@ const game_detail = ({ route,navigation }) =>{
                         <View style={{flex:1}}>
                             <Text 
                             style={{
-                                fontSize: 20,
+                                fontSize: 25,
                                 marginTop: 5,
-                                marginLeft: 170,
+                                marginLeft: 160,
                                 // marginBottom: 5,
                             }}
                             >
@@ -189,13 +190,13 @@ const game_detail = ({ route,navigation }) =>{
                             <View style={{ flexDirection: 'row' }}>
                                 <Text
                                     style={{
-                                        fontSize: 20,
+                                        fontSize: 25,
                                         marginTop: 25,
                                         marginLeft:10,
                                         marginRight: 10
                                     }}
                                 >
-                                    ホスト{"\n"}{detail.host}
+                                    ホスト
                                 </Text>
 
                                 <Slider
@@ -208,7 +209,7 @@ const game_detail = ({ route,navigation }) =>{
                                 orientation="horizontal"
                                 step={1}
                                 style={{ 
-                                    width: "60%", 
+                                    width: "50%", 
                                     height: 80, 
                                     marginLeft: 5,
                                     marginRight: 5
@@ -237,15 +238,34 @@ const game_detail = ({ route,navigation }) =>{
 
                                 <Text
                                     style={{
-                                        fontSize: 20,
+                                        fontSize: 25,
                                         marginTop: 25,
                                         marginLeft:10,
                                         marginRight: 5
                                     }}
                                 >
-                                    ゲスト{"\n"}{detail.guest}
+                                    ゲスト
                                 </Text>
                             </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text
+                                        style={{
+                                            fontSize: 30,
+                                            marginLeft:30,
+                                        }}
+                                >
+                                        {data.host}人
+                                </Text>
+                                <Text
+                                        style={{
+                                            fontSize: 30,
+                                            marginLeft:235,
+                                        }}
+                                >
+                                        {data.guest}人
+                                </Text>
+                            </View>
+
                         </View>
                         :<View style={{flex:1}}>
                             <Text h3={true} style={{flex:1}}>現在募集中のホストはいません。</Text>
