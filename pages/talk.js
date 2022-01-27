@@ -11,19 +11,22 @@ import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-        shouldShowAlert: true,
+        shouldShowAlert: false,
         shouldPlaySound: false,
         shouldSetBadge: false,
     }),
 });
 
-async function sendPushNotification(expoPushToken) {
+const sendPushNotification = async(token=[],title="hello",body="This is test",data={test:"test"},type="new_message") => {
     const message = {
-      to: expoPushToken,
+      to: token,
       sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { someData: 'goes here' },
+      title: title,
+      body: body,
+      data: {
+        type:type,
+        contents:data
+      }
     };
   
     await fetch('https://exp.host/--/api/v2/push/send', {
@@ -64,19 +67,21 @@ const registerForPushNotificationsAsync = async () => {
       });
     }
     return token;
-  }
+}
 
 const talk =({ route,navigation })=> {
     const { talkroom_id, user_id } = route.params;
     const { BASE_URL, get, post, exit_talkroom } = React.useContext(AuthContext);
+    const [isLoading, setLoading] = React.useState(true);
 
     //Push通知関連
-    const [expoPushToken, setExpoPushToken] = useState('');
+    const [expoPushToken, setExpoPushToken] = useState([]);
     const notificationListener = useRef();
     const responseListener = useRef();
 
     //talkroomUI関連
-    const [ roomInfo, setRoomInfo] = useState([]);
+    const [ user_info, setUserInfo] = useState([]);
+    //メッセージの初期化
     const [messages, setMessages] = useState([
         {
             _id: 1,
@@ -114,22 +119,6 @@ const talk =({ route,navigation })=> {
     }
 
     const fetchTalkData = async () => {
-        setMessages(
-            [
-                {
-                    _id: 1,
-                    text: 'マナーを守って交流しましょう！',
-                    createdAt: new Date().getTime(),
-                    system: true
-                },
-                {
-                    _id: 0,
-                    text: 'トークルームを作成しました',
-                    createdAt: new Date().getTime(),
-                    system: true
-                },
-            ]
-        );
         const my_data = await get({url:"api/talk/"});
         if (my_data === undefined){
             exit_talkroom()
@@ -163,64 +152,110 @@ const talk =({ route,navigation })=> {
                 )
             }
         };
+        if(isLoading){
+            setLoading(false);
+        }
     }
 
-    const fetchTalkroomData = async () => {
+    const fetchTalkroomData = async (my_token=null) => {
         const room_data = await get({url:`api/talkroom/${talkroom_id}/`});
         if (room_data === undefined){
-            exit_talkroom()
+            exit_talkroom();
+        }else{
+            navigation.setOptions({
+                headerLeft: ()=>{
+                    return (
+                        <Avatar.Group size="10" max={3} ml="3">
+                            {(room_data.host_user.user_image === "")
+                            ?<Avatar
+                                bg="green.500"
+                            >
+                                {room_data.host_user.user_name.slice(0,1).toUpperCase()}
+                            </Avatar>
+                            :<Avatar
+                                bg="green.500"
+                                source={{
+                                    uri: BASE_URL+"/media/"+room_data.host_user.user_image,
+                                }}
+                            >
+                                {room_data.host_user.user_name.slice(0,1).toUpperCase()}
+                            </Avatar>}
+                            {room_data.guest_user.map((u,i)=>{
+                                return (
+                                    (u.user_image === "")
+                                    ?<Avatar
+                                        key={i}
+                                        bg="green.500"
+                                    >
+                                        {u.user_name.slice(0,1).toUpperCase()}
+                                    </Avatar>
+                                    :<Avatar
+                                        key={i}
+                                        bg="green.500"
+                                        source={{
+                                            uri: BASE_URL+"/media/"+u.user_image,
+                                        }}
+                                    >
+                                        {u.user_name.slice(0,1).toUpperCase()}
+                                    </Avatar>
+                                );
+                            })}
+                        </Avatar.Group>
+                    )
+                },
+            });
+            let userInfo = {};
+            if (room_data.host_user.user_id === user_id){
+                userInfo = {
+                    _id: user_id,
+                    name: room_data.host_user.user_name,
+                    avatar: room_data.host_user.user_image,
+                }
+            }else{
+                for (const user of room_data.guest_user){
+                    if (user.user_id === user_id){
+                        userInfo = {
+                            _id: user_id,
+                            name: user.user_name,
+                            avatar: user.user_image,
+                        }
+                        break;
+                    }
+                }
+            }
+            setUserInfo(userInfo);
+            let expo_tokens = room_data.expo_tokens.filter((token)=>{return token!== my_token});
+            setExpoPushToken(expo_tokens);
+            if (my_token!==null){
+                sendPushNotification(token=expo_tokens,title="user join",body="新しいメッセージがあります。",data={user_expo_token:my_token,username:userInfo.name},type="user_join");
+                fetchTalkData();
+            }
         }
-        navigation.setOptions({
-            headerLeft: ()=>{
-                return (
-                    <Avatar.Group size="10" max={3} ml="3">
-                        {(room_data.host_user.user_image === "")
-                        ?<Avatar
-                            bg="green.500"
-                        >
-                            {room_data.host_user.user_name.slice(0,1).toUpperCase()}
-                        </Avatar>
-                        :<Avatar
-                            bg="green.500"
-                            source={{
-                                uri: BASE_URL+"/media/"+room_data.host_user.user_image,
-                            }}
-                        >
-                            {room_data.host_user.user_name.slice(0,1).toUpperCase()}
-                        </Avatar>}
-                        {room_data.guest_user.map((u,i)=>{
-                            return (
-                                (u.user_image === "")
-                                ?<Avatar
-                                    key={i}
-                                    bg="green.500"
-                                >
-                                    {u.user_name.slice(0,1).toUpperCase()}
-                                </Avatar>
-                                :<Avatar
-                                    key={i}
-                                    bg="green.500"
-                                    source={{
-                                        uri: BASE_URL+"/media/"+u.user_image,
-                                    }}
-                                >
-                                    {u.user_name.slice(0,1).toUpperCase()}
-                                </Avatar>
-                            );
-                        })}
-                    </Avatar.Group>
-                )
-              },
-        });
-        setRoomInfo(room_data);
+    }
+    
+    const post_expo_token = async (token) => {
+        await post({url:"accounts/expo-push-token/",data:{"expo_token": token}});
+        fetchTalkroomData(token);
     }
 
     useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+        registerForPushNotificationsAsync().then(token => post_expo_token(token));
         // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            console.log(notification);
-            fetchTalkData();
+            const data = notification.request.content.data
+            if (data.type === "new_message") {
+                setMessages(previousMessages => GiftedChat.append(previousMessages, data.contents));
+            }else if (data.type === "user_join") {
+                fetchTalkroomData();
+                setMessages(previousMessages => GiftedChat.append(previousMessages,
+                    {
+                        _id: previousMessages.length,
+                        text: `${data.contents.username}が入室しました。`,
+                        createdAt: new Date().getTime(),
+                        system: true
+                    }
+                ))
+            }
         });
     
         // このリスナーは、ユーザーが通知をタップまたは操作するたびに起動されます（アプリがフォアグラウンド、バックグラウンド、または強制終了されたときに機能します）
@@ -233,11 +268,6 @@ const talk =({ route,navigation })=> {
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, []);
-
-    useEffect(() => {
-        fetchTalkroomData();
-        fetchTalkData();
-    }, [])
 
     const onSend = useCallback((messages = []) => {
         if(messages[0]["text"].length < 201){
@@ -294,6 +324,9 @@ const talk =({ route,navigation })=> {
                 image:result.uri
             };
             setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage));
+            let format_message = imageMessage;
+            format_message.user = user_info;
+            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
         }
     };
 
@@ -320,83 +353,91 @@ const talk =({ route,navigation })=> {
                 image:result.uri
             };
             setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage))
+            let format_message = imageMessage;
+            format_message.user = user_info;
+            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
         }
     };
 
     return(
-        <GiftedChat
-        messages={messages}
-        onSend={messages => onSend(messages)}
-        user={{
-            _id: user_id
-        }}
-        placeholder="メッセージを入力"
-        timeFormat='H:mm'
-        dateFormat='M/D'
-        renderSend={(props) => {
-            return (
-                <Send {...props}>
-                    <Icon
-                        name='send'
-                        type='font-awesome'
-                        color='#93c'
-                        iconStyle={{paddingRight:14,paddingBottom:12}}
-                    />
-                </Send>
-            );
-        }}
-        renderUsernameOnMessage={true}
-        renderActions={() => {
-            return (
-                <View style={{flexDirection:"row"}}>
-                    <Icon
-                        name='camera'
-                        type='evilicon'
-                        color='#93c'
-                        size={30}
-                        iconStyle={{paddingLeft:10,paddingBottom:12}}
-                        onPress={pickCamera}
-                    />
-                    <Icon
-                        name='image'
-                        type='evilicon'
-                        color='#93c'
-                        size={30}
-                        iconStyle={{paddingBottom:12}}
-                        onPress={pickImage}
-                    />
-                    <Icon
-                        name='camera'
-                        type='evilicon'
-                        color='#93c'
-                        size={30}
-                        iconStyle={{paddingLeft:10,paddingBottom:12}}
-                        onPress={()=>sendPushNotification(expoPushToken)}
-                    />
-                </View>
-            )
-        }}
-        alignTop={true}
-        textInputStyle={{
-            backgroundColor:"#e5e5e5",
-            borderRadius:20,
-            overflow: 'hidden',
-            marginRight:5,
-            paddingLeft:10,
-            paddingTop:6,
-            paddingBottom:6,
-            lineHeight:20,
-        }}
-        renderAvatar={(props)=>{
-            return (
-                <UserAvatar user_name={props.currentMessage.user.name} user_image={props.currentMessage.user.avatar} />
-            );
-        }}
-        lightboxProps={{
-            springConfig:{ tension: 30, friction: 7,useNativeDriver: false }
-        }}
-        renderLoading={()=>{return (<Center flex="1" my="10"><Loading size={150}/></Center>)}}
-        />
+        (isLoading)
+        ?(
+            <Center flex={1}>
+                <Loading size={150}/>
+            </Center>
+        )
+        :(
+            <GiftedChat
+            messages={messages}
+            onSend={(messages) => {
+                onSend(messages);
+                let format_message = messages;
+                format_message[0].user = user_info;
+                sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
+            }}
+            user={{
+                _id: user_id
+            }}
+            placeholder="メッセージを入力"
+            timeFormat='H:mm'
+            dateFormat='M/D'
+            renderSend={(props) => {
+                return (
+                    <Send {...props}>
+                        <Icon
+                            name='send'
+                            type='font-awesome'
+                            color='#93c'
+                            iconStyle={{paddingRight:14,paddingBottom:12}}
+                        />
+                    </Send>
+                );
+            }}
+            renderUsernameOnMessage={true}
+            renderActions={() => {
+                return (
+                    <View style={{flexDirection:"row"}}>
+                        <Icon
+                            name='camera'
+                            type='evilicon'
+                            color='#93c'
+                            size={30}
+                            iconStyle={{paddingLeft:10,paddingBottom:12}}
+                            onPress={pickCamera}
+                        />
+                        <Icon
+                            name='image'
+                            type='evilicon'
+                            color='#93c'
+                            size={30}
+                            iconStyle={{paddingBottom:12}}
+                            onPress={pickImage}
+                        />
+                    </View>
+                )
+            }}
+            alignTop={true}
+            textInputStyle={{
+                backgroundColor:"#e5e5e5",
+                borderRadius:20,
+                overflow: 'hidden',
+                marginRight:5,
+                paddingLeft:10,
+                paddingTop:6,
+                paddingBottom:6,
+                lineHeight:20,
+            }}
+            renderAvatar={(props)=>{
+                return (
+                    <UserAvatar user_name={props.currentMessage.user.name} user_image={props.currentMessage.user.avatar} />
+                );
+            }}
+            lightboxProps={{
+                springConfig:{ tension: 30, friction: 7,useNativeDriver: false }
+            }}
+            renderLoading={()=>{return (<Center flex="1" my="10"><Loading size={150}/></Center>)}}
+            />
+        )
     )
 }
 

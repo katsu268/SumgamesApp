@@ -24,15 +24,19 @@ import * as SecureStore from 'expo-secure-store';
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 
+//スマホ本体の安全な領域に情報を保存する{key:value}
 const save = async (key, value) => {
   await SecureStore.setItemAsync(key, value);
 }
 
+//画面下部のナビゲーションバーの設定
 const Tab = createBottomTabNavigator();
-
 function MyTabBar({ state, descriptors, navigation }) {
+  //メニュー画面を表示するかどうか
   const [menuOpen,menuOpenSet] = React.useState(false);
-  const { signOut,user_delete } = React.useContext(AuthContext);
+
+  //サインアウトボタン用
+  const { signOut } = React.useContext(AuthContext);
   return (
     <HStack alignItems="center" safeAreaBottom="8" pt="1">
       {state.routes.map((route, index) => {
@@ -45,6 +49,7 @@ function MyTabBar({ state, descriptors, navigation }) {
             : route.name;
 
         const isFocused = state.index === index;
+        //iconの名前
         const icons = ["home","user"]
 
         const onPress = () => {
@@ -68,6 +73,7 @@ function MyTabBar({ state, descriptors, navigation }) {
         };
 
         return (
+          //画面下部のナビゲーションバーデザイン
           <Pressable key={index} flex="1" onPress={onPress} onLongPress={onLongPress}>
             {({ isPressed }) => {
               return (
@@ -101,11 +107,12 @@ function MyTabBar({ state, descriptors, navigation }) {
           </Pressable>
         );
       })}
+      {/* メニュー画面 */}
       <Menu
         w="160"
         isOpen={menuOpen}
-        onOpen={()=>{menuOpenSet(true)}}
-        onClose={()=>{menuOpenSet(false)}}
+        onOpen={()=>menuOpenSet(true)}
+        onClose={()=>menuOpenSet(false)}
         trigger={(triggerProps) => {
           return (
             <Pressable flex="1" {...triggerProps} >
@@ -159,6 +166,7 @@ function MyTabBar({ state, descriptors, navigation }) {
   );
 }
 
+//画面下部のナビゲーションバー
 function TopTab() {
   return (
     <Tab.Navigator initialRouteName="TopPage" screenOptions={{headerShown:false}} tabBar={(props) => <MyTabBar {...props} />}>
@@ -168,9 +176,10 @@ function TopTab() {
   );
 }
 
+//スタックナビゲーション
 const Stack = createStackNavigator();
-
 export default function App() {
+  //各種情報の保持
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -218,9 +227,10 @@ export default function App() {
       BASE_URL: "https://sumgames.click/",
     }
   );
-
+  
+  //画面読み込み時の処理
   React.useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
+    // スマホに保存されている情報を読み込み、stateに情報を登録
     const bootstrapAsync = async () => {
       try {
         let userToken = await SecureStore.getItemAsync('token');
@@ -239,8 +249,10 @@ export default function App() {
     bootstrapAsync();
   }, []);
 
+  //他の画面でも使う関数を保持
   const authContext = React.useMemo(
     () => ({
+      //サインインで使用する関数
       signIn: async data => {
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
@@ -271,12 +283,14 @@ export default function App() {
           return;
         };
       },
+      //サインアウトで使用する関数
       signOut: async () => {
-        let userToken = await SecureStore.deleteItemAsync("token");
-        let userID = await SecureStore.deleteItemAsync('user_id');
-        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
+        await SecureStore.deleteItemAsync("token");
+        await SecureStore.deleteItemAsync('user_id');
+        await SecureStore.deleteItemAsync('talkroom_id');
         dispatch({ type: 'SIGN_OUT' });
       },
+      //ユーザー登録で使用する関数
       signUp: async data => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
@@ -302,7 +316,9 @@ export default function App() {
           return;
         };
       },
+      //ベースになるURL、画像データを読み込むときに使用
       BASE_URL:state.BASE_URL.slice(0,-1),
+      //サーバーにGETリクエストを飛ばす関数、引数{url:'リクエストを送るURLのディレクトリ名'} 例：{url:'api/talkroom/'}
       get: async (data) => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -321,6 +337,7 @@ export default function App() {
           console.log(error);
         }
       },
+      //サーバーにPOSTリクエストを飛ばす関数、引数{url:'リクエストを送るURLのディレクトリ名',data:'送るデータ'} 例：{url:'api/talkroom/',data:{example:'aaa'}}
       post: async (data) => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -340,6 +357,7 @@ export default function App() {
           console.log(error);
         }
       },
+      //サーバーにPATCHリクエストを飛ばす関数、引数{url:'リクエストを送るURLのディレクトリ名',data:'送るデータ'} 例：{url:'api/talkroom/',data:{example:'aaa'}}
       patch: async (data) => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -359,6 +377,7 @@ export default function App() {
           console.log(error);
         }
       },
+      //ユーザー削除の関数
       user_delete: async () => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -372,14 +391,15 @@ export default function App() {
               'Authorization': `Token ${user_token}`
             },
           });
-          let userToken = await SecureStore.deleteItemAsync("token");
-          let userID = await SecureStore.deleteItemAsync('user_id');
-          let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
+          await SecureStore.deleteItemAsync("token");
+          await SecureStore.deleteItemAsync('user_id');
+          await SecureStore.deleteItemAsync('talkroom_id');
           dispatch({ type: 'SIGN_OUT' });
         } catch (error) {
           console.log(error);
         }
       },
+      //パスワードリセットの関数
       password_reset: async (data) => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -400,10 +420,12 @@ export default function App() {
           console.log(error);
         }
       },
+      //トークルームをホストするときの関数
       host_talkroom: async (data) => {
         save("talkroom_id", data.talkroomID);
         dispatch({ type: 'JOIN_TALKROOM', talkroom_id: data.talkroomID });
       },
+      //トークルームにゲストとして参加するときの関数
       join_talkroom: async (data) => {
         try {
           const user_token = await SecureStore.getItemAsync('token');
@@ -425,11 +447,32 @@ export default function App() {
           console.log(error);
         }
       },
-      
+      //トークルームを退出するときの関数
+      exit_talkroom: async () => {
+        const user_token = await SecureStore.getItemAsync('token');
+        try {
+          await fetch(state.BASE_URL+`api/talkroom/${state.talkroom_id}/exit_talkroom/`,{
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${user_token}`
+            },
+            body: JSON.stringify({})
+          });
+          await SecureStore.deleteItemAsync('talkroom_id');
+          dispatch({ type: 'EXIT_TALKROOM' });
+        } catch (error) {
+          return undefined;
+        }
+      },
     }),
     []
   );
+  //アプリ立ち上げ時に画像データをキャッシュする関数
   const cacheResourcesAsync = async() => {
+    //キャッシュする画像データの読み込み
     const images = [
       require('./assets/images/20211118103410.png'),
       require('./assets/images/apex-image.jpg'),
@@ -452,19 +495,21 @@ export default function App() {
 
   return (
     (state.isLoading)
-    ?<NativeBaseProvider>
+    ?//ローディング中
+    <NativeBaseProvider>
       <AppLoading
         startAsync={cacheResourcesAsync}
         onFinish={console.log("ok")}
         onError={console.warn}
       />
     </NativeBaseProvider>
-    :
+    ://ローディング終わったあと
     <SSRProvider>
       <NativeBaseProvider>
         <NavigationContainer>
           <AuthContext.Provider value={authContext}>
             <Stack.Navigator>
+              {/* ユーザーがログインしていないとき */}
               {state.user_token == null ? (
                 <Stack.Group>
                   <Stack.Screen name="Signup" component={Signup} options={{title:"サインアップ"}}/>
@@ -472,6 +517,8 @@ export default function App() {
                   <Stack.Screen name="PasswordReset" component={PasswordReset} options={{title:"パスワードリセット"}}/>
                 </Stack.Group>
               ) : (
+                // ユーザーがログインしているとき
+                //トークルームに入っていないとき
                 state.talkroom_id == null ? (
                   <Stack.Group>
                     <Stack.Screen name="Top" component={TopTab} options={{headerShown:false,title:"ホーム"}} />
@@ -481,15 +528,17 @@ export default function App() {
                     <Stack.Screen name="Inquiry" component={Inquiry} options={{title:"お問い合わせ"}}/>
                   </Stack.Group>
                 ):(
+                //トークルームに入室しているとき
                   <Stack.Group>
                     <Stack.Screen name="talk" component={talk} initialParams={{ talkroom_id: state.talkroom_id, user_id: state.user_id }} options={{ 
                       title: 'トークルーム',
                       headerTitleAlign:"center",
                       headerRight: ()=>{
+                        //トークルームの右上に表示する退出ボタン
                         const [isOpen, setIsOpen] = React.useState(false);
                         const onClose = () => setIsOpen(false);
                         const cancelRef = React.useRef(null);
-                        const { post,exit_talkroom } = React.useContext(AuthContext);
+                        const { exit_talkroom } = React.useContext(AuthContext);
                         return (
                           <Box>
                             <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
@@ -517,14 +566,8 @@ export default function App() {
                                     >
                                       キャンセル
                                     </Button>
-                                    <Button colorScheme="danger" onPress={async ()=>{
-                                      try {
-                                        let response = await post({url:`api/talkroom/${state.talkroom_id}/exit_talkroom/`,data:{}});
-                                        let talkroomID = await SecureStore.deleteItemAsync('talkroom_id');
-                                        dispatch({ type: 'EXIT_TALKROOM' });
-                                      } catch (error) {
-                                        console.log(error);
-                                      }
+                                    <Button colorScheme="danger" onPress={()=>{
+                                      exit_talkroom();
                                     }}>
                                       退出
                                     </Button>
