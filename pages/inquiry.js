@@ -4,9 +4,10 @@ import AuthContext from '../components/my_context';
 
 
 const Inquiry = ({navigation}) => {
-//   const [type, setType] = React.useState("");
+  //お問い合わせ内容
   const [contents, setContents] = React.useState("");
   const { post } = React.useContext(AuthContext);
+  //お問い合わせ種類
   const [type, setGender] = React.useState("");
   const type_list = {
     "defect":"不具合報告",
@@ -23,8 +24,6 @@ const Inquiry = ({navigation}) => {
     const result = await post({url:"api/inquiry/",data:data});
     return result;
   }
-
-
 
   return (
     <KeyboardAvoidingView
@@ -46,20 +45,9 @@ const Inquiry = ({navigation}) => {
           >
               お問い合わせ
           </Heading>
-          {/* <Heading
-            mt="1"
-            _dark={{
-              color: "warmGray.200",
-            }}
-            color="coolGray.600"
-            fontWeight="medium"
-            size="xs"
-          >
-            お問い合わせ内容を入力してください
-          </Heading> */}
-
           <VStack space={3} mt="5">
             <FormControl>
+              {/* ラジオボタンでお問い合わせの種類を指定 */}
               <FormControl.Label>お問い合わせの種類</FormControl.Label>
               <Radio.Group
                   name="mytypeGroup"
@@ -81,6 +69,7 @@ const Inquiry = ({navigation}) => {
             </Radio.Group>
             </FormControl>
             <FormControl>
+              {/* テキストエリアにお問い合わせ内容を入力 */}
               <FormControl.Label>お問い合わせ内容</FormControl.Label>
                 <TextArea
                     h={20}
@@ -92,6 +81,7 @@ const Inquiry = ({navigation}) => {
                     onChangeText={(value)=>setContents(value)}
                 />
             </FormControl>
+　          {/* 入力項目不十分なら押下不可 */}
             <Button isDisabled={type === "" || contents === ""} mt="2" colorScheme="indigo" onPress={onSend}>
               送信
             </Button>

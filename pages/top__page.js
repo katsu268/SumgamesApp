@@ -49,7 +49,7 @@ const TopPage = ({navigation}) => {
           height={300}
         />
         <Box>
-          <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button h="full" px="4" onPress={searchGame}>検索</Button>}/>
+          <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button isDisabled={value===""} h="full" px="4" onPress={searchGame}>検索</Button>}/>
         </Box>
         
           {isLoading?(
@@ -130,9 +130,6 @@ const TopPage = ({navigation}) => {
             </ScrollView>
           )}
         
-        {/* <Box>
-          <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
-        </Box> */}
         <HStack alignItems="center" maxWidth={360}>
           <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
           <Center pt="2">
