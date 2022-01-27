@@ -182,7 +182,7 @@ const game_detail = ({ route,navigation }) =>{
                             style={{
                                 fontSize: 25,
                                 marginTop: 5,
-                                marginLeft: 160,
+                                marginLeft: 155,
                                 // marginBottom: 5,
                             }}
                             >
@@ -253,20 +253,20 @@ const game_detail = ({ route,navigation }) =>{
                                 <Text
                                         style={{
                                             fontSize: 30,
-                                            marginLeft:30,
+                                            marginLeft:150,
                                         }}
                                 >
-                                        {data.host}人
+                                        {data.host}    /    {data.guest}
                                 </Text>
                                 {/* リアルタイムでゲスト人数を表示 */}
-                                <Text
+                                {/* <Text
                                         style={{
                                             fontSize: 30,
                                             marginLeft:235,
                                         }}
                                 >
                                         {data.guest}人
-                                </Text>
+                                </Text> */}
                             </View>
 
                         </View>
