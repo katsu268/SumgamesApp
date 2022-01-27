@@ -13,6 +13,7 @@ const game_detail = ({ route,navigation }) =>{
     const { BASE_URL,get } = React.useContext(AuthContext);
     const [data, setData] = React.useState({});
     const [isLoading, setLoading] = React.useState(true);
+    //ホストの割合
     const [rate, setRate] = React.useState(0);
 
     React.useEffect(() => {
@@ -47,6 +48,7 @@ const game_detail = ({ route,navigation }) =>{
                 <Tile
                     ImageComponent={()=>{
                         return(
+                            //ゲームイメージを表示
                             <ImageBackground
                                 source={{
                                     uri:BASE_URL + detail.image
@@ -54,6 +56,7 @@ const game_detail = ({ route,navigation }) =>{
                                 resizeMode="cover"
                                 style={{width:"100%",height:300}}
                             >
+                                {/* ゲームタイトルを表示 */}
                                 <Text style={{
                                     color: "white",
                                     fontSize: 26,
@@ -71,11 +74,11 @@ const game_detail = ({ route,navigation }) =>{
                     featured
                     height={300}
                 />
+                    {/* ゲームジャンルを表示 */}
                     <View>
                         <Card containerStyle={{
                             backgroundColor: "#AAB7B8"
                         }}>
-                            {/* <Card.Title>ジャンル</Card.Title> */}
                             <Text
                                 style={{
                                     fontSize: 15,
@@ -107,9 +110,7 @@ const game_detail = ({ route,navigation }) =>{
                                         <Text
                                             key = {i}
                                             style={{
-                                            // marginLeft: 30,
                                             color: "#000000",
-                                            // backgroundColor: "#000000c0",
                                             fontSize: 20,
                                             }}
                                         >
@@ -122,9 +123,9 @@ const game_detail = ({ route,navigation }) =>{
                         </Card>
                     </View>
 
-
+                    {/* ゲームのプラットフォームを表示 */}
                     <View>
-                    <Card containerStyle={{
+                        <Card containerStyle={{
                             backgroundColor: "#87ceeb"
                         }}>
                             {/* <Card.Title>プラットフォーム</Card.Title> */}
@@ -175,7 +176,7 @@ const game_detail = ({ route,navigation }) =>{
                     </View>
                     {
                         (rate)
-                        ?
+                        ?//ホストが1人以上存在するとき
                         <View style={{flex:1}}>
                             <Text 
                             style={{
@@ -198,7 +199,7 @@ const game_detail = ({ route,navigation }) =>{
                                 >
                                     ホスト
                                 </Text>
-
+                                {/* rateから受け取った割合をスライダーに反映 */}
                                 <Slider
                                 animationType="timing"
                                 disabled
@@ -248,6 +249,7 @@ const game_detail = ({ route,navigation }) =>{
                                 </Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
+                                {/* リアルタイムでホスト人数を表示 */}
                                 <Text
                                         style={{
                                             fontSize: 30,
@@ -256,6 +258,7 @@ const game_detail = ({ route,navigation }) =>{
                                 >
                                         {data.host}人
                                 </Text>
+                                {/* リアルタイムでゲスト人数を表示 */}
                                 <Text
                                         style={{
                                             fontSize: 30,
@@ -267,11 +270,23 @@ const game_detail = ({ route,navigation }) =>{
                             </View>
 
                         </View>
-                        :<View style={{flex:1}}>
-                            <Text h3={true} style={{flex:1}}>現在募集中のホストはいません。</Text>
+                        ://ホストが0人のとき
+                        <View style={{flex:1}}>
+                            {/* ホストが存在しないことを知らせる */}
+                            <Text
+                                style={{
+                                    flex:1,
+                                    marginTop:20,
+                                    fontSize:29,
+                                    color:"#ffff00",
+                                    backgroundColor:"#000080"
+                                }}
+                            >
+                                現在募集中のホストはいません
+                            </Text>
                         </View>
                     }
-
+                    {/* ホストorゲストでの募集、参加を誘導 */}
                     <Text
                     style={{
                         fontSize: 20,
@@ -282,12 +297,14 @@ const game_detail = ({ route,navigation }) =>{
                         どちらを選びますか？
                     </Text>
 
+                    {/* ホストボタンを表示 */}
                     <View style={{
                         flex:1,
                         marginTop: 30,
                         marginBottom: 100,
                         flexDirection:"row"
                     }}>
+                        {/* ホストボタンを表示 */}
                         <View style={{flex:1,paddingRight:20,paddingLeft:40}}>
                             <Button title="ホスト"
                                 onPress={() => navigation.navigate('HostForm',{
@@ -295,6 +312,7 @@ const game_detail = ({ route,navigation }) =>{
                                     })}
                             />
                         </View>
+                        {/* ゲストボタンを表示 */}
                         <View style={{flex:1,paddingRight:40,paddingLeft:20}}>
                             <Button title="ゲスト"
                                 onPress={() => navigation.navigate('GuestMatching',{

@@ -130,9 +130,6 @@ const TopPage = ({navigation}) => {
             </ScrollView>
           )}
         
-        {/* <Box>
-          <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
-        </Box> */}
         <HStack alignItems="center" maxWidth={360}>
           <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
           <Center pt="2">

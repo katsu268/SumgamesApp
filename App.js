@@ -293,6 +293,7 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
+          console.log(result);
           save("token", result.token);
           save("user_id", result.user_id);
           dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });

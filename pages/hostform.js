@@ -8,6 +8,7 @@ const HostForm = ({ route,navigation }) => {
     const { BASE_URL, post, host_talkroom } = React.useContext(AuthContext);
     //募集人数
     const [recruit_num, setRecruitNum] = React.useState("1");
+    //性別
     const gender = {
         "AL":"誰でも",
         "MA":"男性のみ",
@@ -68,6 +69,7 @@ const HostForm = ({ route,navigation }) => {
 
     return (
         <ScrollView>
+            {/* ゲームイメージを表示 */}
             <Tile
                 title={detail.game_name}
                 imageSrc={{
@@ -110,6 +112,7 @@ const HostForm = ({ route,navigation }) => {
                     </Heading>
         
                     <VStack space={3} my="5">
+                        {/* プルダウンで募集人数を指定(１～５０人) */}
                         <FormControl>
                             <FormControl.Label>募集人数</FormControl.Label>
                             <Select
@@ -132,6 +135,7 @@ const HostForm = ({ route,navigation }) => {
                             </Select>
                         </FormControl>
                         <FormControl>
+                            {/* ラジオボタンで募集性別を指定(誰でも/男性のみ/女性のみ) */}
                             <FormControl.Label>募集性別</FormControl.Label>
                             <Radio.Group
                                 name="myRadioGroup"
@@ -154,6 +158,7 @@ const HostForm = ({ route,navigation }) => {
                         </FormControl>
                         <FormControl>
                             <HStack space={3} alignItems="center" mb="3">
+                                {/* チェックボックスで募集プラットフォームを指定 */}
                                 <FormControl.Label>募集プラットフォーム</FormControl.Label>
                                 <Pressable onPress={select_all_platform}>
                                     <Center h="7" w="auto" bg="primary.500" px="2" rounded="md" shadow={3} >全選択</Center>
@@ -179,6 +184,7 @@ const HostForm = ({ route,navigation }) => {
                             </Checkbox.Group>
                         </FormControl>
                         <FormControl>
+                            {/* 募集内容を入力(無記入でも可) */}
                             <FormControl.Label>募集内容</FormControl.Label>
                             <TextArea
                                 h={20}
@@ -191,6 +197,7 @@ const HostForm = ({ route,navigation }) => {
                                 }}
                             />
                         </FormControl>
+                        {/* 条件不十分の場合、押下不可 */}
                         <Button isDisabled={isDisabled} mt="2" colorScheme="indigo" onPress={()=>{create_talkroom()}}>
                             募集
                         </Button>

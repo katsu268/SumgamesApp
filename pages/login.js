@@ -5,8 +5,11 @@ import ErrorMessage from './signup';
 
 
 const Login = ({navigation}) => {
+  //ユーザー名
   const [username, setUsername] = React.useState("");
+  //パスワード
   const [password, setPassword] = React.useState("");
+  //エラーメッセージ
   const [errorMessages, setErrorMessages] = React.useState([]);
   const { signIn } = React.useContext(AuthContext);
   return (
@@ -43,12 +46,15 @@ const Login = ({navigation}) => {
 
           <VStack space={3} mt="5">
             <FormControl isInvalid={errorMessages===[]}>
+              {/* ユーザー名を入力 */}
               <FormControl.Label>ユーザ名</FormControl.Label>
               <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="ユーザーID" />
             </FormControl>
             <FormControl isInvalid={errorMessages===[]}>
+              {/* パスワードを入力 */}
               <FormControl.Label>パスワード</FormControl.Label>
               <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード" />
+              {/* パスワード再設定ページに遷移 */}
               <Link
                 _text={{
                   fontSize: "xs",
@@ -67,6 +73,7 @@ const Login = ({navigation}) => {
                 );
               })}
             </FormControl>
+            {/* 入力項目不十分なら押下不可 */}
             <Button isDisabled={username === "" || password === ""} mt="2" colorScheme="indigo" onPress={async () => {
                 let result = await signIn({ username, password });
               }}>
