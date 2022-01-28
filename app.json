@@ -37,6 +37,7 @@
           "microphonePermission": "$(PRODUCT_NAME)がマイクへのアクセスを求めています"
         }
       ]
-    ]
+    ],
+    "description": ""
   }
 }

@@ -103,12 +103,12 @@ const TopPage = ({navigation}) => {
                           <HStack space={3} alignItems="center" style={{flexWrap:"wrap"}}>
                             {u.genre.map((u,i)=>{
                               return (
-                                <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
+                                <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} mb="2">{u.genrename}</Center>
                               )
                             })}
                             {u.tags.map((u,i)=>{
                               return (
-                                <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
+                                <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} mb="2">{u.tag_name}</Center>
                               )
                             })}
                           </HStack>
@@ -227,12 +227,12 @@ const TopPage = ({navigation}) => {
                       <HStack space={3} alignItems="center" style={{flexWrap:"wrap"}}>
                         {u.genre.map((u,i)=>{
                           return (
-                            <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.genrename}</Center>
+                            <Center key={i} h="5" w="auto" bg="primary.500" pr="1" pl="1" rounded="md" shadow={3} mb="2">{u.genrename}</Center>
                           )
                         })}
                         {u.tags.map((u,i)=>{
                           return (
-                            <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} >{u.tag_name}</Center>
+                            <Center key={i} h="5" w="auto" bg="secondary.500" pr="1" pl="1" rounded="md" shadow={3} mb="2">{u.tag_name}</Center>
                           )
                         })}
                       </HStack>

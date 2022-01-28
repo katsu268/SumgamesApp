@@ -47,6 +47,7 @@ const HostForm = ({ route,navigation }) => {
             "recruit_platform": recruit_platform,
             "recruit_num": Number(recruit_num),
             "recruit_gender": recruit_gender,
+            "expo_tokens": []
         }
         if (recruit_context === "") {
             data["recruit_context"] = "誰でも気軽に参加してください。";
