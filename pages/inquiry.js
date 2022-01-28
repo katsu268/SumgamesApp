@@ -1,10 +1,10 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, TextArea, Button, Link, Radio, Center, KeyboardAvoidingView } from "native-base";
+import {Box, Heading, VStack, FormControl, TextArea, Text, Button, Modal, Link, Radio, Center, KeyboardAvoidingView } from "native-base";
 import AuthContext from '../components/my_context';
 
 
 const Inquiry = ({navigation}) => {
-  //お問い合わせ内容
+  // お問い合わせ内容
   const [contents, setContents] = React.useState("");
   const { post } = React.useContext(AuthContext);
   //お問い合わせ種類
@@ -14,15 +14,14 @@ const Inquiry = ({navigation}) => {
     "addition":"ゲームの追加要望",
     "others":"その他",
   }
-
-
+  const [modal, setModal] = React.useState(false);
   const onSend=async() => {
     let data = {
       "inquiry_title": type_list[type],
       "inquiry_context": contents
   }
     const result = await post({url:"api/inquiry/",data:data});
-    return result;
+    setModal(true);
   }
 
   return (
@@ -81,10 +80,31 @@ const Inquiry = ({navigation}) => {
                     onChangeText={(value)=>setContents(value)}
                 />
             </FormControl>
-　          {/* 入力項目不十分なら押下不可 */}
-            <Button isDisabled={type === "" || contents === ""} mt="2" colorScheme="indigo" onPress={onSend}>
-              送信
+            {/* 入力項目不十分なら押下不可 */}
+            <Button 
+              isDisabled={type === "" || contents === ""}
+              mt="2" 
+              colorScheme="indigo" 
+              onPress={() => onSend()}
+            >
+                送信
             </Button>
+            <Modal isOpen={modal} onClose={() => setModal(true)}>
+              <Modal.Content maxWidth="400px">
+                <Modal.Body>
+                  <Text fontWeight="medium">ありがとうございます！</Text>
+                  <Text fontWeight="medium">送信が完了しました！</Text>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button 
+                    flex="1" 
+                    onPress={()=>{navigation.navigate('Top');}}
+                  >
+                      閉じる
+                  </Button>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
           </VStack>
         </Box>
       </Center>
