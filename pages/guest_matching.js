@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import {
     Box,
     Heading,
-    AspectRatio,
-    Image,
     Text,
     Center,
     HStack,

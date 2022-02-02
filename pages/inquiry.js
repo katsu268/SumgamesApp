@@ -81,7 +81,7 @@ const Inquiry = ({navigation}) => {
                     onChangeText={(value)=>setContents(value)}
                 />
             </FormControl>
-　          {/* 入力項目不十分なら押下不可 */}
+            {/* 入力項目不十分なら押下不可 */}
             <Button isDisabled={type === "" || contents === ""} mt="2" colorScheme="indigo" onPress={onSend}>
               送信
             </Button>

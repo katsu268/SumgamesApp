@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useRef,useLayoutEffect } from 'react'
 import { GiftedChat,Send } from 'react-native-gifted-chat'
 import Loading from "../components/loading";
-import { Icon } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker';
-import { Platform,View } from 'react-native';
+import { Platform } from 'react-native';
 import AuthContext from '../components/my_context';
-import {Avatar,Center} from 'native-base';
+import {Avatar,Center,Button,AlertDialog,Icon,Box,IconButton} from 'native-base';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import { Ionicons,EvilIcons,FontAwesome } from "@expo/vector-icons";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -72,7 +72,7 @@ const registerForPushNotificationsAsync = async () => {
 const talk =({ route,navigation })=> {
     const { talkroom_id, user_id } = route.params;
     const { BASE_URL, get, post, exit_talkroom } = React.useContext(AuthContext);
-    const [isLoading, setLoading] = React.useState(true);
+    const [isLoading, setLoading] = useState(true);
 
     //Push通知関連
     const [expoPushToken, setExpoPushToken] = useState([]);
@@ -123,6 +123,20 @@ const talk =({ route,navigation })=> {
         if (my_data === undefined){
             exit_talkroom()
         }
+        setMessages([
+            {
+                _id: 1,
+                text: 'マナーを守って交流しましょう！',
+                createdAt: new Date().getTime(),
+                system: true
+            },
+            {
+                _id: 0,
+                text: 'トークルームを作成しました',
+                createdAt: new Date().getTime(),
+                system: true
+            },
+        ])
         for(let u of my_data){
             if (u.talkfile === null){
                 setMessages(previousMessages => GiftedChat.append(previousMessages,
@@ -202,7 +216,7 @@ const talk =({ route,navigation })=> {
                             })}
                         </Avatar.Group>
                     )
-                },
+                }
             });
             let userInfo = {};
             if (room_data.host_user.user_id === user_id){
@@ -238,19 +252,84 @@ const talk =({ route,navigation })=> {
         fetchTalkroomData(token);
     }
 
+    
+    //画面右上退出ボタン
+    const [isOpen, setIsOpen] = useState(false);
+    const onClose = () => {
+        setIsOpen(false);
+    }
+    const cancelRef = useRef(null);
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerRight: ()=>{
+                //トークルームの右上に表示する退出ボタン
+                return (
+                  <Box>
+                    <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
+                      退出
+                    </Button>
+                    <AlertDialog
+                      leastDestructiveRef={cancelRef}
+                      isOpen={isOpen}
+                      onClose={onClose}
+                    >
+                      <AlertDialog.Content>
+                        <AlertDialog.CloseButton />
+                        <AlertDialog.Header>このトークルームから退出します。</AlertDialog.Header>
+                        <AlertDialog.Body>
+                          退出すると、同じトークルームルームには参加出来ません。
+                          退出しますか？
+                        </AlertDialog.Body>
+                        <AlertDialog.Footer>
+                          <Button.Group space={2}>
+                            <Button
+                              variant="unstyled"
+                              colorScheme="coolGray"
+                              onPress={onClose}
+                              ref={cancelRef}
+                            >
+                              キャンセル
+                            </Button>
+                            <Button colorScheme="danger" onPress={()=>{
+                                sendPushNotification(token=expoPushToken,title="user exit",body="user exit",data={username:user_info.name},type="user_exit");
+                                exit_talkroom();
+                            }}>
+                              退出
+                            </Button>
+                          </Button.Group>
+                        </AlertDialog.Footer>
+                      </AlertDialog.Content>
+                    </AlertDialog>
+                  </Box>
+                );
+            },
+        })
+    })
+
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => post_expo_token(token));
         // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             const data = notification.request.content.data
             if (data.type === "new_message") {
-                setMessages(previousMessages => GiftedChat.append(previousMessages, data.contents));
+                fetchTalkData();
+                //setMessages(previousMessages => GiftedChat.append(previousMessages, data.contents));
             }else if (data.type === "user_join") {
                 fetchTalkroomData();
                 setMessages(previousMessages => GiftedChat.append(previousMessages,
                     {
                         _id: previousMessages.length,
                         text: `${data.contents.username}が入室しました。`,
+                        createdAt: new Date().getTime(),
+                        system: true
+                    }
+                ))
+            }else if (data.type === "user_exit") {
+                fetchTalkroomData();
+                setMessages(previousMessages => GiftedChat.append(previousMessages,
+                    {
+                        _id: previousMessages.length,
+                        text: `${data.contents.username}が退出しました。`,
                         createdAt: new Date().getTime(),
                         system: true
                     }
@@ -384,36 +463,74 @@ const talk =({ route,navigation })=> {
             renderSend={(props) => {
                 return (
                     <Send {...props}>
-                        <Icon
-                            name='send'
-                            type='font-awesome'
-                            color='#93c'
-                            iconStyle={{paddingRight:14,paddingBottom:12}}
-                        />
+                        <Icon as={FontAwesome} name="send" color='#93c' size="sm" mb={2.5} mr={3}/>
                     </Send>
                 );
             }}
             renderUsernameOnMessage={true}
             renderActions={() => {
                 return (
-                    <View style={{flexDirection:"row"}}>
-                        <Icon
-                            name='camera'
-                            type='evilicon'
-                            color='#93c'
-                            size={30}
-                            iconStyle={{paddingLeft:10,paddingBottom:12}}
+                    <Box style={{flexDirection:"row"}}>
+                        <IconButton 
+                            icon={<Icon as={EvilIcons} name="camera" />}
+                            _icon={{
+                                color: "#93c",
+                                size: "md"
+                            }}
+                            _hover={{
+                                bg: "orange.600:alpha.20"
+                            }}
+                            _pressed={{
+                                bg: "orange.600:alpha.20",
+                                _icon: {
+                                name: "camera"
+                                },
+                                _ios: {
+                                    _icon: {
+                                        size: "md"
+                                    }
+                                }
+                            }}
+                            _ios={{
+                                _icon: {
+                                    size: "md"
+                                }
+                            }}
                             onPress={pickCamera}
+                            p={1}
+                            ml={1}
+                            mb={0.5}
                         />
-                        <Icon
-                            name='image'
-                            type='evilicon'
-                            color='#93c'
-                            size={30}
-                            iconStyle={{paddingBottom:12}}
+                        <IconButton 
+                            icon={<Icon as={EvilIcons} name="image" />}
+                            _icon={{
+                                color: "#93c",
+                                size: "md"
+                            }}
+                            _hover={{
+                                bg: "orange.600:alpha.20"
+                            }}
+                            _pressed={{
+                                bg: "orange.600:alpha.20",
+                                _icon: {
+                                name: "image"
+                                },
+                                _ios: {
+                                    _icon: {
+                                        size: "md"
+                                    }
+                                }
+                            }}
+                            _ios={{
+                                _icon: {
+                                    size: "md"
+                                }
+                            }}
                             onPress={pickImage}
+                            p={1}
+                            mb={0.5}
                         />
-                    </View>
+                    </Box>
                 )
             }}
             alignTop={true}

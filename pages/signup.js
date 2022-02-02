@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView, WarningOutlineIcon,} from "native-base";
+import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView, WarningOutlineIcon,Alert,IconButton,CloseIcon } from "native-base";
 import AuthContext from '../components/my_context';
 
 const ErrorMessage = (props) => {
@@ -12,13 +12,13 @@ const ErrorMessage = (props) => {
 
 const Signup = ({navigation}) => {
   const { signUp } = React.useContext(AuthContext);
-　//ユーザー名
+  //ユーザー名
   const [username, setUsername] = React.useState("");
   //パスワード
   const [password, setPassword] = React.useState("");
   //パスワード(確認)
   const [password_again, setPasswordAgain] = React.useState("");
-　//メール
+  //メール
   const [email, setEmail] = React.useState("");
   //性別
   const [gender, setGender] = React.useState("MA");
@@ -31,7 +31,8 @@ const Signup = ({navigation}) => {
 
   const [validationResult, setValidationResult] = React.useState(false);
   const [validationPassword, setValidationPassword] = React.useState(true);
-  const validation = ()=>{
+  const [error_message, setErrorMessage] = React.useState({});
+  const validation = async()=>{
     //入力項目が十分であるかチェック
     if (username === "" || email === "" || password === "" || password_again === "" ){
       setValidationResult(false);
@@ -52,7 +53,10 @@ const Signup = ({navigation}) => {
         "email": `${email}`,
         "gender": `${gender}`,
       }
-      signUp({ data });
+      const result = await signUp({ data });
+      if (result.status === "error"){
+        setErrorMessage(result.message)
+      }
     };
   }
 

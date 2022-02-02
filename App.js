@@ -12,9 +12,8 @@ import Inquiry from './pages/inquiry';
 import mypage from './pages/mypage';
 import game_detail from './pages/game_detail';
 import talk from './pages/talk';
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box,Button,AlertDialog, Image } from 'native-base';
-import { Feather,Ionicons } from "@expo/vector-icons";
+import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box } from 'native-base';
+import { Feather } from "@expo/vector-icons";
 import {SSRProvider} from '@react-aria/ssr';
 import AuthContext from './components/my_context';
 
@@ -307,7 +306,12 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
-          console.log(result);
+          if (result.token === undefined){
+            return {
+              status:"error",
+              message:result
+            }
+          }
           save("token", result.token);
           save("user_id", result.user_id);
           dispatch({ type: 'SIGN_IN', user_token: result.token, user_id: result.user_id });
@@ -333,6 +337,7 @@ export default function App() {
             }
           });
           const result = await response.json();
+          console.log(result);
           return result;
         } catch (error) {
           console.log(error);
@@ -353,6 +358,7 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
+          console.log(result);
           return result;
         } catch (error) {
           console.log(error);
@@ -383,7 +389,7 @@ export default function App() {
         try {
           const user_token = await SecureStore.getItemAsync('token');
           const user_id = await SecureStore.getItemAsync('user_id');
-          const response = await fetch(state.BASE_URL+`accounts/user/${user_id}/`, {
+          await fetch(state.BASE_URL+`accounts/user/${user_id}/`, {
             credentials: 'include',
             method: 'DELETE',
             headers: {
@@ -451,8 +457,9 @@ export default function App() {
       //トークルームを退出するときの関数
       exit_talkroom: async () => {
         const user_token = await SecureStore.getItemAsync('token');
+        const talkroom_id = await SecureStore.getItemAsync('talkroom_id');
         try {
-          await fetch(state.BASE_URL+`api/talkroom/${state.talkroom_id}/exit_talkroom/`,{
+          const response = await fetch(state.BASE_URL+`api/talkroom/${talkroom_id}/exit_talkroom/`,{
             credentials: 'include',
             method: 'POST',
             headers: {
@@ -462,6 +469,7 @@ export default function App() {
             },
             body: JSON.stringify({})
           });
+          const result = await response.text()
           await SecureStore.deleteItemAsync('talkroom_id');
           dispatch({ type: 'EXIT_TALKROOM' });
         } catch (error) {
@@ -534,51 +542,6 @@ export default function App() {
                     <Stack.Screen name="talk" component={talk} initialParams={{ talkroom_id: state.talkroom_id, user_id: state.user_id }} options={{ 
                       title: 'トークルーム',
                       headerTitleAlign:"center",
-                      headerRight: ()=>{
-                        //トークルームの右上に表示する退出ボタン
-                        const [isOpen, setIsOpen] = React.useState(false);
-                        const onClose = () => setIsOpen(false);
-                        const cancelRef = React.useRef(null);
-                        const { exit_talkroom } = React.useContext(AuthContext);
-                        return (
-                          <Box>
-                            <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
-                              退出
-                            </Button>
-                            <AlertDialog
-                              leastDestructiveRef={cancelRef}
-                              isOpen={isOpen}
-                              onClose={onClose}
-                            >
-                              <AlertDialog.Content>
-                                <AlertDialog.CloseButton />
-                                <AlertDialog.Header>このトークルームから退出します。</AlertDialog.Header>
-                                <AlertDialog.Body>
-                                  退出すると、同じトークルームルームには参加出来ません。
-                                  退出しますか？
-                                </AlertDialog.Body>
-                                <AlertDialog.Footer>
-                                  <Button.Group space={2}>
-                                    <Button
-                                      variant="unstyled"
-                                      colorScheme="coolGray"
-                                      onPress={onClose}
-                                      ref={cancelRef}
-                                    >
-                                      キャンセル
-                                    </Button>
-                                    <Button colorScheme="danger" onPress={()=>{
-                                      exit_talkroom();
-                                    }}>
-                                      退出
-                                    </Button>
-                                  </Button.Group>
-                                </AlertDialog.Footer>
-                              </AlertDialog.Content>
-                            </AlertDialog>
-                          </Box>
-                        );
-                      },
                     }}/>
                   </Stack.Group>
                 )
