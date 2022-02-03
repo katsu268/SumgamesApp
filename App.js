@@ -16,10 +16,7 @@ import { NativeBaseProvider,HStack,Icon,Center,Pressable,Menu,Box } from 'native
 import { Feather } from "@expo/vector-icons";
 import {SSRProvider} from '@react-aria/ssr';
 import AuthContext from './components/my_context';
-
-
 import * as SecureStore from 'expo-secure-store';
-
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 
@@ -30,7 +27,7 @@ const save = async (key, value) => {
 
 //画面下部のナビゲーションバーの設定
 const Tab = createBottomTabNavigator();
-function MyTabBar({ state, descriptors, navigation }) {
+const MyTabBar = ({ state, descriptors, navigation }) => {
   //メニュー画面を表示するかどうか
   const [menuOpen,menuOpenSet] = React.useState(false);
 
@@ -166,7 +163,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 }
 
 //画面下部のナビゲーションバー
-function TopTab() {
+const TopTab = () => {
   return (
     <Tab.Navigator initialRouteName="TopPage" screenOptions={{headerShown:false}} tabBar={(props) => <MyTabBar {...props} />}>
       <Tab.Screen name="TopPage" component={TopPage } options={{tabBarLabel:"Home"}} />
@@ -177,11 +174,12 @@ function TopTab() {
 
 //スタックナビゲーション
 const Stack = createStackNavigator();
-export default function App() {
+const App = () => {
   //各種情報の保持
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
+        //ログイン済みの場合、アプリ起動時にユーザー情報の自動読み込み
         case 'RESTORE_TOKEN':
           return {
             ...prevState,
@@ -190,6 +188,7 @@ export default function App() {
             talkroom_id: action.talkroom_id,
             isLoading: false,
           };
+        //ログイン時、サインアップ時にユーザー情報の保存
         case 'SIGN_IN':
           return {
             ...prevState,
@@ -337,7 +336,6 @@ export default function App() {
             }
           });
           const result = await response.json();
-          console.log(result);
           return result;
         } catch (error) {
           console.log(error);
@@ -358,7 +356,6 @@ export default function App() {
             body: JSON.stringify(data.data)
           });
           const result = await response.json();
-          console.log(result);
           return result;
         } catch (error) {
           console.log(error);
@@ -553,3 +550,5 @@ export default function App() {
     </SSRProvider>
   );
 }
+
+export default App;

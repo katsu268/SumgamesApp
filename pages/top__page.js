@@ -25,7 +25,7 @@ const TopPage = ({navigation}) => {
     return;
   }
 
-  async function fetchData() {
+  const fetchData = async() => {
     setIsFetching(true);
     const url = "api/gameitem/"
     const my_data = await get({url});

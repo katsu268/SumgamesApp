@@ -7,8 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from "@expo/vector-icons"
 
-
-const mypage =({ route,navigation })=> {
+const mypage =()=> {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [isLoading, setLoading] = React.useState(true);
     const [myData, setmyData] = React.useState([]);
@@ -58,7 +57,7 @@ const mypage =({ route,navigation })=> {
         });
         if (!result.cancelled) {
             let user_id = await SecureStore.getItemAsync('user_id');
-            let response = await patch({url:`accounts/user/${user_id}/`,data:{
+            await patch({url:`accounts/user/${user_id}/`,data:{
                 "image": 'data:image/jpeg;base64,' + result.base64
             }});
             fetchData();

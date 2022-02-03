@@ -4,10 +4,10 @@ import Loading from "../components/loading";
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
 import AuthContext from '../components/my_context';
-import {Avatar,Center,Button,AlertDialog,Icon,Box,IconButton} from 'native-base';
+import {Avatar,Center,Button,AlertDialog,Icon,Box,IconButton,HStack} from 'native-base';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { Ionicons,EvilIcons,FontAwesome } from "@expo/vector-icons";
+import { Ionicons,EvilIcons,FontAwesome,Feather } from "@expo/vector-icons";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -264,7 +264,34 @@ const talk =({ route,navigation })=> {
             headerRight: ()=>{
                 //トークルームの右上に表示する退出ボタン
                 return (
-                  <Box>
+                  <HStack>
+                    <IconButton
+                        icon={<Icon as={Feather} name="phone-call" />}
+                        _icon={{
+                            color: "muted.400",
+                            size: "sm"
+                        }}
+                        _hover={{
+                            bg: "muted.600:alpha.20"
+                        }}
+                        _pressed={{
+                            bg: "muted.600:alpha.20",
+                            _icon: {
+                            name: "phone-call"
+                            },
+                            _ios: {
+                                _icon: {
+                                    size: "sm"
+                                }
+                            }
+                        }}
+                        _ios={{
+                            _icon: {
+                                size: "sm"
+                            }
+                        }}
+                        mr={2}
+                    />
                     <Button leftIcon={<Icon as={Ionicons} name="exit-outline" size="sm" />} mr="1.5" p="1.5" colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
                       退出
                     </Button>
@@ -300,7 +327,7 @@ const talk =({ route,navigation })=> {
                         </AlertDialog.Footer>
                       </AlertDialog.Content>
                     </AlertDialog>
-                  </Box>
+                  </HStack>
                 );
             },
         })

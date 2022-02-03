@@ -1,11 +1,10 @@
-import { Tile, Button, Text, ThemeProvider, Input, Icon, Slider, Image, Card, Divider } from 'react-native-elements';
-import React ,{ Component }from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { Tile, Button, Text, Icon, Slider, Image, Card, Divider } from 'react-native-elements';
+import React from 'react';
+import { View, ImageBackground } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthContext from '../components/my_context';
 import Loading from '../components/loading';
 import { ScrollView, Center, Stack } from 'native-base';
-import { marginBottom, marginLeft } from 'styled-system';
 
 
 const game_detail = ({ route,navigation }) =>{
@@ -17,7 +16,7 @@ const game_detail = ({ route,navigation }) =>{
     const [rate, setRate] = React.useState(0);
 
     React.useEffect(() => {
-        async function fetchData() {
+        const fetchData = async () => {
             const url = `api/gameitem/${detail.id}/`
             const my_data = await get({url});
             if (my_data !== undefined){

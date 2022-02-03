@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView, WarningOutlineIcon,Alert,IconButton,CloseIcon } from "native-base";
+import {Box, Heading, VStack, FormControl, Input, Button, Center, Text, Link, HStack, Radio, ScrollView, KeyboardAvoidingView, WarningOutlineIcon,useToast } from "native-base";
 import AuthContext from '../components/my_context';
 
 const ErrorMessage = (props) => {
@@ -11,6 +11,7 @@ const ErrorMessage = (props) => {
 }
 
 const Signup = ({navigation}) => {
+  const toast = useToast();
   const { signUp } = React.useContext(AuthContext);
   //ユーザー名
   const [username, setUsername] = React.useState("");
@@ -31,7 +32,6 @@ const Signup = ({navigation}) => {
 
   const [validationResult, setValidationResult] = React.useState(false);
   const [validationPassword, setValidationPassword] = React.useState(true);
-  const [error_message, setErrorMessage] = React.useState({});
   const validation = async()=>{
     //入力項目が十分であるかチェック
     if (username === "" || email === "" || password === "" || password_again === "" ){
@@ -55,7 +55,14 @@ const Signup = ({navigation}) => {
       }
       const result = await signUp({ data });
       if (result.status === "error"){
-        setErrorMessage(result.message)
+        for (const key in result.message) {
+          toast.show({
+            title: key,
+            status: "error",
+            description: result.message[key],
+            placement: "top"
+          });
+        }
       }
     };
   }

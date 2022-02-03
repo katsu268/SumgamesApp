@@ -1,16 +1,13 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Link, Center, KeyboardAvoidingView } from "native-base";
+import {Box, Heading, VStack, FormControl, Input, Button, Link, Center, KeyboardAvoidingView, useToast } from "native-base";
 import AuthContext from '../components/my_context';
-import ErrorMessage from './signup';
-
 
 const Login = ({navigation}) => {
+  const toast = useToast();
   //ユーザー名
   const [username, setUsername] = React.useState("");
   //パスワード
   const [password, setPassword] = React.useState("");
-  //エラーメッセージ
-  const [errorMessages, setErrorMessages] = React.useState([]);
   const { signIn } = React.useContext(AuthContext);
   return (
     <KeyboardAvoidingView
@@ -45,12 +42,12 @@ const Login = ({navigation}) => {
           </Heading>
 
           <VStack space={3} mt="5">
-            <FormControl isInvalid={errorMessages===[]}>
+            <FormControl>
               {/* ユーザー名を入力 */}
               <FormControl.Label>ユーザ名</FormControl.Label>
               <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="ユーザーID" />
             </FormControl>
-            <FormControl isInvalid={errorMessages===[]}>
+            <FormControl>
               {/* パスワードを入力 */}
               <FormControl.Label>パスワード</FormControl.Label>
               <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="パスワード" />
@@ -67,15 +64,18 @@ const Login = ({navigation}) => {
               >
                 パスワードを忘れた方はこちら
               </Link>
-              {errorMessages.map((u,i)=>{
-                return (
-                  <ErrorMessage key={i} errormessage={u}></ErrorMessage>
-                );
-              })}
             </FormControl>
             {/* 入力項目不十分なら押下不可 */}
             <Button isDisabled={username === "" || password === ""} mt="2" colorScheme="indigo" onPress={async () => {
                 let result = await signIn({ username, password });
+                console.log(result);
+                for (const iterator of result) {
+                  toast.show({
+                    title: iterator,
+                    status: "error",
+                    placement: "top"
+                  });
+                }
               }}>
               ログイン
             </Button>

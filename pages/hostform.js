@@ -3,7 +3,7 @@ import {Box, Heading, VStack, FormControl, Button, Center, ScrollView, Select, C
 import { Tile } from 'react-native-elements';
 import AuthContext from '../components/my_context';
 
-const HostForm = ({ route,navigation }) => {
+const HostForm = ({ route }) => {
     const { detail } = route.params;
     const { BASE_URL, post, host_talkroom } = React.useContext(AuthContext);
     //募集人数
