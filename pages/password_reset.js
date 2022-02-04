@@ -1,12 +1,13 @@
 import * as React from "react";
-import {Box, Heading, VStack, FormControl, Input, Button, Link, Center, KeyboardAvoidingView } from "native-base";
-//import AuthContext from '../components/my_context';
+import {Box, Heading, VStack, FormControl, Input, Button, Center, KeyboardAvoidingView, useToast } from "native-base";
+import AuthContext from '../components/my_context';
 
 const PasswordReset = () => {
-  const [Email, setEmail] = React.useState("");
+  const toast = useToast();
+  const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [Confirmation,setConfirmation] = React.useState("")
-  //const { password_reset } = React.useContext(AuthContext);
+  const { password_reset } = React.useContext(AuthContext);
   return (
     <KeyboardAvoidingView
       h={{
@@ -40,20 +41,41 @@ const PasswordReset = () => {
           </Heading>
 
           <VStack space={3} mt="5">
-            <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
-              <Input value={Email} onChangeText={(value)=>setEmail(value)} placeholder="Emailを入力" />
+            <FormControl isInvalid={username === ""}>
+              <FormControl.Label>username</FormControl.Label>
+              <Input value={username} onChangeText={(value)=>setUsername(value)} placeholder="Usernameを入力" />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={password === "" || (password !== "" && Confirmation !== "" && password!==Confirmation)}>
               <FormControl.Label>新しいパスワード</FormControl.Label>
               <Input type="password" value={password} onChangeText={(value)=>setPassword(value)} placeholder="新しいパスワードを入力" />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={Confirmation === "" || (password !== "" && Confirmation !== "" && password!==Confirmation)}>
               <FormControl.Label>もう一度新しいパスワード</FormControl.Label>
               <Input type="password" value={Confirmation} onChangeText={(value)=>setConfirmation(value)} placeholder="もう一度新しいパスワードを入力" />
             </FormControl>
-            <Button mt="2" colorScheme="indigo" onPress={async () => {
-                //let result = await password_reset({ Email, password,Confirmation });
+            <Button isDisabled={username === "" || password === "" || Confirmation === "" || password !== Confirmation} mt="2" colorScheme="indigo" onPress={async () => {
+                const result = await password_reset(
+                  {
+                    "username": username,
+                    "password": password
+                  }
+                );
+                console.log(result);
+                if (result.status === "success"){
+                  toast.show({
+                    title: "Success!!",
+                    status: "success",
+                    description: "パスワードのリセットに成功しました!\nログイン画面からログインしてください。",
+                    placement: "top"
+                  });
+                }else{
+                  toast.show({
+                    title: "error",
+                    status: "error",
+                    description: result.data,
+                    placement: "top"
+                  });
+                }
               }}>
               変更
             </Button>

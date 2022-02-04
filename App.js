@@ -406,15 +406,12 @@ const App = () => {
       //パスワードリセットの関数
       password_reset: async (data) => {
         try {
-          const user_token = await SecureStore.getItemAsync('token');
-          const user_id = await SecureStore.getItemAsync('user_id');
-          const response = await fetch(state.BASE_URL+`accounts/user/${user_id}/set_password/`, {
+          const response = await fetch(state.BASE_URL+"accounts/user/set_password/", {
             credentials: 'include',
             method: 'POST',
             headers: {
               Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${user_token}`
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(data.data)
           });

@@ -16,6 +16,8 @@ const TopPage = ({navigation}) => {
   //検索バーで使用
   const [value, setValue] = React.useState("");
   const [searchedData, setSearchedData] = React.useState([]);
+  
+  //キーワードを元にゲームを検索し、結果を変数にセット
   const searchGame = async () => {
     setLoading(true);
     const url = `api/gameitem/?search=${value}`;
@@ -25,6 +27,7 @@ const TopPage = ({navigation}) => {
     return;
   }
 
+  //ランキングを取得
   const fetchData = async() => {
     setIsFetching(true);
     const url = "api/gameitem/"
@@ -35,6 +38,7 @@ const TopPage = ({navigation}) => {
     setIsFetching(false);
   }
 
+  //ページ読み込み時の処理
   React.useEffect(() => {
     fetchData();
   }, []);
@@ -54,10 +58,10 @@ const TopPage = ({navigation}) => {
         <Box>
           <Input returnKeyType="search" value={value} onChangeText={(value)=>setValue(value)} m="2" size="2xl" variant="rounded" placeholder="ゲームを検索" InputLeftElement={<SearchIcon ml="3" color="muted.400" size="4"/>} InputRightElement={<Button isDisabled={value===""} h="full" px="4" onPress={searchGame}>検索</Button>}/>
         </Box>
-        
           {isLoading?(
             <Center flex="1" my="10"><Loading size={150}/></Center>
           ):(
+            //検索結果
             <ScrollView horizontal={true}>
               {searchedData.map((u,i)=>{
                 return (
@@ -135,6 +139,7 @@ const TopPage = ({navigation}) => {
         
         <HStack alignItems="center" maxWidth={360}>
           <Heading pt="2" pl="5" size="xl" letterSpacing="1.5">ランキング</Heading>
+          {/* ランキング再読み込みボタン */}
           <Center pt="2">
             <IconButton
               icon={<Icon as={Ionicons} name="reload"/>}
@@ -167,6 +172,7 @@ const TopPage = ({navigation}) => {
         {isFetching?(
           <Center flex="1" my="10"><Loading size={150}/></Center>
         ):(
+          // ランキング
           <ScrollView horizontal={true}>
             {data.map((u,i)=>{
               return (

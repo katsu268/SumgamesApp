@@ -4,11 +4,12 @@ import Loading from "../components/loading";
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
 import AuthContext from '../components/my_context';
-import {Avatar,Center,Button,AlertDialog,Icon,Box,IconButton,HStack} from 'native-base';
+import {Avatar,Center,Button,AlertDialog,Icon,Box,IconButton,HStack,useToast} from 'native-base';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Ionicons,EvilIcons,FontAwesome,Feather } from "@expo/vector-icons";
 
+//通知方法の設定
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: false,
@@ -17,6 +18,7 @@ Notifications.setNotificationHandler({
     }),
 });
 
+//Push通知を送信する
 const sendPushNotification = async(token=[],title="hello",body="This is test",data={test:"test"},type="new_message") => {
     const message = {
       to: token,
@@ -40,6 +42,7 @@ const sendPushNotification = async(token=[],title="hello",body="This is test",da
     });
 }
 
+//自分のExpoPushTokenを取得
 const registerForPushNotificationsAsync = async () => {
     let token;
     if (Constants.isDevice) {
@@ -69,7 +72,9 @@ const registerForPushNotificationsAsync = async () => {
     return token;
 }
 
+//トーク画面
 const talk =({ route,navigation })=> {
+    const toast = useToast();
     const { talkroom_id, user_id } = route.params;
     const { BASE_URL, get, post, exit_talkroom } = React.useContext(AuthContext);
     const [isLoading, setLoading] = useState(true);
@@ -97,6 +102,7 @@ const talk =({ route,navigation })=> {
         },
     ]);
 
+    //ユーザーのアバターを生成(写真があれば写真を採用)
     const UserAvatar = (props)=>{
         return (
             (props.user_image === "")
@@ -118,11 +124,13 @@ const talk =({ route,navigation })=> {
         )
     }
 
+    //トークデータを取得
     const fetchTalkData = async () => {
         const my_data = await get({url:"api/talk/"});
         if (my_data === undefined){
             exit_talkroom()
         }
+        //トークデータの初期化
         setMessages([
             {
                 _id: 1,
@@ -138,6 +146,7 @@ const talk =({ route,navigation })=> {
             },
         ])
         for(let u of my_data){
+            //トークデータがテキストの場合
             if (u.talkfile === null){
                 setMessages(previousMessages => GiftedChat.append(previousMessages,
                     {
@@ -151,7 +160,9 @@ const talk =({ route,navigation })=> {
                         },
                     })
                 )
-            }else{
+            }
+            //トークデータが画像データの場合
+            else{
                 setMessages(previousMessages => GiftedChat.append(previousMessages,
                     {
                         _id: u.id,
@@ -171,11 +182,14 @@ const talk =({ route,navigation })=> {
         }
     }
 
+    //トークルームデータの取得
     const fetchTalkroomData = async (my_token=null) => {
         const room_data = await get({url:`api/talkroom/${talkroom_id}/`});
+        // トークルームがなかった場合退出
         if (room_data === undefined){
             exit_talkroom();
         }else{
+            //ユーザーのアバターをセット
             navigation.setOptions({
                 headerLeft: ()=>{
                     return (
@@ -218,6 +232,7 @@ const talk =({ route,navigation })=> {
                     )
                 }
             });
+            // ユーザー情報のセット
             let userInfo = {};
             if (room_data.host_user.user_id === user_id){
                 userInfo = {
@@ -238,10 +253,13 @@ const talk =({ route,navigation })=> {
                 }
             }
             setUserInfo(userInfo);
+
+            //通知を送るトークルームメンバーのトークンをセット
             let expo_tokens = room_data.expo_tokens.filter((token)=>{return token!== my_token});
             setExpoPushToken(expo_tokens);
+            //トークルームに初めて入室した時に通知を送信
             if (my_token!==null){
-                sendPushNotification(token=expo_tokens,title="user join",body="新しいメッセージがあります。",data={user_expo_token:my_token,username:userInfo.name},type="user_join");
+                sendPushNotification(token=expo_tokens,title="新しいユーザーが入室しました。",body="新しいメッセージがあります。",data={user_expo_token:my_token,username:userInfo.name},type="user_join");
                 fetchTalkData();
             }
         }
@@ -333,6 +351,7 @@ const talk =({ route,navigation })=> {
         })
     })
 
+    //通知の設定
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => post_expo_token(token));
         // このリスナーは、アプリがフォアグラウンドになっているときに通知を受信するたびに起動されます
@@ -343,24 +362,18 @@ const talk =({ route,navigation })=> {
                 //setMessages(previousMessages => GiftedChat.append(previousMessages, data.contents));
             }else if (data.type === "user_join") {
                 fetchTalkroomData();
-                setMessages(previousMessages => GiftedChat.append(previousMessages,
-                    {
-                        _id: previousMessages.length,
-                        text: `${data.contents.username}が入室しました。`,
-                        createdAt: new Date().getTime(),
-                        system: true
-                    }
-                ))
+                toast.show({
+                    title: `${data.contents.username}が入室しました。`,
+                    status: "info",
+                    placement: "top"
+                });
             }else if (data.type === "user_exit") {
                 fetchTalkroomData();
-                setMessages(previousMessages => GiftedChat.append(previousMessages,
-                    {
-                        _id: previousMessages.length,
-                        text: `${data.contents.username}が退出しました。`,
-                        createdAt: new Date().getTime(),
-                        system: true
-                    }
-                ))
+                toast.show({
+                    title: `${data.contents.username}が退出しました。`,
+                    status: "info",
+                    placement: "top"
+                });
             }
         });
     
@@ -375,6 +388,7 @@ const talk =({ route,navigation })=> {
         };
     }, []);
 
+    //送信ボタンが押された時の処理
     const onSend = useCallback((messages = []) => {
         if(messages[0]["text"].length < 201){
             post({url:"api/talk/",data:{
@@ -385,6 +399,7 @@ const talk =({ route,navigation })=> {
         }
     }, [])
 
+    //写真フォルダーへのアクセス許可を求める
     useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
@@ -396,6 +411,7 @@ const talk =({ route,navigation })=> {
         })();
     }, []);
 
+    //カメラへのアクセス許可を求める
     useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
@@ -407,6 +423,7 @@ const talk =({ route,navigation })=> {
         })();
     }, []);
 
+    //写真を選択
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -436,6 +453,7 @@ const talk =({ route,navigation })=> {
         }
     };
 
+    //カメラで写真を撮影
     const pickCamera = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,

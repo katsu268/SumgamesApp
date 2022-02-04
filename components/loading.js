@@ -1,6 +1,7 @@
 import { StyleSheet, View,Image} from 'react-native';
 import React from 'react';
 
+//gifをランダムで取得
 const Loading = (props)=>{
   const gifList = [
     require('../assets/gifs/loading_mario.gif'),
