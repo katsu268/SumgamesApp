@@ -406,7 +406,7 @@ const App = () => {
       //パスワードリセットの関数
       password_reset: async (data) => {
         try {
-          const response = await fetch(state.BASE_URL+"accounts/user/set_password/", {
+          const response = await fetch(state.BASE_URL+"accounts/reset_password/", {
             credentials: 'include',
             method: 'POST',
             headers: {

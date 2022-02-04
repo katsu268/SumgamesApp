@@ -68,13 +68,14 @@ const Login = ({navigation}) => {
             {/* 入力項目不十分なら押下不可 */}
             <Button isDisabled={username === "" || password === ""} mt="2" colorScheme="indigo" onPress={async () => {
                 let result = await signIn({ username, password });
-                console.log(result);
-                for (const iterator of result) {
-                  toast.show({
-                    title: iterator,
-                    status: "error",
-                    placement: "top"
-                  });
+                if (result){
+                  for (const iterator of result) {
+                    toast.show({
+                      title: iterator,
+                      status: "error",
+                      placement: "top"
+                    });
+                  }
                 }
               }}>
               ログイン

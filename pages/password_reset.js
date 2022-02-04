@@ -55,10 +55,10 @@ const PasswordReset = () => {
             </FormControl>
             <Button isDisabled={username === "" || password === "" || Confirmation === "" || password !== Confirmation} mt="2" colorScheme="indigo" onPress={async () => {
                 const result = await password_reset(
-                  {
+                  {data:{
                     "username": username,
                     "password": password
-                  }
+                  }}
                 );
                 console.log(result);
                 if (result.status === "success"){
