@@ -447,9 +447,7 @@ const talk =({ route,navigation })=> {
                 image:result.uri
             };
             setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage));
-            let format_message = imageMessage;
-            format_message.user = user_info;
-            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
+            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。");
         }
     };
 
@@ -477,9 +475,7 @@ const talk =({ route,navigation })=> {
                 image:result.uri
             };
             setMessages(previousMessages => GiftedChat.append(previousMessages, imageMessage))
-            let format_message = imageMessage;
-            format_message.user = user_info;
-            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
+            sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。");
         }
     };
 
@@ -495,9 +491,7 @@ const talk =({ route,navigation })=> {
             messages={messages}
             onSend={(messages) => {
                 onSend(messages);
-                let format_message = messages;
-                format_message[0].user = user_info;
-                sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。",data=format_message);
+                sendPushNotification(token=expoPushToken,title="new message",body="新しいメッセージがあります。");
             }}
             user={{
                 _id: user_id
@@ -595,7 +589,7 @@ const talk =({ route,navigation })=> {
                 );
             }}
             lightboxProps={{
-                springConfig:{ tension: 30, friction: 7,useNativeDriver: false }
+                springConfig:{ tension: 30, friction: 7, useNativeDriver: false }
             }}
             renderLoading={()=>{return (<Center flex="1" my="10"><Loading size={150}/></Center>)}}
             />
