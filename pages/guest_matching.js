@@ -81,7 +81,7 @@ const guest_matching = ({ navigation, route }) =>{
     }
     
     const onCardLeftScreen = (id) => {
-        let charactersState = cardsMemory.filter(room => room.id !== id);
+        let charactersState = cardsMemory.filter(room => !alreadyRemoved.includes(room.id));
         setTinderCards(charactersState);
         setCardsMemory(charactersState);
     }
@@ -216,6 +216,7 @@ const guest_matching = ({ navigation, route }) =>{
                                             <IconButton
                                                 icon={<Icon as={Entypo} name="emoji-sad" />}
                                                 borderRadius="full"
+                                                bg="gray.50:alpha.70"
                                                 _icon={{
                                                     color: "blue.500",
                                                     size: "md",
@@ -243,6 +244,7 @@ const guest_matching = ({ navigation, route }) =>{
                                             <IconButton
                                                 icon={<Icon as={Entypo} name="emoji-happy" />}
                                                 borderRadius="full"
+                                                bg="gray.50:alpha.70"
                                                 _icon={{
                                                     color: "rose.500",
                                                     size: "md",
