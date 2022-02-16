@@ -45,20 +45,18 @@ const Card = styled.View`
     resize-mode: cover;
 `
 
-
+let alreadyRemoved = []
 const guest_matching = ({ navigation, route }) =>{
     const { game_id,gameName,gameImage } = route.params;
     const { BASE_URL, get, join_talkroom } = React.useContext(AuthContext);
     const [ tinder_cards, setTinderCards] = React.useState([]);
     const [isLoading, setLoading] = React.useState(true);
     const [childRefs, setchildRefs] = React.useState([]);
-    const alreadyRemoved = []
-    let [ cardsMemory,setCardsMemory] = React.useState([]);
 
     const fetchRoomDatas = async (id) => {
+        alreadyRemoved = []
         const my_data = await get({url:`api/talkroom/?game_id=${id}`});
         setTinderCards(my_data);
-        setCardsMemory(my_data);
         setLoading(false);
     }
 
@@ -77,23 +75,16 @@ const guest_matching = ({ navigation, route }) =>{
         if (direction == "right"){
             join_talkroom({talkroomID:id})
         }
-        alreadyRemoved.push(id)
+        alreadyRemoved.push(id);
     }
     
     const onCardLeftScreen = (id) => {
-        let charactersState = cardsMemory.filter(room => !alreadyRemoved.includes(room.id));
+        let charactersState = tinder_cards.filter(room => !alreadyRemoved.includes(room.id));
         setTinderCards(charactersState);
-        setCardsMemory(charactersState);
     }
 
     const swipe = (dir) => {
-        const cardsLeft = tinder_cards.filter(room => !alreadyRemoved.includes(room.id))
-        if (cardsLeft.length) {
-            const toBeRemoved = cardsLeft[cardsLeft.length - 1].id; // Find the card object to be removed
-            const index = tinder_cards.map(room => room.id).indexOf(toBeRemoved); // Find the index of which to make the reference to
-            alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            childRefs[index].current.swipe(dir); // Swipe the card!
-        }
+        childRefs[tinder_cards.length-1].current.swipe(dir); // Swipe the card!
     }
 
     return(

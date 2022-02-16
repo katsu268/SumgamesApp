@@ -480,6 +480,7 @@ const App = () => {
       require('./assets/images/20211118103410.png'),
       require('./assets/images/apex-image.jpg'),
       require('./assets/images/game01.png'),
+      require('./assets/images/game02.png'),
       require('./assets/images/gamer.png'),
       require('./assets/images/monst.jpg'),
       require('./assets/gifs/loading_apex.gif'),
