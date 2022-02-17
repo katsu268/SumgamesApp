@@ -119,6 +119,10 @@ const guest_matching = ({ navigation, route }) =>{
                                                                 textAlign: 'center',
                                                             }}
                                                             flex={1}
+                                                            mb={String(tinder_cards.length-i)}
+                                                            mt={String(-(tinder_cards.length-i))}
+                                                            ml={String(tinder_cards.length-i)}
+                                                            mr={String(-(tinder_cards.length-i))}
                                                         >
                                                             <Stack p="2" space={3}>
                                                                 <Stack space={2}>
